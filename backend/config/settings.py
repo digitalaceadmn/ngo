@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ngo_cms',  # Hardcoded to match PostgreSQL container
-        'USER': 'ngo_cms_user',  # Hardcoded
-        'PASSWORD': 'digitalace@12!',  # Hardcoded
-        'HOST': 'db',  # Hardcoded to match docker service name
-        'PORT': '5432',  # Hardcoded
+        'NAME': config('DB_NAME', default='ngo_cms'),
+        'USER': config('DB_USER', default='digitalace'),
+        'PASSWORD': config('DB_PASSWORD', default='digitalace%321'),
+        'HOST': config('DB_HOST', default='db'),
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
 

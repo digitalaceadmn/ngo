@@ -6,13 +6,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=${DB_NAME:-django_db}
-      - POSTGRES_USER=${DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
+      - POSTGRES_DB=${DB_NAME:-ngo_cms}
+      - POSTGRES_USER=${DB_USER:-digitalace}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-digitalace%321}
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-digitalace}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -34,7 +34,7 @@ services:
       - .env
     environment:
       - DEBUG=True
-      - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-django_db}
+      - DATABASE_URL=postgresql://${DB_USER:-digitalace}:${DB_PASSWORD:-digitalace%321}@db:5432/${DB_NAME:-ngo_cms}
     depends_on:
       db:
         condition: service_healthy
