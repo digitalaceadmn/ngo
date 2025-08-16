@@ -1,0 +1,29 @@
+================================================================
+DEPLOYMENT INFORMATION - SAVE THIS!
+================================================================
+Project: ngo-cms
+Domain: prankiran.com
+Date: Sat Aug 16 07:46:43 UTC 2025
+
+Ports:
+- Backend: 8008
+- Frontend: 3007
+- Database: 5437
+
+Database:
+- Name: ngo-cms_db
+- User: ngo-cms_user
+- Password: gWZbJTpflee6lCm6UTWq2EU4osXZGcGgUsESNqyI+vM=
+
+URLs:
+- Main: https://prankiran.com
+- API: https://prankiran.com/api
+- Admin: https://prankiran.com/admin
+- API Docs: https://prankiran.com/api/docs
+
+Commands:
+- View logs: docker-compose -p ngo-cms -f docker-compose.prod.yml logs -f
+- Restart: docker-compose -p ngo-cms -f docker-compose.prod.yml restart
+- Stop: docker-compose -p ngo-cms -f docker-compose.prod.yml down
+- Shell: docker-compose -p ngo-cms -f docker-compose.prod.yml exec backend python manage.py shell
+================================================================
