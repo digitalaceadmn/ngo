@@ -7,6 +7,30 @@
 # Handles port conflicts, SSL certificates, and nginx automatically
 # ================================================================
 
+# Check if cleanup is requested
+if [ "$1" = "cleanup" ] || [ "$1" = "clean" ]; then
+    echo "Cleaning up deployment..."
+    PROJECT_NAME="ngo-cms"
+    
+    # Stop and remove containers
+    docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml down -v --remove-orphans 2>/dev/null || true
+    
+    # Remove nginx config
+    sudo rm -f /etc/nginx/sites-enabled/${PROJECT_NAME}
+    sudo rm -f /etc/nginx/sites-available/${PROJECT_NAME}
+    sudo systemctl reload nginx
+    
+    # Remove static files
+    sudo rm -rf /var/www/${PROJECT_NAME}
+    
+    # Remove deployment info
+    rm -f .deployment-info
+    rm -f docker-compose.override.yml
+    
+    echo "Cleanup completed!"
+    exit 0
+fi
+
 # Exit on error
 set -e
 
@@ -419,17 +443,21 @@ log_step "Building and deploying Docker containers..."
 log_info "Stopping existing containers..."
 docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml down --remove-orphans 2>/dev/null || true
 
-# Pull latest images
+# Pull latest images (with env file to avoid warnings)
 log_info "Pulling latest base images..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml pull
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod pull
 
-# Build images
+# Build images (with env file to avoid warnings)
 log_info "Building Docker images..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml build --no-cache
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod build --no-cache
 
-# Start services
+# Start services (with env file to avoid warnings)
 log_info "Starting services..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml up -d
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod up -d
+
+# Remove nginx container if it exists (we use host nginx instead)
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml stop nginx 2>/dev/null || true
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml rm -f nginx 2>/dev/null || true
 
 # Wait for database to be ready
 log_info "Waiting for database to be ready..."

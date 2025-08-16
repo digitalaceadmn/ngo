@@ -56,8 +56,7 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"
-      - "443:443"
+      - "8009:80"  # Use port 8009 to avoid conflicts
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
