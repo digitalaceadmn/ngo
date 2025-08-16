@@ -313,12 +313,8 @@ cat > /tmp/${PROJECT_NAME}-nginx.conf << EOF
 # Nginx configuration for ${PROJECT_NAME}
 # Generated on $(date)
 
-upstream ${PROJECT_NAME}_backend {
-    server 127.0.0.1:${BACKEND_PORT};
-}
-
-upstream ${PROJECT_NAME}_frontend {
-    server 127.0.0.1:${FRONTEND_PORT};
+upstream ${PROJECT_NAME}_app {
+    server 127.0.0.1:8009;  # Docker nginx container
 }
 
 server {
@@ -332,56 +328,17 @@ server {
     add_header X-XSS-Protection "1; mode=block" always;
     add_header X-Content-Type-Options "nosniff" always;
     
-    # API and Admin routes -> Django Backend
-    location ~ ^/(api|admin) {
-        proxy_pass http://${PROJECT_NAME}_backend;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-        proxy_connect_timeout 600;
-        proxy_send_timeout 600;
-        proxy_read_timeout 600;
-        send_timeout 600;
-    }
-    
-    # Static files (Django)
-    location /static/ {
-        alias ${PROJECT_FOLDER}/static/;
-        expires 30d;
-        add_header Cache-Control "public, immutable";
-    }
-    
-    # Media files (Django)
-    location /media/ {
-        alias ${PROJECT_FOLDER}/media/;
-        expires 7d;
-        add_header Cache-Control "public";
-    }
-    
-    # Next.js static files
-    location /_next/static {
-        proxy_pass http://${PROJECT_NAME}_frontend;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_cache_bypass \$http_upgrade;
-        expires 365d;
-        add_header Cache-Control "public, immutable";
-    }
-    
-    # Frontend routes -> Next.js
+    # All routes -> Docker nginx
     location / {
-        proxy_pass http://${PROJECT_NAME}_frontend;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
+        proxy_pass http://${PROJECT_NAME}_app;
         proxy_set_header Host \$host;
-        proxy_cache_bypass \$http_upgrade;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_cache_bypass \$http_upgrade;
     }
     
     # Favicon and robots
@@ -441,7 +398,7 @@ log_step "Building and deploying Docker containers..."
 
 # Stop existing containers for this project
 log_info "Stopping existing containers..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml down --remove-orphans 2>/dev/null || true
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod down --remove-orphans 2>/dev/null || true
 
 # Pull latest images (with env file to avoid warnings)
 log_info "Pulling latest base images..."
@@ -455,9 +412,8 @@ docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.pro
 log_info "Starting services..."
 docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod up -d
 
-# Remove nginx container if it exists (we use host nginx instead)
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml stop nginx 2>/dev/null || true
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml rm -f nginx 2>/dev/null || true
+# Note: We keep nginx container running on port 8009
+# Host nginx will proxy to it
 
 # Wait for database to be ready
 log_info "Waiting for database to be ready..."
@@ -465,17 +421,16 @@ sleep 10
 
 # Run migrations
 log_info "Running database migrations..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml exec -T backend python manage.py migrate --noinput || log_warning "Migrations might have already been applied"
-
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod exec -T backend python manage.py migrate --noinput || log_warning "Migrations might have already been applied"
 
 # Collect static files
 log_info "Collecting static files..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml exec -T backend python manage.py collectstatic --noinput
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod exec -T backend python manage.py collectstatic --noinput
 
 # Copy static files to host
 log_info "Copying static files to host..."
-docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml ps -q backend):/app/static/. ${PROJECT_FOLDER}/static/ 2>/dev/null || true
-docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml ps -q backend):/app/media/. ${PROJECT_FOLDER}/media/ 2>/dev/null || true
+docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod ps -q backend):/app/static/. ${PROJECT_FOLDER}/static/ 2>/dev/null || true
+docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod ps -q backend):/app/media/. ${PROJECT_FOLDER}/media/ 2>/dev/null || true
 
 # Set proper permissions
 sudo chown -R www-data:www-data ${PROJECT_FOLDER}/static ${PROJECT_FOLDER}/media
@@ -491,9 +446,10 @@ if [ "$USE_SSL" = "yes" ]; then
     if [ -d "/etc/letsencrypt/live/${DOMAIN_NAME}" ]; then
         log_info "SSL certificate already exists for ${DOMAIN_NAME}"
     else
-        # Obtain SSL certificate
+        # Obtain SSL certificate (try with www first, fallback to domain only)
         log_info "Obtaining SSL certificate from Let's Encrypt..."
-        sudo certbot --nginx -d ${DOMAIN_NAME} -d www.${DOMAIN_NAME} --non-interactive --agree-tos -m ${SSL_EMAIL} || {
+        sudo certbot --nginx -d ${DOMAIN_NAME} -d www.${DOMAIN_NAME} --non-interactive --agree-tos -m ${SSL_EMAIL} || \
+        sudo certbot --nginx -d ${DOMAIN_NAME} --non-interactive --agree-tos -m ${SSL_EMAIL} || {
             log_warning "Failed to obtain SSL certificate. Application will run on HTTP only."
             USE_SSL="no"
         }
@@ -508,12 +464,8 @@ if [ "$USE_SSL" = "yes" ]; then
 # Nginx SSL configuration for ${PROJECT_NAME}
 # Generated on $(date)
 
-upstream ${PROJECT_NAME}_backend {
-    server 127.0.0.1:${BACKEND_PORT};
-}
-
-upstream ${PROJECT_NAME}_frontend {
-    server 127.0.0.1:${FRONTEND_PORT};
+upstream ${PROJECT_NAME}_app {
+    server 127.0.0.1:8009;  # Docker nginx container
 }
 
 # HTTP to HTTPS redirect
@@ -550,9 +502,9 @@ server {
     add_header X-Content-Type-Options "nosniff" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
     
-    # API and Admin routes -> Django Backend
-    location ~ ^/(api|admin) {
-        proxy_pass http://${PROJECT_NAME}_backend;
+    # All routes -> Docker nginx
+    location / {
+        proxy_pass http://${PROJECT_NAME}_app;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -647,7 +599,7 @@ sleep 10
 
 # Check if containers are running
 log_info "Checking container status..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml ps
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod ps
 
 # Check backend health
 if curl -sf "http://localhost:${BACKEND_PORT}/api/health/" > /dev/null 2>&1; then
