@@ -12,11 +12,11 @@ echo "Database is ready!"
 
 # Run migrations
 echo "Running database migrations..."
-python manage.py migrate --noinput
+python manage.py migrate --noinput || true
 
 # Create superuser if it doesn't exist
 echo "Creating superuser if needed..."
-python manage.py shell << EOF
+python manage.py shell << EOF || true
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username='admin').exists():
@@ -26,16 +26,10 @@ else:
     print('Superuser already exists')
 EOF
 
-# Collect static files again (in case of new files)
+# Collect static files
 echo "Collecting static files..."
-python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput || true
 
 # Start the application
 echo "Starting Gunicorn..."
-exec gunicorn config.wsgi:application \
-    --bind 0.0.0.0:8000 \
-    --workers 4 \
-    --timeout 120 \
-    --log-level info \
-    --access-logfile - \
-    --error-logfile -
+exec "$@"
