@@ -26,7 +26,7 @@ Full-stack application with Django REST Framework backend and Next.js frontend, 
 
 2. Copy environment variables:
 ```bash
-cp .env.example .env
+cp .env.example .env  
 ```
 
 3. Build and start services:
