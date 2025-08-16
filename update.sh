@@ -70,8 +70,9 @@ case $MODE in
         
         if [ "$FRONTEND_CHANGED" -gt 0 ]; then
             echo -e "${BLUE}Rebuilding frontend...${NC}"
-            docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod build frontend
-            docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod up -d frontend
+            # For frontend, we need to rebuild inside the container
+            docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod exec frontend npm run build
+            docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod restart frontend
         fi
         ;;
         

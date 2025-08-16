@@ -42,11 +42,17 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile  # Use dev Dockerfile for live updates
+    command: npm run build && npm run start  # Build and run in production mode
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     env_file:
       - .env.prod
     environment:
       - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=https://prankiran.com/api
       - API_URL=http://backend:8000/api
     depends_on:
       - backend
