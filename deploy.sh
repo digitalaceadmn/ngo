@@ -38,26 +38,17 @@ set -e
 # CONFIGURATION SECTION - EDIT THESE VALUES
 # ================================================================
 
-# Domain Configuration
-DOMAIN_NAME="prankiran.com"  # Your domain name (CHANGE THIS!)
-SSL_EMAIL="info@digitalace.in"    # Email for SSL certificates (CHANGE THIS!)
+# Load configuration from .env file
+if [ -f ".env" ]; then
+    export $(grep -v '^#' .env | xargs)
+else
+    log_error ".env file not found! Please create it first."
+    echo "Copy .env.example to .env and configure your settings."
+    exit 1
+fi
 
 # SSL Configuration
 USE_SSL="yes"  # "yes" or "no"
-
-# Project Configuration
-PROJECT_NAME="ngo-cms"  # Unique project name (used for folders and containers)
-PROJECT_FOLDER="/var/www/${PROJECT_NAME}"  # Where static files will be stored
-
-# Port Configuration (MUST BE UNIQUE FOR EACH APP)
-BACKEND_PORT=8008  # Django backend port (change if 8008 is taken)
-FRONTEND_PORT=3007  # Next.js frontend port (change if 3007 is taken)
-DB_PORT=5437  # PostgreSQL port (change if 5437 is taken)
-
-# Database Configuration (hardcoded to match docker-compose.prod.yml)
-DB_NAME="ngo_cms"
-DB_USER="ngo_cms_user"
-DB_PASSWORD="digitalace@12!"
 
 # ================================================================
 # COLOR CODES FOR OUTPUT
@@ -148,9 +139,9 @@ log_step "Checking port availability..."
 # Find available ports
 BACKEND_PORT=$(find_free_port $BACKEND_PORT)
 FRONTEND_PORT=$(find_free_port $FRONTEND_PORT)
-DB_PORT=$(find_free_port $DB_PORT)
+DB_EXTERNAL_PORT=$(find_free_port $DB_EXTERNAL_PORT)
 
-log_success "Using ports - Backend: $BACKEND_PORT, Frontend: $FRONTEND_PORT, Database: $DB_PORT"
+log_success "Using ports - Backend: $BACKEND_PORT, Frontend: $FRONTEND_PORT, Database: $DB_EXTERNAL_PORT"
 
 # ================================================================
 # ENVIRONMENT SETUP
@@ -158,55 +149,20 @@ log_success "Using ports - Backend: $BACKEND_PORT, Frontend: $FRONTEND_PORT, Dat
 
 log_step "Setting up environment configuration..."
 
-# Create .env.prod if it doesn't exist
-if [ ! -f ".env.prod" ]; then
-    if [ -f ".env.prod.example" ]; then
-        cp .env.prod.example .env.prod
-        log_info "Created .env.prod from template"
-    else
-        log_info "Creating .env.prod file..."
-        cat > .env.prod << EOF
-# Database (hardcoded values matching docker-compose.prod.yml)
-DB_NAME=ngo_cms
-DB_USER=ngo_cms_user
-DB_PASSWORD=digitalace@12!
-DB_HOST=db
-DB_PORT=5432
+# Verify required environment variables
+required_vars=("DB_NAME" "DB_USER" "DB_PASSWORD" "DB_HOST" "DB_PORT" 
+               "POSTGRES_DB" "POSTGRES_USER" "POSTGRES_PASSWORD"
+               "BACKEND_PORT" "FRONTEND_PORT" "DB_EXTERNAL_PORT" "NGINX_PORT"
+               "DOMAIN_NAME" "SSL_EMAIL" "PROJECT_NAME" "PROJECT_FOLDER")
 
-# Django
-SECRET_KEY=$(python3 -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')
-DEBUG=False
-ALLOWED_HOSTS=localhost,127.0.0.1,backend,${DOMAIN_NAME},www.${DOMAIN_NAME}
-
-# Email (configure as needed)
-EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER=
-EMAIL_HOST_PASSWORD=
-
-# Frontend
-NEXT_PUBLIC_API_URL=https://${DOMAIN_NAME}/api
-
-# CORS
-CORS_ALLOWED_ORIGINS=https://${DOMAIN_NAME},https://www.${DOMAIN_NAME}
-
-# Security
-SECURE_SSL_REDIRECT=True
-SESSION_COOKIE_SECURE=True
-CSRF_COOKIE_SECURE=True
-SECURE_HSTS_SECONDS=31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS=True
-SECURE_HSTS_PRELOAD=True
-EOF
-        log_success "Created .env.prod with secure defaults"
+for var in "${required_vars[@]}"; do
+    if [ -z "${!var}" ]; then
+        log_error "Required environment variable $var is not set in .env file!"
+        exit 1
     fi
-else
-    log_info "Using existing .env.prod file"
-    # Update ALLOWED_HOSTS to include domain
-    sed -i "s/^ALLOWED_HOSTS=.*/ALLOWED_HOSTS=localhost,127.0.0.1,backend,${DOMAIN_NAME},www.${DOMAIN_NAME}/" .env.prod
-fi
+done
+
+log_success "All required environment variables are configured"
 
 # Save database credentials for reference
 cat > .deployment-info << EOF
@@ -220,7 +176,7 @@ Date: $(date)
 Ports:
 - Backend: ${BACKEND_PORT}
 - Frontend: ${FRONTEND_PORT}
-- Database: ${DB_PORT}
+- Database: ${DB_EXTERNAL_PORT}
 
 Database:
 - Name: ${DB_NAME}
@@ -244,19 +200,14 @@ EOF
 log_success "Deployment info saved to .deployment-info"
 
 # ================================================================
-# SKIP DOCKER COMPOSE OVERRIDE - Using hardcoded values
+# ENVIRONMENT CONFIGURATION CHECK
 # ================================================================
 
-log_step "Using hardcoded database configuration from docker-compose.prod.yml..."
-log_info "Database name: ngo_cms"
-log_info "Database user: ngo_cms_user"
-log_info "Ports are defined in docker-compose.prod.yml"
-
-# Remove any existing override file that might interfere
-if [ -f "docker-compose.override.yml" ]; then
-    log_warning "Removing existing docker-compose.override.yml to prevent conflicts"
-    rm -f docker-compose.override.yml
-fi
+log_step "Using environment configuration from .env file..."
+log_info "Database name: $DB_NAME"
+log_info "Database user: $DB_USER"
+log_info "Domain: $DOMAIN_NAME"
+log_info "Ports - Backend: $BACKEND_PORT, Frontend: $FRONTEND_PORT, DB: $DB_EXTERNAL_PORT, Nginx: $NGINX_PORT"
 
 # ================================================================
 # INSTALL DEPENDENCIES
@@ -390,19 +341,19 @@ log_step "Building and deploying Docker containers..."
 
 # Stop existing containers for this project
 log_info "Stopping existing containers..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod down --remove-orphans 2>/dev/null || true
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env down --remove-orphans 2>/dev/null || true
 
 # Pull latest images (with env file to avoid warnings)
 log_info "Pulling latest base images..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod pull
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env pull
 
 # Build images (with env file to avoid warnings)
 log_info "Building Docker images..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod build --no-cache
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env build --no-cache
 
 # Start services (with env file to avoid warnings)
 log_info "Starting services..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod up -d
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env up -d
 
 # Note: We keep nginx container running on port 8009
 # Host nginx will proxy to it
@@ -413,16 +364,16 @@ sleep 10
 
 # Run migrations
 log_info "Running database migrations..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod exec -T backend python manage.py migrate --noinput || log_warning "Migrations might have already been applied"
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env exec -T backend python manage.py migrate --noinput || log_warning "Migrations might have already been applied"
 
 # Collect static files
 log_info "Collecting static files..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod exec -T backend python manage.py collectstatic --noinput
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env exec -T backend python manage.py collectstatic --noinput
 
 # Copy static files to host
 log_info "Copying static files to host..."
-docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod ps -q backend):/app/static/. ${PROJECT_FOLDER}/static/ 2>/dev/null || true
-docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod ps -q backend):/app/media/. ${PROJECT_FOLDER}/media/ 2>/dev/null || true
+docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps -q backend):/app/static/. ${PROJECT_FOLDER}/static/ 2>/dev/null || true
+docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps -q backend):/app/media/. ${PROJECT_FOLDER}/media/ 2>/dev/null || true
 
 # Set proper permissions
 sudo chown -R www-data:www-data ${PROJECT_FOLDER}/static ${PROJECT_FOLDER}/media
@@ -570,7 +521,7 @@ sleep 10
 
 # Check if containers are running
 log_info "Checking container status..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod ps
+docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps
 
 # Check backend health
 if curl -sf "http://localhost:${BACKEND_PORT}/api/health/" > /dev/null 2>&1; then
@@ -626,7 +577,7 @@ echo
 echo -e "${CYAN}Service Ports:${NC}"
 echo -e "  Backend: ${GREEN}${BACKEND_PORT}${NC}"
 echo -e "  Frontend: ${GREEN}${FRONTEND_PORT}${NC}"
-echo -e "  Database: ${GREEN}${DB_PORT}${NC}"
+echo -e "  Database: ${GREEN}${DB_EXTERNAL_PORT}${NC}"
 echo
 echo -e "${CYAN}Default Admin Credentials:${NC}"
 echo -e "  Username: ${YELLOW}admin${NC}"
@@ -643,7 +594,7 @@ echo -e "  Backup database: ${YELLOW}${PROJECT_FOLDER}/backup.sh${NC}"
 echo
 echo -e "${CYAN}Configuration Files:${NC}"
 echo -e "  Nginx: ${YELLOW}/etc/nginx/sites-available/${PROJECT_NAME}${NC}"
-echo -e "  Environment: ${YELLOW}.env.prod${NC}"
+echo -e "  Environment: ${YELLOW}.env${NC}"
 echo -e "  Deployment Info: ${YELLOW}.deployment-info${NC}"
 echo
 echo "================================================================"
