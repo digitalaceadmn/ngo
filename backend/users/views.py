@@ -16,7 +16,7 @@ class RegisterView(generics.CreateAPIView):
         return Response({
             'user': UserSerializer(user).data,
             'message': 'User created successfully'
-        }, status=status.HTTP_201_CREATED)
+        }, status=status.HTTP_201_CREATED) 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
