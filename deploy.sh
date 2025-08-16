@@ -26,7 +26,7 @@ PROJECT_NAME="ngo-cms"  # Unique project name (used for folders and containers)
 PROJECT_FOLDER="/var/www/${PROJECT_NAME}"  # Where static files will be stored
 
 # Port Configuration (MUST BE UNIQUE FOR EACH APP)
-BACKEND_PORT=8007  # Django backend port (change if 8007 is taken)
+BACKEND_PORT=8008  # Django backend port (change if 8008 is taken)
 FRONTEND_PORT=3007  # Next.js frontend port (change if 3007 is taken)
 DB_PORT=5437  # PostgreSQL port (change if 5437 is taken)
 
@@ -83,7 +83,8 @@ check_port() {
 find_free_port() {
     local port=$1
     while check_port $port; do
-        log_warning "Port $port is already in use"
+        # Send warning to stderr so it doesn't get captured in variable
+        log_warning "Port $port is already in use" >&2
         port=$((port + 1))
     done
     echo $port
