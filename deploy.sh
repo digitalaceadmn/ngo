@@ -23,7 +23,7 @@ if [ "$1" = "cleanup" ] || [ "$1" = "clean" ]; then
     # Remove static files
     sudo rm -rf /var/www/${PROJECT_NAME}
     
-    # Remove deployment info
+    # Remove deployment info and any override files
     rm -f .deployment-info
     rm -f docker-compose.override.yml
     
@@ -54,10 +54,10 @@ BACKEND_PORT=8008  # Django backend port (change if 8008 is taken)
 FRONTEND_PORT=3007  # Next.js frontend port (change if 3007 is taken)
 DB_PORT=5437  # PostgreSQL port (change if 5437 is taken)
 
-# Database Configuration
-DB_NAME="${PROJECT_NAME}_db"
-DB_USER="${PROJECT_NAME}_user"
-DB_PASSWORD="$(openssl rand -base64 32)"  # Auto-generate secure password
+# Database Configuration (hardcoded to match docker-compose.prod.yml)
+DB_NAME="ngo_cms"
+DB_USER="ngo_cms_user"
+DB_PASSWORD="digitalace@12!"
 
 # ================================================================
 # COLOR CODES FOR OUTPUT
@@ -166,10 +166,10 @@ if [ ! -f ".env.prod" ]; then
     else
         log_info "Creating .env.prod file..."
         cat > .env.prod << EOF
-# Database
-DB_NAME=${DB_NAME}
-DB_USER=${DB_USER}
-DB_PASSWORD=${DB_PASSWORD}
+# Database (hardcoded values matching docker-compose.prod.yml)
+DB_NAME=ngo_cms
+DB_USER=ngo_cms_user
+DB_PASSWORD=digitalace@12!
 DB_HOST=db
 DB_PORT=5432
 
@@ -244,41 +244,19 @@ EOF
 log_success "Deployment info saved to .deployment-info"
 
 # ================================================================
-# DOCKER COMPOSE OVERRIDE
+# SKIP DOCKER COMPOSE OVERRIDE - Using hardcoded values
 # ================================================================
 
-log_step "Creating docker-compose override for custom ports..."
+log_step "Using hardcoded database configuration from docker-compose.prod.yml..."
+log_info "Database name: ngo_cms"
+log_info "Database user: ngo_cms_user"
+log_info "Ports are defined in docker-compose.prod.yml"
 
-cat > docker-compose.override.yml << EOF
-version: '3.8'
-
-services:
-  db:
-    ports:
-      - "${DB_PORT}:5432"
-    environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-
-  backend:
-    ports:
-      - "${BACKEND_PORT}:8000"
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-
-  frontend:
-    ports:
-      - "${FRONTEND_PORT}:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=https://${DOMAIN_NAME}/api
-
-  nginx:
-    ports:
-      - "8009:80"
-EOF
+# Remove any existing override file that might interfere
+if [ -f "docker-compose.override.yml" ]; then
+    log_warning "Removing existing docker-compose.override.yml to prevent conflicts"
+    rm -f docker-compose.override.yml
+fi
 
 # ================================================================
 # INSTALL DEPENDENCIES
