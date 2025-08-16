@@ -1,6 +1,6 @@
 
 export default function Home() {
   return <>
-    <h1>22</h1>
+    <h1>2222</h1>
   </>;
 }
