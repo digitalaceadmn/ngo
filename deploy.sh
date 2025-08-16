@@ -15,8 +15,8 @@ set -e
 # ================================================================
 
 # Domain Configuration
-DOMAIN_NAME="example.com"  # Your domain name (CHANGE THIS!)
-SSL_EMAIL="admin@example.com"  # Email for SSL certificates (CHANGE THIS!)
+DOMAIN_NAME="prankiran.com"  # Your domain name (CHANGE THIS!)
+SSL_EMAIL="info@digitalace.in"    # Email for SSL certificates (CHANGE THIS!)
 
 # SSL Configuration
 USE_SSL="yes"  # "yes" or "no"
