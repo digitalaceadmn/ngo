@@ -43,7 +43,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile  # Use dev Dockerfile for live updates
-    command: npm run build && npm run start  # Build and run in production mode
+    command: npm run dev  # Development mode with hot-reload
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -54,6 +54,8 @@ services:
       - NODE_ENV=production
       - NEXT_PUBLIC_API_URL=https://prankiran.com/api
       - API_URL=http://backend:8000/api
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - backend
     restart: unless-stopped
