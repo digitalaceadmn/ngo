@@ -30,4 +30,4 @@ RUN chmod +x /app/entrypoint.sh
 EXPOSE 8000
 
 # Use entrypoint script to handle migrations and startup
-ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["/bin/sh", "/app/entrypoint.sh"]
