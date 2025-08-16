@@ -277,7 +277,7 @@ services:
 
   nginx:
     ports:
-      - "${BACKEND_PORT}:80"
+      - "8009:80"
 EOF
 
 # ================================================================
@@ -328,7 +328,21 @@ server {
     add_header X-XSS-Protection "1; mode=block" always;
     add_header X-Content-Type-Options "nosniff" always;
     
-    # All routes -> Docker nginx
+    # Static files (Django)
+    location /static/ {
+        alias ${PROJECT_FOLDER}/static/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    # Media files (Django)
+    location /media/ {
+        alias ${PROJECT_FOLDER}/media/;
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+    
+    # All routes -> Docker nginx container (handles both backend and frontend)
     location / {
         proxy_pass http://${PROJECT_NAME}_app;
         proxy_set_header Host \$host;
@@ -502,19 +516,6 @@ server {
     add_header X-Content-Type-Options "nosniff" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
     
-    # All routes -> Docker nginx
-    location / {
-        proxy_pass http://${PROJECT_NAME}_app;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto https;
-        proxy_connect_timeout 600;
-        proxy_send_timeout 600;
-        proxy_read_timeout 600;
-        send_timeout 600;
-    }
-    
     # Static files (Django)
     location /static/ {
         alias ${PROJECT_FOLDER}/static/;
@@ -529,29 +530,21 @@ server {
         add_header Cache-Control "public";
     }
     
-    # Next.js static files
-    location /_next/static {
-        proxy_pass http://${PROJECT_NAME}_frontend;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_cache_bypass \$http_upgrade;
-        expires 365d;
-        add_header Cache-Control "public, immutable";
-    }
-    
-    # Frontend routes -> Next.js
+    # All routes -> Docker nginx container (handles both backend and frontend)
     location / {
-        proxy_pass http://${PROJECT_NAME}_frontend;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
+        proxy_pass http://${PROJECT_NAME}_app;
         proxy_set_header Host \$host;
-        proxy_cache_bypass \$http_upgrade;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto https;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_cache_bypass \$http_upgrade;
+        proxy_connect_timeout 600;
+        proxy_send_timeout 600;
+        proxy_read_timeout 600;
+        send_timeout 600;
     }
     
     # Favicon and robots
