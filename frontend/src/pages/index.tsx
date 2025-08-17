@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect } from "react";
 import { useLayout } from "@/contexts/LayoutContext";
 import { Button, Typography, Container } from "@mui/material";
