@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box, Typography, Button, Stack } from '@mui/material';
+import { Box, Typography, Button, Stack } from "@mui/material";
 import Banner from "@/assets/images/banner.png"
 
 const HomeBanner = () => {

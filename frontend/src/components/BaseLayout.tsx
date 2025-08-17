@@ -1,7 +1,8 @@
+// components/BaseLayout.tsx
 import React from "react";
 import Head from "next/head";
-import { Container } from "react-bootstrap"; // Bootstrap container
-import { Box } from "@mui/material"; // MUI layout component
+import { Container } from "react-bootstrap";
+import { Box, CssBaseline } from "@mui/material";
 import { useLayout } from "@/contexts/LayoutContext";
 import Header from "@/components/Header";
 
@@ -13,8 +14,10 @@ const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
             <Head>
                 <title>{title}</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="theme-color" content={theme === "dark" ? "#0b0b0b" : "#ffffff"} />
             </Head>
-
+            <CssBaseline />
+            
             {/* Full-page wrapper */}
             <Box
                 component="div"
@@ -23,14 +26,21 @@ const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                     minHeight: "100vh",
                     display: "flex",
                     flexDirection: "column",
-                    bgcolor: theme === "dark" ? "#0b0b0b" : "#fff",
+                    transition: "background-color 0.3s ease",
                 }}
             >
-                {/* Header stays fixed */}
+                {/* Header */}
                 <Header />
 
                 {/* Main Content Area */}
-                <Box component="main" sx={{ flex: 1, py: 3 }}>
+                <Box 
+                    component="main" 
+                    sx={{ 
+                        flex: 1, 
+                        py: 3,
+                        transition: "all 0.3s ease",
+                    }}
+                >
                     <Container fluid>
                         {children}
                     </Container>
