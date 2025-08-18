@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Container, Row, Col } from "react-bootstrap";
-import Person from "@/assets/images/person.png"
+import Person from "@/assets/images/person.png";
 
 const founders = [
     {
@@ -42,9 +42,9 @@ const founders = [
 
 const FounderStoryComponent = () => {
     return (
-        <section className="py-5 bg-dark text-white">
+        <section className="py-5 bg-soft-golden">
             <Container>
-                <h2 className="text-center mb-4 text-white">Our Founders</h2>
+                <h2 className="text-center mb-5 text-dark-golden">✨ Our Founders</h2>
 
                 <div id="founderCarousel" className="carousel slide" data-bs-ride="carousel">
                     <div className="carousel-inner">
@@ -54,19 +54,26 @@ const FounderStoryComponent = () => {
                                 className={`carousel-item ${index === 0 ? "active" : ""}`}
                             >
                                 <Row className="align-items-center">
+                                    {/* Founder Image */}
                                     <Col md={5} className="text-center">
                                         <Image
                                             src={Person.src}
                                             alt={founder.name}
-                                            width={400}
-                                            height={400}
-                                            className="d-block mx-auto rounded-circle border border-4 border-golden"
+                                            width={350}
+                                            height={350}
+                                            className="d-block mx-auto rounded-circle border border-4 border-golden shadow-sm"
                                         />
                                     </Col>
-                                    <Col md={7}>
-                                        <p className="mt-3">{founder.story}</p>
-                                        <h5 className="text-golden fw-bold">{founder.role}</h5>
-                                        <h6 className="fst-italic">— {founder.name}</h6>
+
+                                    {/* Founder Story */}
+                                    <Col md={7} className="mt-4 mt-md-0">
+                                        <p className="fs-5 text-muted">{founder.story}</p>
+                                        <h5 className="text-dark-golden fw-bold mt-3">
+                                            {founder.role}
+                                        </h5>
+                                        <h6 className="fst-italic text-secondary">
+                                            — {founder.name}
+                                        </h6>
                                     </Col>
                                 </Row>
                             </div>

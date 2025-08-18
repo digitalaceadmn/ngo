@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "@/assets/images/logo.jpeg";
+import Logo from "@/assets/images/logo.png";
 
 const navLinks = ["Home", "Causes", "Events", "Portfolio", "Pages", "Blog"];
 
@@ -41,7 +41,7 @@ const MainHeader: React.FC = () => {
                 <div className="d-flex align-items-center gap-3">
                     <button className="btn btn-link text-dark p-0 fs-5">🔍</button>
                     <button className="btn btn-link text-dark p-0 fs-5">👤</button>
-                    <button className="btn-golden shadow-sm">Meet Doctors</button>
+                    <button className="btn-primary shadow-sm">Meet Doctors</button>
                 </div>
             </div>
         </header>
