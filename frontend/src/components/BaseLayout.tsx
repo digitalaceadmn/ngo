@@ -37,11 +37,11 @@ const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                     component="main" 
                     sx={{ 
                         flex: 1, 
-                        py: 3,
+                        py: 0,
                         transition: "all 0.3s ease",
                     }}
                 >
-                    <Container fluid>
+                    <Container fluid className={`p-0`}>
                         {children}
                     </Container>
                 </Box>
