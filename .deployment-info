@@ -3,7 +3,7 @@ DEPLOYMENT INFORMATION - SAVE THIS!
 ================================================================
 Project: ngo-cms
 Domain: prankiran.com
-Date: Sat Aug 16 07:46:43 UTC 2025
+Date: Sat Aug 16 11:26:44 UTC 2025
 
 Ports:
 - Backend: 8008
@@ -11,9 +11,9 @@ Ports:
 - Database: 5437
 
 Database:
-- Name: ngo-cms_db
-- User: ngo-cms_user
-- Password: gWZbJTpflee6lCm6UTWq2EU4osXZGcGgUsESNqyI+vM=
+- Name: ngo_cms
+- User: ngo_cms_user
+- Password: digitalace@12!
 
 URLs:
 - Main: https://prankiran.com
