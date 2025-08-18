@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Container, Row, Col } from "react-bootstrap";
+import Person from "@/assets/images/person.png";
 
 const founders = [
     {
@@ -41,68 +42,67 @@ const founders = [
 
 const FounderStoryComponent = () => {
     return (
-        <Container className="my-5">
-            <h2 className="text-center mb-4">Our Founders</h2>
-            <div id="founderCarousel" className="carousel slide" data-bs-ride="carousel">
-                <div className="carousel-inner">
-                    {founders.map((founder, index) => (
-                        <div
-                            key={index}
-                            className={`carousel-item ${index === 0 ? "active" : ""}`}
-                        >
-                            <Row className="align-items-center">
-                                <Col md={5} className="text-center">
-                                    <Image
-                                        src={founder.image}
-                                        alt={founder.name}
-                                        width={400}
-                                        height={400}
-                                        className="d-block mx-auto rounded-circle"
-                                    />
-                                </Col>
-                                <Col md={7}>
-                                    <p className="mt-3">{founder.story}</p>
+        <section className="py-5 bg-soft-golden">
+            <Container>
+                <h2 className="text-center mb-5 text-dark-golden">✨ Our Founders</h2>
 
-                                    <h5 className="text-muted">{founder.role}</h5>
-                                    <h6> -- {founder.name}</h6>
+                <div id="founderCarousel" className="carousel slide" data-bs-ride="carousel">
+                    <div className="carousel-inner">
+                        {founders.map((founder, index) => (
+                            <div
+                                key={index}
+                                className={`carousel-item ${index === 0 ? "active" : ""}`}
+                            >
+                                <Row className="align-items-center">
+                                    {/* Founder Image */}
+                                    <Col md={5} className="text-center">
+                                        <Image
+                                            src={Person.src}
+                                            alt={founder.name}
+                                            width={350}
+                                            height={350}
+                                            className="d-block mx-auto rounded-circle border border-4 border-golden shadow-sm"
+                                        />
+                                    </Col>
 
-                                </Col>
-                            </Row>
-                        </div>
-                    ))}
+                                    {/* Founder Story */}
+                                    <Col md={7} className="mt-4 mt-md-0">
+                                        <p className="fs-5 text-muted">{founder.story}</p>
+                                        <h5 className="text-dark-golden fw-bold mt-3">
+                                            {founder.role}
+                                        </h5>
+                                        <h6 className="fst-italic text-secondary">
+                                            — {founder.name}
+                                        </h6>
+                                    </Col>
+                                </Row>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Carousel Controls */}
+                    <button
+                        className="carousel-control-prev custom-carousel-btn"
+                        type="button"
+                        data-bs-target="#founderCarousel"
+                        data-bs-slide="prev"
+                    >
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Previous</span>
+                    </button>
+
+                    <button
+                        className="carousel-control-next custom-carousel-btn"
+                        type="button"
+                        data-bs-target="#founderCarousel"
+                        data-bs-slide="next"
+                    >
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Next</span>
+                    </button>
                 </div>
-
-                {/* Carousel Controls */}
-                <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#founderCarousel"
-                    data-bs-slide="prev"
-                >
-                  <span
-                      className="carousel-control-prev-icon"
-                      aria-hidden="true"
-                      style={{ backgroundColor: "rgba(0,0,0,0.5)", borderRadius: "50%" }}
-                  ></span>
-                    <span className="visually-hidden">Previous</span>
-                </button>
-
-                <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#founderCarousel"
-                    data-bs-slide="next"
-                >
-                  <span
-                      className="carousel-control-next-icon"
-                      aria-hidden="true"
-                      style={{ backgroundColor: "rgba(0,0,0,0.5)", borderRadius: "50%" }}
-                  ></span>
-                    <span className="visually-hidden">Next</span>
-                </button>
-
-            </div>
-        </Container>
+            </Container>
+        </section>
     );
 };
 

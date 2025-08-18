@@ -1,26 +1,200 @@
 @import "tailwindcss";
 
+/* ==============================
+   Global Theme (Light & Golden)
+   ============================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary Theme Colors */
+  --color-primary: #FFD700; /* Bright Gold */
+  --color-primary-dark: #B8860B; /* Rich Goldenrod */
+  --color-primary-light: #FFF8DC; /* Light golden / sunbeam */
+
+  /* Secondary Colors */
+  --color-secondary: #ffffff; /* Pure white background */
+  --color-secondary-light: #f9f9f9; /* Soft light gray */
+  --color-secondary-dark: #e6e6e6; /* Muted gray */
+
+  /* Text Colors */
+  --color-text: #333333; /* Dark gray for readability */
+  --color-text-muted: #666666;
+  --color-heading: #B8860B; /* Goldenrod for headings */
+
+  /* Background Colors */
+  --color-bg: #ffffff; /* Light background */
+  --color-bg-alt: #FFF8DC; /* Subtle golden tint */
+
+  /* Borders / Lines */
+  --color-border: #FFD700;
+
+  /* Buttons */
+  --btn-primary-bg: var(--color-primary);
+  --btn-primary-text: #000000;
+  --btn-secondary-bg: var(--color-secondary);
+  --btn-secondary-text: var(--color-text);
+
+  /* Shadows */
+  --shadow-light: 0 4px 12px rgba(255, 215, 0, 0.25);
+  --shadow-dark: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ==============================
+   Global Resets & Typography
+   ============================== */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+p {
+  color: var(--color-text-muted);
+}
+
+/* ==============================
+   Buttons
+   ============================== */
+.btn-primary {
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  box-shadow: var(--shadow-light);
+}
+
+.btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.btn-secondary:hover {
+  background-color: var(--color-primary);
+  color: #000;
+  box-shadow: var(--shadow-light);
+}
+
+/* ==============================
+   Theme Utility Classes
+   ============================== */
+
+/* Backgrounds */
+.bg-light {
+  background-color: #ffffff !important;
+}
+.bg-golden {
+  background-color: #FFD700 !important;
+}
+.bg-soft-golden {
+  background-color: #FFF8DC !important;
+}
+
+/* Text Colors */
+.text-dark {
+  color: #333 !important;
+}
+.text-golden {
+  color: #FFD700 !important;
+}
+.text-dark-golden {
+  color: #B8860B !important;
+}
+
+/* Borders */
+.border-golden {
+  border-color: #FFD700 !important;
+}
+
+/* Buttons */
+.btn-golden {
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.btn-golden:hover {
+  background-color: #B8860B;
+  color: #fff;
+}
+
+.btn-outline-golden {
+  background-color: transparent;
+  color: #B8860B;
+  border: 1px solid #FFD700;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.btn-outline-golden:hover {
+  background-color: #FFD700;
+  color: #000;
+  box-shadow: var(--shadow-light);
+}
+
+/* ==============================
+   Quick Help Section (Light Style)
+   ============================== */
+.quickhelp-section {
+  padding: 3rem 1.5rem;
+  background: linear-gradient(to right, #FFF8DC, #ffffff);
+  text-align: center;
+}
+
+.quickhelp-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #B8860B; /* Goldenrod */
+  margin-bottom: 2rem;
+}
+
+.quickhelp-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.btn-gold {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #FFD700;
+  color: #000;
+  font-weight: bold;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-light);
+}
+
+.btn-gold:hover {
+  background-color: #B8860B;
+  color: #fff;
+}
+
+.icon {
+  font-size: 1.2rem;
 }

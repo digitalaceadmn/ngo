@@ -10,7 +10,7 @@ const TopHeader: React.FC = () => {
     return (
         <AppBar
             position="static"
-            sx={{ backgroundColor: "#1c1c1c", height: 40, justifyContent: "center" }}
+            sx={{ backgroundColor: "#FFD700", height: 40, justifyContent: "center" }}
         >
             <Toolbar
                 sx={{

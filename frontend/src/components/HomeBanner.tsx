@@ -1,77 +1,40 @@
-import { Box, Typography, Button, Stack } from "@mui/material";
-import Banner from "@/assets/images/banner.png"
+import Banner from "@/assets/images/banner.png";
 
 const HomeBanner = () => {
     return (
-        <Box
-            sx={{
-                position: "relative",
+        <section
+            className="position-relative d-flex align-items-center justify-content-center text-center text-white"
+            style={{
                 height: "90vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "center",
-                color: "white",
                 backgroundImage: `url('${Banner.src}')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    inset: 0,
-                    backgroundColor: "rgba(0,0,0,0.6)",
-                },
             }}
         >
-            <Box sx={{ position: "relative", zIndex: 2, maxWidth: '80%', px: 2 }}>
-                <Typography
-                    variant="h2"
-                    component="h1"
-                    fontWeight="bold"
-                    sx={{ mb: 2 }}
-                >
+            {/* Overlay */}
+            <div className="position-absolute top-0 start-0 w-100 h-100 bg-black" style={{ opacity: 0.6 }} />
+
+            {/* Content */}
+            <div className="position-relative z-1 container" style={{ maxWidth: "80%" }}>
+                <h1 className="fw-bold mb-3 text-white">
                     Prankiran – Guiding Cancer Patients Towards the Right Care
-                </Typography>
+                </h1>
 
-                <Box
-                    sx={{
-                        width: 180,
-                        height: 6,
-                        backgroundColor: "orange",
-                        borderRadius: 2,
-                        mx: "auto",
-                        mb: 3,
-                    }}
-                />
+                {/* Golden line */}
+                <div className="mx-auto mb-4 bg-golden" style={{ width: "180px", height: "6px", borderRadius: "8px" }} />
 
-                <Typography variant="body1" sx={{ mb: 4 }}>
-                    We stand beside patients, helping them find trusted doctors and access the treatment they deserve.
-                </Typography>
+                <p className="mb-4">
+                    We stand beside patients, helping them find trusted doctors and access the
+                    treatment they deserve.
+                </p>
 
-                <Stack direction="row" spacing={2} justifyContent="center">
-                    <Button
-                        variant="contained"
-                        sx={{
-                            backgroundColor: "red",
-                            px: 4,
-                            "&:hover": { backgroundColor: "#c62828" },
-                        }}
-                    >
-                        Meet Doctors
-                    </Button>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            backgroundColor: "orange",
-                            px: 4,
-                            "&:hover": { backgroundColor: "#ef6c00" },
-                        }}
-                    >
-                        CONTACT US
-                    </Button>
-                </Stack>
-            </Box>
-        </Box>
+                {/* Buttons */}
+                <div className="d-flex justify-content-center gap-3">
+                    <button className="btn-golden px-4">MEET DOCTORS</button>
+                    <button className="btn-outline-golden px-4">CONTACT US</button>
+                </div>
+            </div>
+        </section>
     );
 };
 
