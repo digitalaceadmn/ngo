@@ -7,6 +7,8 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
+# Install Alpine-specific native bindings for TailwindCSS/PostCSS
+RUN npm rebuild && npm install lightningcss-linux-x64-musl --save-optional
 COPY . .
 RUN npm run build
 
