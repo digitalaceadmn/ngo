@@ -44,12 +44,12 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile  # Use dev Dockerfile for hot-reload
-    command: sh -c "npm install && npm run dev"  # Ensure dependencies are installed
+      dockerfile: Dockerfile  # Use dev Dockerfile for easier builds
+    command: sh -c "npm install --include=dev && npm run build && npm run start"  # Install all deps, build and run in production mode
     ports:
       - "${FRONTEND_PORT:-3007}:3000"
     volumes:
-      - ./frontend:/app  # Mount code for instant updates
+      - ./frontend:/app  # Mount code for easy updates
       - /app/node_modules  # Preserve node_modules
       - /app/.next  # Preserve build cache
     env_file:
@@ -57,13 +57,19 @@ services:
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
       - API_URL=${API_URL}
-      - WATCHPACK_POLLING=true  # Enable file watching in Docker
-      - CHOKIDAR_USEPOLLING=true  # Enable polling for file changes
+      - NODE_ENV=production  # Force production mode - NO AUTO RELOAD!
+      # Removed WATCHPACK_POLLING and CHOKIDAR_USEPOLLING - no file watching
     depends_on:
       - backend
     restart: unless-stopped
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s  # Increased for build time
 
   nginx:
     image: nginx:alpine
@@ -74,8 +80,10 @@ services:
       - static_volume:/app/static:ro
       - media_volume:/app/media:ro
     depends_on:
-      - backend
-      - frontend
+      backend:
+        condition: service_started
+      frontend:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - app-network

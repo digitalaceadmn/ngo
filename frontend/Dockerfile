@@ -6,6 +6,9 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci || npm install
 
+# Install Alpine-specific native bindings for TailwindCSS/PostCSS
+RUN npm rebuild && npm install lightningcss-linux-x64-musl --save-optional
+
 # Copy application code
 COPY . .
 

@@ -5,7 +5,6 @@ import BaseLayout from "@/components/BaseLayout";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 
 // Import Bootstrap styles (safe on both server & client)
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import "@/styles/globals.css";
 
