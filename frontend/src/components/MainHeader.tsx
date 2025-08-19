@@ -1,7 +1,16 @@
 import React from "react";
 import Logo from "@/assets/images/logo.png";
+import Link from "next/link";
 
-const navLinks = ["Home", "Causes", "Events", "Portfolio", "Pages", "Blog"];
+const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Causes", path: "/causes" },
+    { name: "Events", path: "/events" },
+    { name: "Portfolio", path: "/portfolio" },
+    { name: "About Us", path: "/about" },
+    { name: "Blog", path: "/blog" },
+    { name: "Contact", path: "/contact" },
+];
 
 const MainHeader: React.FC = () => {
     return (
@@ -21,19 +30,23 @@ const MainHeader: React.FC = () => {
                 {/* Navigation Links */}
                 <nav className="d-flex gap-4">
                     {navLinks.map((link) => (
-                        <a
-                            key={link}
-                            href="#"
-                            className={`text-decoration-none ${
-                                link === "Home" ? "text-dark-golden fw-bold" : "text-dark"
-                            }`}
-                            onMouseOver={(e) => e.currentTarget.classList.add("text-golden")}
+                        <Link
+                            key={link.name}
+                            href={link.path}
+                            className={`text-decoration-none ${link.name === "Home" ? "text-dark-golden fw-bold" : "text-dark"
+                                }`}
+                            onMouseOver={(e) =>
+                                e.currentTarget.classList.add("text-golden")
+                            }
                             onMouseOut={(e) =>
-                                e.currentTarget.classList.toggle("text-golden", link === "Home")
+                                e.currentTarget.classList.toggle(
+                                    "text-golden",
+                                    link.name === "Home"
+                                )
                             }
                         >
-                            {link}
-                        </a>
+                            {link.name}
+                        </Link>
                     ))}
                 </nav>
 
