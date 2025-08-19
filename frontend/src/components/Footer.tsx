@@ -17,7 +17,7 @@ const Footer = () => {
                     </ul>
                 </div>
             </div>
-            <p className="mt-6 text-center text-sm">© 2025 Prankiran NGO. All rights reserved.</p>
+            <p className="mt-6 text-center text-sm">© 333 Prankiran NGO. All rights reserved.</p>
         </footer>
     );
 };

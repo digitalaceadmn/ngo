@@ -1,334 +1,248 @@
-# Local Development Guide
+# NGO CMS - Complete Development Guide
 
-## Quick Start
+## 🚀 Quick Start
 
+### Development Mode (Auto-reload, Fast Iteration)
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd ngo-cms
+# For daily development work
+make up
+# OR
+docker-compose up -d
 
-# Start all services (uses production-like setup for consistency)
+# Access URLs:
+# Frontend: http://localhost:3000
+# Backend: http://localhost:8000/api
+# Database: localhost:5433
+```
+
+### Production Mode (Testing Production Build)
+```bash
+# For testing production deployment
+make prod-up
+# OR
 docker-compose -f docker-compose.prod.yml up -d
 
-# Check service status
-docker-compose -f docker-compose.prod.yml ps
-
-# View logs
-docker-compose -f docker-compose.prod.yml logs -f
+# Access URLs:
+# Main App: http://localhost:8009 (via Nginx)
+# Frontend Direct: http://localhost:3007
+# Backend Direct: http://localhost:8008
+# Database: localhost:5437
 ```
 
-## Access URLs
+## 📋 Best Practices Workflow
 
-**Important:** Always test through Nginx (port 8009) to match production routing!
+### 1. Daily Development Cycle
+```bash
+# Morning setup (once per day)
+git pull origin main
+make up  # Start development mode
 
-| Service | URL | Description |
-|---------|-----|-------------|
-| **Main Application** | http://localhost:8009/ | Next.js Frontend via Nginx |
-| **Admin Panel** | http://localhost:8009/admin/ | Django Admin Panel |
-| **API Endpoints** | http://localhost:8009/api/ | Django REST API |
-| **Direct Frontend** | http://localhost:3007/ | Frontend bypassing Nginx (debugging only) |
-| **Direct Backend** | http://localhost:8008/ | Backend bypassing Nginx (debugging only) |
+# Code changes (all day long)
+# Edit files → Save → Browser auto-refreshes ✅
+# No rebuilds needed!
 
-## Architecture Overview
-
-```
-User Request → Nginx (8009) → Routes to:
-                              ├── /admin/* → Django Backend (8000)
-                              ├── /api/* → Django Backend (8000)
-                              ├── /static/* → Static Files
-                              ├── /media/* → Media Files
-                              └── /* → Next.js Frontend (3000)
+# Before committing
+make test  # If available
+git add .
+git commit -m "Your message"  # Pre-commit hook runs automatically
+git push
 ```
 
-## Database Access
+### 2. Testing Production Build
+```bash
+# Before major releases or PRs
+make down  # Stop dev mode
+make prod-up  # Test production build
+
+# Verify everything works at http://localhost:8009
+# If good, deploy to production
+```
+
+### 3. Environment Management
+
+#### Use Development Mode When:
+- ✅ **Writing new features**
+- ✅ **Fixing bugs**
+- ✅ **Styling/UI work**
+- ✅ **Daily coding**
+- ✅ **Need instant feedback**
+
+#### Use Production Mode When:
+- ✅ **Testing deployment**
+- ✅ **Performance testing**
+- ✅ **Final QA before release**
+- ✅ **Debugging production issues**
+
+## 📦 Installing Packages
+
+### Frontend Packages (React/Next.js)
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install packages
+npm install bootstrap @mui/material axios
+# OR dev dependencies
+npm install --save-dev @types/node eslint
+
+# Go back to root
+cd ..
+
+# If in DEVELOPMENT mode (auto-rebuild):
+docker-compose restart frontend
+
+# If in PRODUCTION mode (manual rebuild):
+docker-compose -f docker-compose.prod.yml build frontend
+docker-compose -f docker-compose.prod.yml up -d frontend
+```
+
+### Backend Packages (Django/Python)
+```bash
+# Method 1: Update requirements.txt (Recommended)
+echo "django-filter==23.5" >> backend/requirements.txt
+echo "celery==5.3.0" >> backend/requirements.txt
+
+# Rebuild backend
+docker-compose build backend  # Dev mode
+# OR
+docker-compose -f docker-compose.prod.yml build backend  # Prod mode
+
+# Restart services
+docker-compose up -d  # Dev mode
+# OR 
+docker-compose -f docker-compose.prod.yml up -d  # Prod mode
+```
+
+### After Installing Packages
+```bash
+# Always commit package changes
+git add frontend/package*.json backend/requirements.txt
+git commit -m "Add new dependencies: bootstrap, django-filter"
+git push
+
+# Team members should rebuild after pulling:
+git pull
+docker-compose build  # Or build specific services
+docker-compose up -d
+```
+
+## 🔄 When to Build vs Restart
+
+### 🔨 BUILD Required (Use `build` command)
+- ✅ **New packages installed** (npm install, pip install)
+- ✅ **Package versions updated**
+- ✅ **Dockerfile changes**
+- ✅ **System dependencies added**
+- ✅ **First time setup**
 
 ```bash
-# Access PostgreSQL
-docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d ngo_cms
+# Development
+docker-compose build [service-name]
+docker-compose up -d
 
-# Run migrations
-docker-compose -f docker-compose.prod.yml exec backend python manage.py migrate
-
-# Create superuser
-docker-compose -f docker-compose.prod.yml exec backend python manage.py createsuperuser
+# Production
+docker-compose -f docker-compose.prod.yml build [service-name]
+docker-compose -f docker-compose.prod.yml up -d
 ```
 
-## Common Commands
+### 🔄 RESTART Only (Use `restart` or `up -d`)
+- ✅ **Code changes** (JS, Python, CSS, HTML)
+- ✅ **Environment variable changes**
+- ✅ **Configuration updates**
+- ✅ **Database migrations**
+
+```bash
+# Development
+docker-compose restart [service-name]
+
+# Production
+docker-compose -f docker-compose.prod.yml restart [service-name]
+```
+
+### Quick Decision Helper
+```bash
+# Check what changed after git pull
+git diff HEAD~1 --name-only | grep -E "package.*json|requirements.txt|Dockerfile"
+
+# If output shows these files → BUILD REQUIRED
+# If no output → RESTART ONLY
+```
+
+## 🛠️ Common Commands
 
 ### Service Management
 ```bash
-# Start services
-docker-compose -f docker-compose.prod.yml up -d
+# Development Mode
+make up          # Start all services
+make down        # Stop all services
+make logs        # View all logs
+make shell-backend   # Access backend shell
+make shell-frontend  # Access frontend shell
 
-# Stop services
-docker-compose -f docker-compose.prod.yml down
-
-# Restart a specific service
-docker-compose -f docker-compose.prod.yml restart frontend
-
-# Rebuild after code changes
-docker-compose -f docker-compose.prod.yml build --no-cache
-docker-compose -f docker-compose.prod.yml up -d
-```
-
-### Debugging
-```bash
-# View logs for all services
-docker-compose -f docker-compose.prod.yml logs -f
-
-# View logs for specific service
-docker-compose -f docker-compose.prod.yml logs -f frontend
-
-# Access container shell
-docker-compose -f docker-compose.prod.yml exec frontend sh
-docker-compose -f docker-compose.prod.yml exec backend bash
+# Production Mode
+make prod-up     # Start production services
+make prod-down   # Stop production services
+make prod-logs   # View production logs
 ```
 
 ### Database Operations
 ```bash
-# Create new migration
-docker-compose -f docker-compose.prod.yml exec backend python manage.py makemigrations
+# Development
+make migrate              # Run migrations
+make makemigrations      # Create migrations
+make createsuperuser     # Create admin user
+make shell-db           # Access database
 
-# Apply migrations
-docker-compose -f docker-compose.prod.yml exec backend python manage.py migrate
-
-# Collect static files
-docker-compose -f docker-compose.prod.yml exec backend python manage.py collectstatic --noinput
+# Production
+make prod-migrate        # Production migrations
+make prod-collectstatic  # Collect static files
 ```
 
-## Installing New Packages
-
-### Frontend (Next.js/React) Packages
-
-#### Method 1: Install locally and rebuild (Recommended)
+### Manual Commands (If Makefile not available)
 ```bash
-# Install package locally
-cd frontend
-npm install package-name
-# or for dev dependency
-npm install --save-dev package-name
+# Development
+docker-compose up -d
+docker-compose down
+docker-compose logs -f
+docker-compose exec backend python manage.py migrate
+docker-compose exec frontend npm install package-name
 
-# Rebuild the container with new dependencies
-cd ..
-docker-compose -f docker-compose.prod.yml build frontend
-docker-compose -f docker-compose.prod.yml up -d frontend
-```
-
-#### Method 2: Install inside container (Temporary)
-```bash
-# Install inside running container (will be lost on rebuild)
-docker-compose -f docker-compose.prod.yml exec frontend npm install package-name
-
-# To make it permanent, copy package.json back to host
-docker cp ngo-cms-frontend-1:/app/package.json ./frontend/package.json
-docker cp ngo-cms-frontend-1:/app/package-lock.json ./frontend/package-lock.json
-```
-
-### Backend (Django/Python) Packages
-
-#### Method 1: Update requirements.txt and rebuild (Recommended)
-```bash
-# Add package to requirements.txt
-echo "package-name==version" >> backend/requirements.txt
-
-# Rebuild the container
-docker-compose -f docker-compose.prod.yml build backend
-docker-compose -f docker-compose.prod.yml up -d backend
-```
-
-#### Method 2: Install with pip and freeze
-```bash
-# Install inside container
-docker-compose -f docker-compose.prod.yml exec backend pip install package-name
-
-# Update requirements.txt from container
-docker-compose -f docker-compose.prod.yml exec backend pip freeze > backend/requirements.txt
-
-# Rebuild to ensure it persists
-docker-compose -f docker-compose.prod.yml build backend
-docker-compose -f docker-compose.prod.yml up -d backend
-```
-
-### After Installing Packages
-
-**Important Steps:**
-1. **Test the application** through http://localhost:8009/
-2. **Commit the changes:**
-   - Frontend: `package.json` and `package-lock.json`
-   - Backend: `requirements.txt`
-3. **Document** any configuration needed for the new package
-4. **Rebuild** containers to ensure clean installation:
-```bash
-docker-compose -f docker-compose.prod.yml build --no-cache
+# Production
 docker-compose -f docker-compose.prod.yml up -d
-```
-
-## When to Build vs When to Just Restart
-
-### 🔨 REBUILD Required (use `build`)
-These changes require rebuilding the Docker image:
-
-- ✅ **New package installed** (npm install or pip install)
-- ✅ **Package removed** (npm uninstall or removed from requirements.txt)
-- ✅ **Package version updated** (in package.json or requirements.txt)
-- ✅ **Dockerfile modified** (any changes to Dockerfile or Dockerfile.prod)
-- ✅ **System dependencies added** (apt-get install, etc.)
-- ✅ **Build configuration changed** (next.config.js, webpack config, etc.)
-
-```bash
-# When you or teammate installed packages
-docker-compose -f docker-compose.prod.yml build
-docker-compose -f docker-compose.prod.yml up -d
-```
-
-### 🔄 RESTART Only (just `restart` or `up -d`)
-These changes only need container restart:
-
-- ✅ **Code changes** (JavaScript, Python, HTML, CSS files)
-- ✅ **Environment variables** (.env file updates)
-- ✅ **Configuration files** (settings.py, non-build configs)
-- ✅ **Static files** (images, fonts, etc.)
-- ✅ **Database migrations** (new migration files)
-
-```bash
-# When pulling code changes (no new packages)
-git pull
-docker-compose -f docker-compose.prod.yml restart
-# OR just
-docker-compose -f docker-compose.prod.yml up -d
-```
-
-### 📋 Quick Decision Guide
-
-```bash
-# After git pull, check what changed:
-
-# Check if package files changed (REBUILD NEEDED)
-git diff HEAD~1 --name-only | grep -E "package.*json|requirements.txt|Dockerfile"
-
-# If output shows files → REBUILD
-docker-compose -f docker-compose.prod.yml build
-docker-compose -f docker-compose.prod.yml up -d
-
-# If no output → JUST RESTART
-docker-compose -f docker-compose.prod.yml restart
-```
-
-### Team Workflow Example
-
-**Developer A installs a new package:**
-```bash
-cd frontend
-npm install axios
-cd ..
-docker-compose -f docker-compose.prod.yml build frontend  # BUILD required
-docker-compose -f docker-compose.prod.yml up -d
-git add frontend/package*.json
-git commit -m "Add axios package"
-git push
-```
-
-**Developer B pulls the changes:**
-```bash
-git pull
-# Sees package.json changed, so:
-docker-compose -f docker-compose.prod.yml build frontend  # BUILD required
-docker-compose -f docker-compose.prod.yml up -d
-```
-
-**Developer C only changes code:**
-```bash
-# Edit some React components
-git add .
-git commit -m "Update header component"
-git push
-```
-
-**Developer D pulls code-only changes:**
-```bash
-git pull
-# No package changes, so:
-docker-compose -f docker-compose.prod.yml restart frontend  # Just RESTART
-# OR
-docker-compose -f docker-compose.prod.yml up -d  # This also works
-```
-
-### Example: Installing Common Packages
-
-#### Frontend - Install Axios
-```bash
-cd frontend
-npm install axios
-cd ..
-docker-compose -f docker-compose.prod.yml build frontend
-docker-compose -f docker-compose.prod.yml up -d frontend
-```
-
-#### Backend - Install Django REST Framework Filters
-```bash
-echo "djangorestframework-filters==1.0.0" >> backend/requirements.txt
-docker-compose -f docker-compose.prod.yml build backend
-docker-compose -f docker-compose.prod.yml up -d backend
-```
-
-## Important Notes for Developers
-
-### ⚠️ Always Test Through Nginx (Port 8009)
-- This ensures your local environment matches production routing
-- Prevents routing issues from being pushed to production
-- Tests the actual user experience
-
-### 🔄 After Pulling Changes
-```bash
-# Rebuild if Dockerfile or requirements changed
-docker-compose -f docker-compose.prod.yml build
-docker-compose -f docker-compose.prod.yml up -d
-
-# Run migrations if models changed
+docker-compose -f docker-compose.prod.yml down
+docker-compose -f docker-compose.prod.yml logs -f
 docker-compose -f docker-compose.prod.yml exec backend python manage.py migrate
 ```
 
-### 🐛 Troubleshooting
+## 🔧 Development Tools
 
-#### Frontend not loading (500 error)
+### Code Quality (Auto-runs via pre-commit hook)
 ```bash
-# Check frontend logs
-docker-compose -f docker-compose.prod.yml logs frontend
+# Frontend linting
+docker-compose exec frontend npm run lint
+docker-compose exec frontend npm run lint:fix
 
-# Rebuild frontend with clean cache
-docker-compose -f docker-compose.prod.yml stop frontend
-docker-compose -f docker-compose.prod.yml build --no-cache frontend
-docker-compose -f docker-compose.prod.yml up -d frontend
+# Backend code check
+docker-compose exec backend python manage.py check
+docker-compose exec backend python -m flake8  # If flake8 installed
 ```
 
-#### Database connection issues
+### Debugging
 ```bash
-# Check if database is running
-docker-compose -f docker-compose.prod.yml ps db
+# View logs for specific service
+docker-compose logs -f frontend
+docker-compose logs -f backend
+docker-compose logs -f db
 
-# Check database logs
-docker-compose -f docker-compose.prod.yml logs db
-
-# Recreate database
-docker-compose -f docker-compose.prod.yml exec db psql -U postgres -c "CREATE DATABASE ngo_cms;"
-docker-compose -f docker-compose.prod.yml exec db psql -U postgres -c "CREATE USER ngo_cms_user WITH PASSWORD 'digitalace@12!';"
-docker-compose -f docker-compose.prod.yml exec db psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE ngo_cms TO ngo_cms_user;"
+# Access container shell
+docker-compose exec frontend sh
+docker-compose exec backend bash
+docker-compose exec db psql -U postgres -d ngo_cms
 ```
 
-#### Nginx 502 Bad Gateway
-```bash
-# Check if backend and frontend are running
-docker-compose -f docker-compose.prod.yml ps
+## 🌍 Environment Variables
 
-# Restart services in order
-docker-compose -f docker-compose.prod.yml restart backend
-docker-compose -f docker-compose.prod.yml restart frontend
-docker-compose -f docker-compose.prod.yml restart nginx
-```
-
-## Environment Variables
-
-Create `.env` file in project root (if not exists):
+### Create `.env` file in project root:
 ```env
 # Database
 POSTGRES_DB=ngo_cms
@@ -343,68 +257,242 @@ DB_PORT=5432
 # Django
 DEBUG=True
 SECRET_KEY=your-secret-key-here
-ALLOWED_HOSTS=localhost,127.0.0.1
+ALLOWED_HOSTS=localhost,127.0.0.1,backend
 
 # Frontend
-NEXT_PUBLIC_API_URL=http://localhost:8009/api
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
 API_URL=http://backend:8000/api
 
-# Ports
+# Production Ports
 BACKEND_PORT=8008
 FRONTEND_PORT=3007
 NGINX_PORT=8009
 DB_EXTERNAL_PORT=5437
 ```
 
-## Git Workflow
-
+### Separate Environment Files
 ```bash
-# Before starting work
+# Create different configs for different environments
+.env.dev    # Development settings
+.env.prod   # Production settings
+.env.test   # Testing settings
+```
+
+## 🔀 Git Workflow with Pre-commit Hooks
+
+### Automatic Quality Checks
+When you commit, the pre-commit hook automatically:
+1. ✅ Runs frontend linting
+2. ✅ Checks backend syntax
+3. ✅ Tests production build
+4. ✅ Verifies deployment works
+5. ✅ Cleans up test environment
+
+### If Pre-commit Fails
+```bash
+# Fix linting errors
+docker-compose exec frontend npm run lint:fix
+
+# Fix backend issues
+docker-compose exec backend python manage.py check
+
+# Try committing again
+git commit -m "Your message"
+```
+
+### Bypass Pre-commit (Emergency Only)
+```bash
+# Only use in emergencies
+git commit --no-verify -m "Emergency fix"
+```
+
+## 🚀 Team Development Workflow
+
+### New Team Member Setup
+```bash
+# 1. Clone repository
+git clone <repository-url>
+cd ngo-cms
+
+# 2. Start development environment
+make up
+# OR
+docker-compose up -d
+
+# 3. Run initial migrations
+make migrate
+# OR
+docker-compose exec backend python manage.py migrate
+
+# 4. Create admin user
+make createsuperuser
+# OR
+docker-compose exec backend python manage.py createsuperuser
+
+# 5. Test access
+open http://localhost:3000  # Frontend
+open http://localhost:8000/admin  # Admin panel
+```
+
+### Daily Team Workflow
+```bash
+# Start of day
 git pull origin main
-docker-compose -f docker-compose.prod.yml build
-docker-compose -f docker-compose.prod.yml up -d
-docker-compose -f docker-compose.prod.yml exec backend python manage.py migrate
+make up  # or docker-compose up -d
 
-# After making changes
-# 1. Test locally through http://localhost:8009/
-# 2. Ensure no console errors
-# 3. Test both frontend and admin panel
-# 4. Then commit and push
+# If someone added packages, rebuild
+git diff HEAD~1 --name-only | grep -E "package.*json|requirements.txt"
+# If packages changed:
+docker-compose build
+docker-compose up -d
 
+# Development work...
+# Code → Save → Auto-refresh ✅
+
+# End of day
 git add .
-git commit -m "Your descriptive commit message"
+git commit -m "Descriptive message"  # Pre-commit hook runs
 git push origin your-branch
 ```
 
-## Production Deployment
-
-When your changes are tested locally and ready:
-
+### Pull Request Workflow
 ```bash
-# On production server
+# Before submitting PR
+make down       # Stop dev
+make prod-up    # Test production build
+# Test at http://localhost:8009
+# If all good, submit PR
+
+# After PR approved
+git checkout main
 git pull origin main
-docker-compose -p ngo-cms -f docker-compose.prod.yml build --no-cache
-docker-compose -p ngo-cms -f docker-compose.prod.yml up -d
-docker-compose -p ngo-cms -f docker-compose.prod.yml exec backend python manage.py migrate
-docker-compose -p ngo-cms -f docker-compose.prod.yml exec backend python manage.py collectstatic --noinput
+make up  # Back to development
 ```
 
-## Team Guidelines
+## 🐛 Troubleshooting
 
-1. **Always use docker-compose.prod.yml** - This ensures everyone tests the same setup
-2. **Test through port 8009** - Never push code only tested on direct ports (3007/8008)
-3. **Check logs before pushing** - Ensure no errors in console or Docker logs
-4. **Run migrations locally first** - Test database changes before deployment
-5. **Document API changes** - Update this guide if you add new endpoints
+### Common Issues & Solutions
 
-## Support
+#### "Port already in use"
+```bash
+# Find and kill processes using ports
+lsof -ti:3000,8000,5432 | xargs kill -9
+docker-compose down
+docker-compose up -d
+```
 
-If you encounter issues not covered here:
-1. Check Docker logs: `docker-compose -f docker-compose.prod.yml logs`
-2. Check container status: `docker ps`
-3. Ensure Docker has enough resources (memory/disk)
-4. Contact the team lead or check project documentation
+#### "Frontend not loading"
+```bash
+# Check frontend logs
+docker-compose logs frontend
+
+# Rebuild frontend
+docker-compose build --no-cache frontend
+docker-compose up -d frontend
+```
+
+#### "Database connection error"
+```bash
+# Check database status
+docker-compose ps db
+
+# Recreate database
+docker-compose down -v  # WARNING: Destroys data
+docker-compose up -d db
+docker-compose exec backend python manage.py migrate
+```
+
+#### "Changes not reflecting"
+```bash
+# Development mode - should auto-refresh
+# If not working, restart:
+docker-compose restart frontend
+
+# Production mode - requires rebuild
+docker-compose -f docker-compose.prod.yml build frontend
+docker-compose -f docker-compose.prod.yml up -d frontend
+```
+
+#### "Pre-commit hook failing"
+```bash
+# Check what's failing
+git commit -m "test" --dry-run
+
+# Fix linting
+docker-compose exec frontend npm run lint:fix
+
+# If Docker issues
+docker-compose down
+docker-compose up -d
+
+# Try again
+git commit -m "Your message"
+```
+
+### Performance Issues
+```bash
+# Clean Docker system
+docker system prune -a  # WARNING: Removes unused images
+
+# Increase Docker memory (Docker Desktop)
+# Settings → Resources → Memory → 4GB+
+
+# Check container resource usage
+docker stats
+```
+
+## 📖 Important URLs & Access Points
+
+### Development Mode
+| Service | URL | Purpose |
+|---------|-----|---------|
+| Frontend | http://localhost:3000 | Main application |
+| Backend API | http://localhost:8000/api | REST API endpoints |
+| Admin Panel | http://localhost:8000/admin | Django admin |
+| Database | localhost:5433 | PostgreSQL direct |
+
+### Production Mode  
+| Service | URL | Purpose |
+|---------|-----|---------|
+| **Main App** | http://localhost:8009 | **Production-like access** |
+| Admin Panel | http://localhost:8009/admin | Admin via Nginx |
+| API | http://localhost:8009/api | API via Nginx |
+| Frontend Direct | http://localhost:3007 | Debug only |
+| Backend Direct | http://localhost:8008 | Debug only |
+| Database | localhost:5437 | PostgreSQL direct |
+
+## 🎯 Key Principles
+
+1. **Use Development Mode for Daily Work** - Fast iteration with auto-reload
+2. **Test Production Mode Before Deployment** - Catch issues early
+3. **Always Test Through Main URLs** - Don't rely on direct service ports
+4. **Commit Package Changes** - Team needs to rebuild when packages change
+5. **Let Pre-commit Hook Run** - Catches issues before they reach production
+6. **Document New Dependencies** - Update this guide when adding services
+
+## 🤝 Getting Help
+
+### Self-help Commands
+```bash
+# Check service status
+docker-compose ps
+
+# View logs
+docker-compose logs -f [service-name]
+
+# Test connectivity
+curl http://localhost:3000  # Dev frontend
+curl http://localhost:8009  # Prod main app
+```
+
+### Team Communication
+- 🐛 **Found a bug?** Create issue with steps to reproduce
+- 📦 **Added packages?** Notify team to rebuild
+- 🔧 **Changed environment?** Update this guide
+- 🚀 **New features?** Document API changes
 
 ---
-*Last updated: [Current Date]*
-*Maintained by: Development Team*
+
+**💡 Remember: Development mode for coding, Production mode for testing!**
+
+*This guide is your complete reference - bookmark it!*

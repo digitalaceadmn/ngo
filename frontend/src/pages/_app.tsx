@@ -1,10 +1,11 @@
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
 import { LayoutProvider } from "@/contexts/LayoutContext";
 import BaseLayout from "@/components/BaseLayout";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 
 // Import Bootstrap styles (safe on both server & client)
+// Temporarily comment out to test if this is causing the issue
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import "@/styles/globals.css";
 
