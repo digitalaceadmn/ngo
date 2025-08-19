@@ -13,7 +13,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         palette: {
             mode: "light",
             primary: { main: "#1976d2" },
-            secondary: { main: "#9c27b0" },
+            secondary: { main: "#9c27b0" }, 
         },
     });
 

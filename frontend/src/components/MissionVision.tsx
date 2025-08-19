@@ -1,12 +1,13 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { EmojiObjects, Visibility, Stars } from "@mui/icons-material";
+import missionIcon from "@/assets/images/mission.png";
 
 const MissionVisionValues = () => {
     return (
-        <section className="py-16 bg-black text-center">
+        <section className="py-16 bg-white text-center">
             <Container>
-                <h2 className="text-4xl font-bold mb-12 text-white">
+                <h2 className="text-4xl font-bold mb-12 text-gold">
                     Our Mission, Vision & Values
                 </h2>
                 <Row className="g-4">
@@ -14,7 +15,7 @@ const MissionVisionValues = () => {
                     <Col md={4}>
                         <div className="p-6 shadow-lg rounded-3xl h-100 hover:shadow-xl transition-all">
                             <div className="mb-4 d-flex justify-content-center">
-                                <img src="/icons/mission.png" alt="Mission" style={{ width: "60px" }} />
+                                <img src={missionIcon.src} alt="Mission" style={{ width: "160px" }} />
                             </div>
                             <h3 className="fw-bold text-danger mb-3">OUR MISSION</h3>
                             <p>

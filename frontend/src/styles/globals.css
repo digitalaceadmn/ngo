@@ -5,23 +5,33 @@
    ============================== */
 :root {
   /* Primary Theme Colors */
-  --color-primary: #FFD700; /* Bright Gold */
-  --color-primary-dark: #B8860B; /* Rich Goldenrod */
-  --color-primary-light: #FFF8DC; /* Light golden / sunbeam */
+  --color-primary: #FFD700;
+  /* Bright Gold */
+  --color-primary-dark: #B8860B;
+  /* Rich Goldenrod */
+  --color-primary-light: #FFF8DC;
+  /* Light golden / sunbeam */
 
   /* Secondary Colors */
-  --color-secondary: #ffffff; /* Pure white background */
-  --color-secondary-light: #f9f9f9; /* Soft light gray */
-  --color-secondary-dark: #e6e6e6; /* Muted gray */
+  --color-secondary: #ffffff;
+  /* Pure white background */
+  --color-secondary-light: #f9f9f9;
+  /* Soft light gray */
+  --color-secondary-dark: #e6e6e6;
+  /* Muted gray */
 
   /* Text Colors */
-  --color-text: #333333; /* Dark gray for readability */
+  --color-text: #333333;
+  /* Dark gray for readability */
   --color-text-muted: #666666;
-  --color-heading: #B8860B; /* Goldenrod for headings */
+  --color-heading: #B8860B;
+  /* Goldenrod for headings */
 
   /* Background Colors */
-  --color-bg: #ffffff; /* Light background */
-  --color-bg-alt: #FFF8DC; /* Subtle golden tint */
+  --color-bg: #ffffff;
+  /* Light background */
+  --color-bg-alt: #FFF8DC;
+  /* Subtle golden tint */
 
   /* Borders / Lines */
   --color-border: #FFD700;
@@ -48,7 +58,12 @@ body {
   line-height: 1.7;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
   color: var(--color-heading);
 }
@@ -69,6 +84,7 @@ p {
   font-weight: 600;
   transition: all 0.3s ease;
 }
+
 .btn-primary:hover {
   background-color: var(--color-primary-dark);
   color: #fff;
@@ -84,6 +100,7 @@ p {
   font-weight: 600;
   transition: all 0.3s ease;
 }
+
 .btn-secondary:hover {
   background-color: var(--color-primary);
   color: #000;
@@ -98,9 +115,11 @@ p {
 .bg-light {
   background-color: #ffffff !important;
 }
+
 .bg-golden {
   background-color: #FFD700 !important;
 }
+
 .bg-soft-golden {
   background-color: #FFF8DC !important;
 }
@@ -109,11 +128,17 @@ p {
 .text-dark {
   color: #333 !important;
 }
+
 .text-golden {
   color: #FFD700 !important;
 }
+
 .text-dark-golden {
   color: #B8860B !important;
+}
+
+.bg-primary {
+  background-color: #513e00 !important;
 }
 
 /* Borders */
@@ -131,6 +156,7 @@ p {
   font-weight: 600;
   transition: all 0.3s ease;
 }
+
 .btn-golden:hover {
   background-color: #B8860B;
   color: #fff;
@@ -145,6 +171,7 @@ p {
   font-weight: 600;
   transition: all 0.3s ease;
 }
+
 .btn-outline-golden:hover {
   background-color: #FFD700;
   color: #000;
@@ -160,10 +187,12 @@ p {
   text-align: center;
 }
 
+
 .quickhelp-title {
   font-size: 2rem;
   font-weight: bold;
-  color: #B8860B; /* Goldenrod */
+  color: #B8860B;
+  /* Goldenrod */
   margin-bottom: 2rem;
 }
 
@@ -197,4 +226,28 @@ p {
 
 .icon {
   font-size: 1.2rem;
+}
+
+
+
+
+
+/* font bold  */
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-bolder {
+  font-weight: bolder;
+}
+
+/* font size  */
+
+.font-size-large {
+  font-size: large;
+}
+
+.font-size-larger {
+  font-size: larger;
 }
