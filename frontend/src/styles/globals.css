@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ==============================
-   Global Theme (Light & Golden)
+  Global Theme (Light & Golden)
    ============================== */
 :root {
   /* Primary Theme Colors */
@@ -227,10 +227,6 @@ p {
 .icon {
   font-size: 1.2rem;
 }
-
-
-
-
 
 /* font bold  */
 
