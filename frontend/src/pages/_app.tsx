@@ -18,10 +18,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         },
     });
 
-    useEffect(() => {
-        // Load Bootstrap JS only in browser
-        import("bootstrap/dist/js/bootstrap.bundle.min.js");
-    }, []);
+
 
     return (
         <ThemeProvider theme={theme}>

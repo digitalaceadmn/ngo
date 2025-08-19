@@ -116,6 +116,10 @@ p {
   color: #B8860B !important;
 }
 
+.bg-primary{
+    background-color: #513e00 !important;
+}
+
 /* Borders */
 .border-golden {
   border-color: #FFD700 !important;
@@ -198,3 +202,5 @@ p {
 .icon {
   font-size: 1.2rem;
 }
+
+

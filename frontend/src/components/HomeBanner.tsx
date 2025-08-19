@@ -1,4 +1,4 @@
-import Banner from "@/assets/images/banner.png";
+import Banner from "@/assets/images/banner.jpg";
 
 const HomeBanner = () => {
     return (
@@ -15,8 +15,8 @@ const HomeBanner = () => {
             <div className="position-absolute top-0 start-0 w-100 h-100 bg-black" style={{ opacity: 0.6 }} />
 
             {/* Content */}
-            <div className="position-relative z-1 container" style={{ maxWidth: "80%" }}>
-                <h1 className="fw-bold mb-3 text-white">
+            <div className="position-relative z-1 container " style={{ maxWidth: "80%", padding: "2rem", borderRadius: "1rem" , background: "#fffbeb7d" }}>
+                <h1 className="fw-bold mb-3 text-black">
                     Prankiran – Guiding Cancer Patients Towards the Right Care
                 </h1>
 
@@ -31,7 +31,7 @@ const HomeBanner = () => {
                 {/* Buttons */}
                 <div className="d-flex justify-content-center gap-3">
                     <button className="btn-golden px-4">MEET DOCTORS</button>
-                    <button className="btn-outline-golden px-4">CONTACT US</button>
+                    <button className="btn-outline-golden px-4 text-white">CONTACT US</button>
                 </div>
             </div>
         </section>

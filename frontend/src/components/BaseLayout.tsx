@@ -15,6 +15,7 @@ const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                 <title>{title}</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="theme-color" content={theme === "dark" ? "#0b0b0b" : "#ffffff"} />
+                <meta name="robots" content="noindex, nofollow"></meta>
             </Head>
             <CssBaseline />
             
