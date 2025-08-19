@@ -76,11 +76,36 @@ make prod-up  # Test production build
 ## 📦 Installing Packages
 
 ### Frontend Packages (React/Next.js)
+
+#### Method 1: Direct Docker Command (Recommended for Local)
+```bash
+# Install packages directly in container
+docker-compose exec frontend npm install react-icons
+docker-compose exec frontend npm install @mui/icons-material
+docker-compose exec frontend npm install bootstrap
+
+# Install multiple at once
+docker-compose exec frontend npm install react-icons @mui/icons-material bootstrap
+
+# Install dev dependencies
+docker-compose exec frontend npm install --save-dev @types/react-icons
+
+# Copy updated package files to host
+docker cp ngo-frontend-1:/app/package.json ./frontend/
+docker cp ngo-frontend-1:/app/package-lock.json ./frontend/
+
+# Rebuild to ensure consistency
+docker-compose down frontend
+docker-compose build frontend
+docker-compose up -d frontend
+```
+
+#### Method 2: Local Installation (Alternative)
 ```bash
 # Navigate to frontend directory
 cd frontend
 
-# Install packages
+# Install packages locally
 npm install bootstrap @mui/material axios
 # OR dev dependencies
 npm install --save-dev @types/node eslint
@@ -88,29 +113,75 @@ npm install --save-dev @types/node eslint
 # Go back to root
 cd ..
 
-# If in DEVELOPMENT mode (auto-rebuild):
-docker-compose restart frontend
-
-# If in PRODUCTION mode (manual rebuild):
-docker-compose -f docker-compose.prod.yml build frontend
-docker-compose -f docker-compose.prod.yml up -d frontend
+# Rebuild and restart
+docker-compose build frontend
+docker-compose up -d frontend
 ```
 
 ### Backend Packages (Django/Python)
+
+#### Method 1: Direct Docker Command
 ```bash
-# Method 1: Update requirements.txt (Recommended)
+# Install in container
+docker-compose exec backend pip install django-filter
+docker-compose exec backend pip install celery
+
+# Update requirements.txt
+docker-compose exec backend pip freeze > requirements.txt
+
+# Copy to host
+docker cp ngo-backend-1:/app/requirements.txt ./backend/
+
+# Rebuild
+docker-compose build backend
+docker-compose up -d backend
+```
+
+#### Method 2: Update requirements.txt
+```bash
+# Add to requirements.txt
 echo "django-filter==23.5" >> backend/requirements.txt
 echo "celery==5.3.0" >> backend/requirements.txt
 
 # Rebuild backend
-docker-compose build backend  # Dev mode
-# OR
-docker-compose -f docker-compose.prod.yml build backend  # Prod mode
+docker-compose build backend
+docker-compose up -d backend
+```
 
-# Restart services
-docker-compose up -d  # Dev mode
-# OR 
-docker-compose -f docker-compose.prod.yml up -d  # Prod mode
+### Production Package Updates
+
+#### Frontend (Production)
+```bash
+# 1. Install packages in development first
+docker-compose exec frontend npm install new-package
+
+# 2. Copy updated files
+docker cp ngo-frontend-1:/app/package.json ./frontend/
+docker cp ngo-frontend-1:/app/package-lock.json ./frontend/
+
+# 3. Rebuild production image
+docker-compose -f docker-compose.prod.yml build frontend
+
+# 4. Deploy new image
+docker-compose -f docker-compose.prod.yml up -d frontend
+```
+
+#### Backend (Production)
+```bash
+# 1. Update requirements.txt
+echo "new-package==version" >> backend/requirements.txt
+
+# 2. Rebuild production image
+docker-compose -f docker-compose.prod.yml build backend
+
+# 3. Deploy new image
+docker-compose -f docker-compose.prod.yml up -d backend
+
+# 4. Run migrations if needed
+docker-compose -f docker-compose.prod.yml exec backend python manage.py migrate
+
+# 5. Collect static files
+docker-compose -f docker-compose.prod.yml exec backend python manage.py collectstatic --noinput
 ```
 
 ### After Installing Packages
