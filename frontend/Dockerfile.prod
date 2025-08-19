@@ -29,5 +29,9 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
+ENV HOSTNAME 0.0.0.0
 
-CMD ["node", "server.js"]
+# Create a wrapper script to ensure proper binding
+RUN echo '#!/bin/sh\nexec node server.js' > /app/start.sh && chmod +x /app/start.sh
+
+CMD ["./start.sh"]
