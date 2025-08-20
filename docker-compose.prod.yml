@@ -22,11 +22,11 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 4 --reload
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 4
     ports:
       - "${BACKEND_PORT:-8008}:8000"
     volumes:
-      - ./backend:/app  # Mount code for hot-reload
+      - ./backend:/app  # Keep backend volume - Django handles it well, easier updates
       - static_volume:/app/static
       - media_volume:/app/media
     env_file:
@@ -44,37 +44,33 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile  # Use dev Dockerfile for easier builds
-    command: sh -c "npm install --include=dev && npm run build && npm run start"  # Install all deps, build and run in production mode
+      dockerfile: Dockerfile.prod  # USE PRODUCTION DOCKERFILE - NO VOLUMES!
     ports:
       - "${FRONTEND_PORT:-3007}:3000"
-    volumes:
-      - ./frontend:/app  # Mount code for easy updates
-      - /app/node_modules  # Preserve node_modules
-      - /app/.next  # Preserve build cache
+    # NO VOLUMES - Code is baked into the image to prevent file watching
     env_file:
       - .env
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
       - API_URL=${API_URL}
-      - NODE_ENV=production  # Force production mode - NO AUTO RELOAD!
-      # Removed WATCHPACK_POLLING and CHOKIDAR_USEPOLLING - no file watching
+      - NODE_ENV=production
     depends_on:
       - backend
     restart: unless-stopped
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 60s  # Increased for build time
+      test: ["CMD", "sh", "-c", "pidof node > /dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   nginx:
     image: nginx:alpine
     ports:
-      - "${NGINX_PORT:-8009}:80"
+      - "${NGINX_PORT:-80}:80"
+      - "${NGINX_SSL_PORT:-8443}:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - static_volume:/app/static:ro

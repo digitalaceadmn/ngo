@@ -2,20 +2,28 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies first (better caching)
-COPY package.json package-lock.json* ./
-RUN npm ci || npm install
+# Install Python and build tools needed for some npm packages
+RUN apk add --no-cache python3 make g++ 
 
-# Install Alpine-specific native bindings for TailwindCSS/PostCSS
-RUN npm rebuild && npm install lightningcss-linux-x64-musl --save-optional
+# Set npm registry and timeout for better reliability
+RUN npm config set registry https://registry.npmjs.org/ && \
+    npm config set fetch-timeout 60000 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000
+
+# Copy package files
+COPY package.json package-lock.json* ./
+
+# Clean install with platform-specific binaries
+RUN npm ci --platform=linux --arch=x64 || npm install
+
+# Force install the correct lightningcss binary for Alpine
+RUN npm install lightningcss-linux-x64-musl
 
 # Copy application code
 COPY . .
 
-# Ensure node_modules is properly set up
-RUN npm install
-
 EXPOSE 3000
 
-# Use shell form to handle environment properly
-CMD ["sh", "-c", "npm run dev"]
+# Start development server with proper binding
+CMD ["npm", "run", "dev"]

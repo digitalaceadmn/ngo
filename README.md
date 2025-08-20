@@ -163,4 +163,4 @@ frontend/
 1. **Database connection issues**: Ensure PostgreSQL is healthy before starting backend
 2. **Port conflicts**: Check if ports 3000, 8000, 5432, 6379 are available
 3. **Permission issues**: Run `chmod +x` on scripts if needed
-4. **Build failures**: Clear Docker cache with `docker-compose build --no-cache`
+4. **Build failures**: Clear Docker cache with `docker-compose build --no-cache`# Test change
