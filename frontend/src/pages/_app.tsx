@@ -6,6 +6,9 @@ import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 // Import Bootstrap styles (safe on both server & client)
 // Temporarily comment out to test if this is causing the issue
 import "bootstrap/dist/css/bootstrap.min.css";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import "@/styles/globals.css";
 
