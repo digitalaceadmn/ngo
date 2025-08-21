@@ -42,7 +42,7 @@ const founders = [
 
 const FounderStoryComponent = () => {
     return (
-        <section className="py-5 bg-soft-golden">
+        <section className="py-5">
             <Container>
                 <h2 className="text-center mb-5 text-dark-golden">✨ Our Founders</h2>
 
@@ -53,7 +53,7 @@ const FounderStoryComponent = () => {
                                 key={index}
                                 className={`carousel-item ${index === 0 ? "active" : ""}`}
                             >
-                                <Row className="align-items-center">
+                                <Row className="align-items-center founder-story">
                                     {/* Founder Image */}
                                     <Col md={5} className="text-center">
                                         <Image

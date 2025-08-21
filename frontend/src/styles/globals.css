@@ -247,3 +247,34 @@ p {
 .font-size-larger {
   font-size: larger;
 }
+
+.border-primary {
+  border-color: #b8860b;
+}
+
+/* Prevent Bootstrap carousel CSS from interfering with Swiper */
+.patient-swiper .swiper {
+  overflow: hidden;
+}
+
+.patient-swiper .swiper-button-prev,
+.patient-swiper .swiper-button-next {
+  color: #4f46e5;
+  /* Indigo-600 */
+}
+
+.patient-swiper .swiper-pagination-bullet-active {
+  background: #4f46e5;
+}
+
+.video {
+  height: 350px;
+}
+
+.founder-story {
+  flex-direction: row-reverse;
+}
+
+.bg-indigo-600 {
+  background-color: #b8860b;
+}
