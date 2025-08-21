@@ -18,7 +18,7 @@ const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                 <meta name="robots" content="noindex, nofollow"></meta>
             </Head>
             <CssBaseline />
-            
+
             {/* Full-page wrapper */}
             <Box
                 component="div"
@@ -34,10 +34,10 @@ const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                 <Header />
 
                 {/* Main Content Area */}
-                <Box 
-                    component="main" 
-                    sx={{ 
-                        flex: 1, 
+                <Box
+                    component="main"
+                    sx={{
+                        flex: 1,
                         py: 0,
                         transition: "all 0.3s ease",
                     }}
