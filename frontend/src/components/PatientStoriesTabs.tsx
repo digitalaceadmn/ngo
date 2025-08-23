@@ -19,22 +19,29 @@ const sampleData: Record<TabKey, ContentItem[]> = {
         {
             id: "s-101",
             title: "Beating Stage II Lymphoma",
-            excerpt: "Chemo, community, and courage.",
-            image: "/images/p1.jpg",
+            excerpt: "The day i was diagnosed. I felt numb. A simple call from prankiranreminded me i wasn't alone. That gave me courage to take the first step ",
+            image: "/images/image1.jpg",
             type: "story",
         },
         {
             id: "s-102",
             title: "Life After Surgery",
-            excerpt: "Recovery tips that actually helped.",
-            image: "/images/p2.jpg",
+            excerpt: "As a the caregiver, I was breaking silently. prankiran showed me that caring for myself gave my wife more strngth. They carried us through the hardest.",
+            image: "/images/image2.avif",
             type: "story",
         },
         {
             id: "s-103",
             title: "Managing Chronic Pain",
-            excerpt: "Small habits, big changes.",
-            image: "/images/p3.jpg",
+            excerpt: "Morning breathing routines and check-ins helped me feel grounded I learned that healing is not just medical-it's also emotional.",
+            image: "/images/image3.jpg",
+            type: "story",
+        },
+        {
+            id: "s-104",
+            title: "Managing Chronic Pain",
+            excerpt: "Morning breathing routines and check-ins helped me feel grounded I learned that healing is not just medical-it's also emotional.",
+            image: "/images/image4.jpg",
             type: "story",
         },
     ],
@@ -69,7 +76,7 @@ export default function PatientStoriesTabs() {
                                 key={t.key}
                                 onClick={() => setActive(t.key)}
                                 className={`px-5 py-2 rounded-full border fw-semibold transition-all duration-300
-                  ${selected
+                ${selected
                                         ? "bg-indigo-600 text-white border-indigo-600 shadow-md"
                                         : "bg-white text-dark border-secondary"
                                     }`}

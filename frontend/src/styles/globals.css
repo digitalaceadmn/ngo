@@ -278,3 +278,18 @@ p {
 .bg-indigo-600 {
   background-color: #b8860b;
 }
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background: #b8860b;
+
+}
+
+a {
+  text-decoration: none;
+  transition: 3s ease-in-out;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #e3d6b5 !important;
+}
