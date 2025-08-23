@@ -41,7 +41,7 @@ export default function MissionAndVision() {
                                     Be part of a movement that uplifts lives every day.
                                 </p>
                                 <a
-                                    href="/join"
+                                    href="https://help.nas.io/en/articles/8499525-pt-br-como-convidar-novos-membros "
                                     className="btn btn-light text-golden fw-semibold px-4"
                                 >
                                     Get Involved

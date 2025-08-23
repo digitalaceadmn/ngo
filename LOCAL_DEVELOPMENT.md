@@ -160,10 +160,10 @@ docker cp ngo-frontend-1:/app/package.json ./frontend/
 docker cp ngo-frontend-1:/app/package-lock.json ./frontend/
 
 # 3. Rebuild production image
-docker-compose -f docker-compose.prod.yml build frontend
+docker-compose -f docker-compose.prod.yml build frontend #main
 
 # 4. Deploy new image
-docker-compose -f docker-compose.prod.yml up -d frontend
+docker-compose -f docker-compose.prod.yml up -d frontend #main
 ```
 
 #### Backend (Production)
@@ -480,8 +480,8 @@ docker-compose exec backend python manage.py migrate
 docker-compose restart frontend
 
 # Production mode - requires rebuild
-docker-compose -f docker-compose.prod.yml build frontend
-docker-compose -f docker-compose.prod.yml up -d frontend
+    docker-compose -f docker-compose.prod.yml build frontend
+    docker-compose -f docker-compose.prod.yml up -d frontend
 ```
 
 #### "Pre-commit hook failing"
