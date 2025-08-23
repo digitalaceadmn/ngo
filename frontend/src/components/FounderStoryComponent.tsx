@@ -7,37 +7,8 @@ const founders = [
         name: "John Doe",
         role: "Founder & CEO",
         image: "/images/founders/founder1.jpg",
-        story:
-            "John started this journey with a vision to simplify hiring processes for global companies.",
-    },
-    {
-        name: "Jane Smith",
-        role: "Co-Founder & CTO",
-        image: "/images/founders/founder2.jpg",
-        story:
-            "Jane leads the tech innovation, ensuring the platform stays ahead with cutting-edge features.",
-    },
-    {
-        name: "Mark Johnson",
-        role: "Head of Operations",
-        image: "/images/founders/founder3.jpg",
-        story:
-            "Mark focuses on building strong partnerships and streamlining internal operations.",
-    },
-    {
-        name: "Emily Davis",
-        role: "Chief Marketing Officer",
-        image: "/images/founders/founder4.jpg",
-        story:
-            "Emily drives brand growth through innovative marketing strategies and storytelling.",
-    },
-    {
-        name: "Michael Lee",
-        role: "Investor & Advisor",
-        image: "/images/founders/founder5.jpg",
-        story:
-            "Michael brings strategic insights and financial expertise to scale the company globally.",
-    },
+        story: "<p>When Himanshu Tiwari witnessed the impact of cancer within his own circle, he realized that treatment begins long before the first prescription. It begins with courage, compassion, and connection. Watching loved ones struggle—not only with the illness, but with silence, fear, and isolation—he felt a calling to create a space where no one has to face the journey alone.</p>",
+    }
 ];
 
 const FounderStoryComponent = () => {
@@ -67,14 +38,42 @@ const FounderStoryComponent = () => {
 
                                     {/* Founder Story */}
                                     <Col md={7} className="mt-4 mt-md-0">
-                                        <p className="fs-5 text-muted">{founder.story}</p>
-                                        <h5 className="text-dark-golden fw-bold mt-3">
-                                            {founder.role}
-                                        </h5>
-                                        <h6 className="fst-italic text-secondary">
-                                            — {founder.name}
-                                        </h6>
-                                    </Col>
+                                        <h4 className="fw-bold text-dark mb-3">The Journey of PranKiran</h4>
+
+                                        <p className="fs-5 text-muted">
+                                            When <span className="fw-semibold text-dark">Himanshu Tiwari</span> witnessed
+                                            the impact of cancer within his own circle, he realized that treatment begins
+                                            long before the first prescription. It begins with <span className="text-dark-golden">courage, compassion, and connection</span>.
+                                        </p>
+
+                                        <blockquote className="border-start border-3 border-golden ps-3 fst-italic text-secondary my-3">
+                                            “Healing is more than medicine — it is human connection, small acts of care,
+                                            and a reminder that you are never alone.”
+                                        </blockquote>
+
+                                        <p className="fs-5 text-muted">
+                                            Watching loved ones struggle not only with the illness, but with silence,
+                                            fear, and isolation, Himanshu felt a calling to create a space where no one
+                                            has to face the journey alone. That calling became <span className="fw-bold text-dark">PranKiran – Ray of Vitality</span>.
+                                        </p>
+
+                                        <h5 className="mt-4 text-dark fw-bold">🌟 The Philosophy</h5>
+                                        <ul className="fs-6 text-muted">
+                                            <li><strong>“Pran”</strong> (life breath) – the essence of being.</li>
+                                            <li><strong>“Kiran”</strong> (ray of light) – hope in the darkest times.</li>
+                                            <li>Together, they represent vitality, dignity, and compassion.</li>
+                                        </ul>
+
+                                        <p className="fs-5 text-muted mt-3">
+                                            Under his leadership, PranKiran was designed as an early emotional support
+                                            system for patients and caregivers. Through guided check-ins, caregiver
+                                            empowerment, and community storytelling, his vision is to bring calm and
+                                            dignity into lives disrupted by cancer.
+                                        </p>
+
+                                        <h5 className="text-dark-golden fw-bold mt-4">{founder.role}</h5>
+                                        <h6 className="fst-italic text-secondary">— {founder.name}</h6>
+                                    </Col>  
                                 </Row>
                             </div>
                         ))}
@@ -85,8 +84,7 @@ const FounderStoryComponent = () => {
                         className="carousel-control-prev custom-carousel-btn"
                         type="button"
                         data-bs-target="#founderCarousel"
-                        data-bs-slide="prev"
-                    >
+                        data-bs-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span className="visually-hidden">Previous</span>
                     </button>

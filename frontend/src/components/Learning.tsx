@@ -62,7 +62,7 @@ export default function Learning() {
                     {/* Nas.io CTA */}
                     <div className="text-center mt-5">
                         <a
-                            href="#"
+                            href="https://nas.io/prankiran-ray-of-vitality"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn-golden px-4 py-2 fw-semibold"
