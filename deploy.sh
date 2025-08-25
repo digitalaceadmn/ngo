@@ -373,8 +373,8 @@ docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env exe
 
 # Copy static files to host
 log_info "Copying static files to host..."
-docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps -q backend):/app/static/. ${PROJECT_FOLDER}/static/ 2>/dev/null || true
-docker cp $(docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps -q backend):/app/media/. ${PROJECT_FOLDER}/media/ 2>/dev/null || true
+docker cp $(docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps -q backend):/app/static/. ${PROJECT_FOLDER}/static/ 2>/dev/null || true
+docker cp $(docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps -q backend):/app/media/. ${PROJECT_FOLDER}/media/ 2>/dev/null || true
 
 # Set proper permissions
 sudo chown -R www-data:www-data ${PROJECT_FOLDER}/static ${PROJECT_FOLDER}/media
