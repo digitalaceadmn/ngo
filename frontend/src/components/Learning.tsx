@@ -31,18 +31,25 @@ export default function Learning() {
                     <h4 className="text-dark mb-4">Resource Library</h4>
                     <div className="row g-4">
                         {/* Sample 3 PDFs */}
-                        {["Caregiver Guide", "Nutrition Plan", "Emotional Support"].map(
-                            (pdf, index) => (
-                                <div className="col-md-4" key={index}>
-                                    <div className="p-3 bg-white border rounded-3 shadow-sm h-100 d-flex align-items-center">
-                                        <i className="bi bi-file-earmark-pdf fs-2 text-danger me-3"></i>
-                                        <a href="#" className="text-dark text-decoration-none fw-semibold">
-                                            {pdf}.pdf
-                                        </a>
-                                    </div>
+                        {[
+                            { name: "Patient Starter Guide", link: "https://example.com/patient-starter-guide.pdf" },
+                            { name: "Caregiver Support Handbook", link: "https://example.com/caregiver-support-handbook.pdf" },
+                            { name: "Daily Practices for Calm", link: "https://example.com/daily-practices-for-calm.pdf" }
+                        ].map((pdf, index) => (
+                            <div className="col-md-4" key={index}>
+                                <div className="p-3 bg-white border rounded-3 shadow-sm h-100 d-flex align-items-center">
+                                    <i className="bi bi-file-earmark-pdf fs-2 text-danger me-3"></i>
+                                    <a
+                                        href={pdf.link}
+                                        className="text-dark text-decoration-none fw-semibold"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {pdf.name}.pdf
+                                    </a>
                                 </div>
-                            )
-                        )}
+                            </div>
+                        ))}
 
                         {/* Sample 3 Infographics */}
                         {["Cancer Awareness", "Healthy Living Tips", "Support Network"].map(
@@ -50,7 +57,7 @@ export default function Learning() {
                                 <div className="col-md-4" key={index}>
                                     <div className="p-3 bg-white border rounded-3 shadow-sm h-100 d-flex align-items-center">
                                         <i className="bi bi-image fs-2 text-info me-3"></i>
-                                        <a href="#" className="text-dark text-decoration-none fw-semibold">
+                                        <a href="https://example.com/caregiver-support-handbook.pdf" className="text-dark text-decoration-none fw-semibold">
                                             {info}.png
                                         </a>
                                     </div>
