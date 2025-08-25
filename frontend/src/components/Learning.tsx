@@ -57,7 +57,7 @@ export default function Learning() {
                                 <div className="col-md-4" key={index}>
                                     <div className="p-3 bg-white border rounded-3 shadow-sm h-100 d-flex align-items-center">
                                         <i className="bi bi-image fs-2 text-info me-3"></i>
-                                        <a href="https://example.com/caregiver-support-handbook.pdf" className="text-dark text-decoration-none fw-semibold">
+                                        <a href="#" className="text-dark text-decoration-none fw-semibold">
                                             {info}.png
                                         </a>
                                     </div>
