@@ -219,7 +219,8 @@ log_step "Installing required packages..."
 sudo apt-get update -qq
 
 # Install required packages
-packages=("docker.io" "docker-compose" "nginx" "certbot" "python3-certbot-nginx" "lsof")
+packages=("docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin" "nginx" "certbot" "python3-certbot-nginx" "lsof")
+
 for package in "${packages[@]}"; do
     if ! dpkg -l | grep -q "^ii  $package"; then
         log_info "Installing $package..."
@@ -341,19 +342,19 @@ log_step "Building and deploying Docker containers..."
 
 # Stop existing containers for this project
 log_info "Stopping existing containers..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env down --remove-orphans 2>/dev/null || true
+docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env down --remove-orphans 2>/dev/null || true
 
 # Pull latest images (with env file to avoid warnings)
 log_info "Pulling latest base images..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env pull
+docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env pull
 
 # Build images (with env file to avoid warnings)
 log_info "Building Docker images..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env build --no-cache
+docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env build --no-cache
 
 # Start services (with env file to avoid warnings)
 log_info "Starting services..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env up -d
+docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env up -d
 
 # Note: We keep nginx container running on port 8009
 # Host nginx will proxy to it
@@ -364,11 +365,11 @@ sleep 10
 
 # Run migrations
 log_info "Running database migrations..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env exec -T backend python manage.py migrate --noinput || log_warning "Migrations might have already been applied"
+docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env exec -T backend python manage.py migrate --noinput || log_warning "Migrations might have already been applied"
 
 # Collect static files
 log_info "Collecting static files..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env exec -T backend python manage.py collectstatic --noinput
+docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env exec -T backend python manage.py collectstatic --noinput
 
 # Copy static files to host
 log_info "Copying static files to host..."
@@ -521,7 +522,7 @@ sleep 10
 
 # Check if containers are running
 log_info "Checking container status..."
-docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps
+docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env ps
 
 # Check backend health
 if curl -sf "http://localhost:${BACKEND_PORT}/api/health/" > /dev/null 2>&1; then
