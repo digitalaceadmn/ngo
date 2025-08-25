@@ -34,7 +34,7 @@ docker-compose -f docker-compose.prod.yml up -d
 ### 1. Daily Development Cycle
 ```bash
 # Morning setup (once per day)
-git pull origin main
+git pull origin master
 make up  # Start development mode
 
 # Code changes (all day long)
@@ -567,3 +567,17 @@ curl http://localhost:8009  # Prod main app
 **💡 Remember: Development mode for coding, Production mode for testing!**
 
 *This guide is your complete reference - bookmark it!*
+
+<!-- ================================================================= -->
+<!-- # if u want to make changes in frontend -->
+docker-compose build frontend
+docker-compose up -d frontend
+
+<!-- # if u want to install some packages in frontend  -->
+<!-- 1st) step   -->
+cd /home/django/ngo/frontend
+npm install or npm install axios
+<!-- 2nd) step -->
+cd /home/django/ngo
+docker-compose build frontend
+docker-compose up -d frontend
