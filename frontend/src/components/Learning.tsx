@@ -1,4 +1,5 @@
 import React from "react";
+// import { RiLightbulbLine } from "@remixicon/react";
 
 export default function Learning() {
     return (
