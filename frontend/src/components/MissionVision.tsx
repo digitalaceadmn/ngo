@@ -29,7 +29,7 @@ const MissionVisionValues = () => {
                     <Col md={4}>
                         <div className="p-6 shadow-lg rounded-3xl h-100 hover:shadow-xl transition-all">
                             <div className="mb-4 d-flex justify-content-center">
-                                <img src="/images/ourvision2.png" alt="Vision" style={{ width: "60px" }} />
+                                <img src="/images/ourvision2.png" alt="Vision" style={{ width: "150px", height: "125px" }} />
 
                             </div>
                             <h3 className="fw-bold text-info mb-3">OUR VISION</h3>
