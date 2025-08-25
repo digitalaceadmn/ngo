@@ -1,23 +1,56 @@
 const Footer = () => {
     return (
-        <footer className="bg-soft-golden text-white py-8 px-6 md:px-20">
-            <div className="grid md:grid-cols-2 gap-8">
+        <footer className="bg-soft-golden text-dark py-10 px-6 md:px-20">
+            <div className="grid md:grid-cols-3 gap-10">
+
+                {/* Contact Info */}
                 <div>
-                    <h3 className="font-semibold mb-2">Contact Us....</h3>
-                    <p>Email: info@ngo.org</p>
+                    <h3 className="font-semibold mb-3 text-lg">Contact Info</h3>
+                    <p>Email: <a href="mailto:support@prankiran.org" className="text-dark underline">support@prankiran.org</a></p>
                     <p>Phone: +91 98765 43210</p>
+                    <p>Address: PranKiran – Ray of Vitality, New Delhi, India</p>
                 </div>
+
+                {/* Quick Links */}
                 <div>
-                    <h3 className="font-semibold mb-2">Quick Links</h3>
-                    <ul className="space-y-1">
-                        <li><a href="#about" className="text-dark">About U...........s</a></li>
-                        <li><a href="#services" className="text-dark">Services</a></li>
-                        <li><a href="#resources" className="text-dark">Resources</a></li>
-                        <li><a href="#contact" className="text-dark">Contact</a></li>
+                    <h3 className="font-semibold mb-3 text-lg"> Quick Links</h3>
+                    <ul className="space-y-2 p-0">
+                        <li><a href="#about" className="text-golden hover:underline">About Us</a></li>
+                        <li><a href="#stories" className="text-golden hover:underline">Patient Stories</a></li>
+                        <li><a href="#learning" className="text-golden hover:underline">Join Learning Hub</a></li>
+                        <li><a href="#resources" className="text-golden hover:underline">Resources (PDFs & Infographics)</a></li>
+                        <li><a href="#caregiver" className="text-golden hover:underline">Caregiver Support</a></li>
+                        <li><a href="#contact" className="text-golden hover:underline">Contact Us</a></li>
                     </ul>
                 </div>
+
+                {/* Live Hope Counter */}
+                <div>
+                    <h3 className="font-semibold mb-3 text-lg">Live Hope Counter</h3>
+                    <div className="bg-white text-dark p-4 rounded-xl shadow-md text-center">
+                        <p className="text-xl font-bold">Hope Shared Today</p>
+                        <p className="text-2xl text-golden font-extrabold">1,254 Rays</p>
+                        <a href="#hope-stories" className="mt-2 inline-block text-sm text-golden underline">
+                            See Hope Stories →
+                        </a>
+                    </div>
+                </div>
             </div>
-            <p className="mt-6 text-center text-sm">© 333 Prankiran NGO. All rights reserved.</p>
+
+            {/* Footer Bottom Section */}
+            <div className="mt-10 flex flex-col md:flex-row justify-between items-center border-t border-golden pt-6">
+                <p className="text-sm mt-2 ">© 2025 PranKiran NGO. All rights reserved.</p>
+
+                {/* Join Community Button */}
+                <a
+                    href="https://nas.io/your-community-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="md:mt-0 bg-golden text-dark font-semibold px-6 py-2 rounded-full shadow hover:scale-105 transition-transform"
+                >
+                    Join Community
+                </a>
+            </div>
         </footer>
     );
 };
