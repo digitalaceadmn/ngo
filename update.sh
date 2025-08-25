@@ -20,19 +20,19 @@ git pull
 # Option 1: Just restart frontend (fastest - 5 seconds)
 if [ "$1" = "--frontend" ]; then
     echo -e "${YELLOW}Restarting frontend only...${NC}"
-    docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod restart frontend
+    docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod restart frontend
     echo -e "${GREEN}✅ Frontend updated!${NC}"
 
 # Option 2: Restart backend
 elif [ "$1" = "--backend" ]; then
     echo -e "${YELLOW}Restarting backend only...${NC}"
-    docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod restart backend
+    docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod restart backend
     echo -e "${GREEN}✅ Backend updated!${NC}"
 
 # Option 3: Restart both (default)
 else
     echo -e "${YELLOW}Restarting all services...${NC}"
-    docker-compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod restart
+    docker compose -p ${PROJECT_NAME} -f docker-compose.prod.yml --env-file .env.prod restart
     echo -e "${GREEN}✅ All services updated!${NC}"
 fi
 
