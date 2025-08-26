@@ -31,7 +31,7 @@ export default function JoinTheMovement() {
                     {/* Donation Box (highlighted) */}
                     <div className="col-md-4">
                         <div className="p-4 bg-golden text-dark rounded-3 shadow-lg h-100 d-flex flex-column justify-content-between">
-                            <h4 className="mb-3">Support with a Donation</h4>
+                            <h4 className="mb-3 text-white">Support with a Donation</h4>
                             <p>
                                 Every contribution is a lifeline—help us bring hope and care to more lives.
                             </p>

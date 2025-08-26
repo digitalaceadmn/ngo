@@ -36,7 +36,7 @@ export default function MissionAndVision() {
 
                             {/* Highlight Tile */}
                             <div className="p-4 bg-golden text-white rounded-3 shadow-lg d-inline-block">
-                                <h4 className="mb-2">Join Our Community</h4>
+                                <h4 className="mb-2 text-white">Join Our Community</h4>
                                 <p className="mb-3 fw-normal">
                                     Be part of a movement that uplifts lives every day.
                                 </p>

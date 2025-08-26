@@ -17,7 +17,7 @@ const HomeBanner = () => {
             {/* Content */}
             <div className="position-relative z-1 container " style={{ maxWidth: "80%", padding: "2rem", borderRadius: "1rem" , background: "#fffbeb7d" }}>
                 <h1 className="fw-bold mb-3 text-black">
-                    Prankiran – Guiding Cancer Patients Towards the Right Care
+                    Prankiran – Guiding Cancer Patients with a Ray of Vitality
                 </h1>
 
                 {/* Golden line */}
