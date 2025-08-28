@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "@/assets/images/logo.png";
+import Logo from "@/assets/images/logo.jpeg";
 import Link from "next/link";
 
 const navLinks = [
@@ -14,7 +14,7 @@ const navLinks = [
 
 const MainHeader: React.FC = () => {
     return (
-        <header className="sticky-top bg-light border-bottom border-golden shadow-sm">
+        <header className="sticky-top bg-black border-bottom border-golden shadow-sm">
             <div className="container d-flex align-items-center justify-content-between py-3">
                 {/* Logo */}
                 <div className="d-flex align-items-center">
@@ -33,7 +33,7 @@ const MainHeader: React.FC = () => {
                         <Link
                             key={link.name}
                             href={link.path}
-                            className={`text-decoration-none ${link.name === "Home" ? "text-dark-golden fw-bold" : "text-dark"
+                            className={`text-decoration-none ${link.name === "Home" ? "text-dark-golden fw-bold" : "text-white"
                                 }`}
                             onMouseOver={(e) =>
                                 e.currentTarget.classList.add("text-golden")
