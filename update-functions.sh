@@ -10,6 +10,7 @@ NC='\033[0m' # No Color
 # Configuration
 COMPOSE_FILE="docker-compose.prod.yml"
 ENV_FILE=".env"
+PROJECT_NAME="ngo-cms"
 
 # Function to print colored output
 print_status() {
@@ -43,7 +44,7 @@ update_frontend() {
     
     # Build the new frontend image
     print_status "Building frontend Docker image..."
-    if docker compose -f $COMPOSE_FILE build frontend; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE build frontend; then
         print_success "Frontend image built successfully"
     else
         print_error "Failed to build frontend image"
@@ -52,7 +53,7 @@ update_frontend() {
     
     # Stop and recreate frontend container
     print_status "Recreating frontend container..."
-    if docker compose -f $COMPOSE_FILE up -d frontend --force-recreate; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d frontend --force-recreate; then
         print_success "Frontend container updated successfully"
     else
         print_error "Failed to recreate frontend container"
@@ -63,11 +64,11 @@ update_frontend() {
     sleep 5
     
     # Check if frontend is running
-    if docker compose -f $COMPOSE_FILE ps | grep -q "frontend.*Up"; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE ps | grep -q "frontend.*Up"; then
         print_success "Frontend is running and updated!"
     else
         print_error "Frontend container is not running properly"
-        docker compose -f $COMPOSE_FILE logs frontend --tail=50
+        docker compose -p $PROJECT_NAME -f $COMPOSE_FILE logs frontend --tail=50
         return 1
     fi
 }
@@ -78,7 +79,7 @@ update_backend() {
     
     # Build the new backend image
     print_status "Building backend Docker image..."
-    if docker compose -f $COMPOSE_FILE build backend; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE build backend; then
         print_success "Backend image built successfully"
     else
         print_error "Failed to build backend image"
@@ -93,7 +94,7 @@ update_backend() {
     
     # Stop and recreate backend container
     print_status "Recreating backend container..."
-    if docker compose -f $COMPOSE_FILE up -d backend --force-recreate; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d backend --force-recreate; then
         print_success "Backend container updated successfully"
     else
         print_error "Failed to recreate backend container"
@@ -104,11 +105,11 @@ update_backend() {
     sleep 10
     
     # Check if backend is running
-    if docker compose -f $COMPOSE_FILE ps | grep -q "backend.*Up"; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE ps | grep -q "backend.*Up"; then
         print_success "Backend is running and updated!"
     else
         print_error "Backend container is not running properly"
-        docker compose -f $COMPOSE_FILE logs backend --tail=50
+        docker compose -p $PROJECT_NAME -f $COMPOSE_FILE logs backend --tail=50
         return 1
     fi
 }
@@ -119,7 +120,7 @@ update_all() {
     
     # Build all images
     print_status "Building all Docker images..."
-    if docker compose -f $COMPOSE_FILE build; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE build; then
         print_success "All images built successfully"
     else
         print_error "Failed to build images"
@@ -134,7 +135,7 @@ update_all() {
     
     # Recreate all containers
     print_status "Recreating all containers..."
-    if docker compose -f $COMPOSE_FILE up -d --force-recreate; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d --force-recreate; then
         print_success "All containers updated successfully"
     else
         print_error "Failed to recreate containers"
@@ -151,7 +152,7 @@ update_all() {
 # Run database migrations
 run_migrations() {
     print_status "Running database migrations..."
-    if docker compose -f $COMPOSE_FILE exec -T backend python manage.py migrate; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE exec -T backend python manage.py migrate; then
         print_success "Migrations completed successfully"
     else
         print_error "Failed to run migrations"
@@ -162,7 +163,7 @@ run_migrations() {
 # Collect static files
 collect_static() {
     print_status "Collecting static files..."
-    if docker compose -f $COMPOSE_FILE exec -T backend python manage.py collectstatic --noinput; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE exec -T backend python manage.py collectstatic --noinput; then
         print_success "Static files collected successfully"
     else
         print_error "Failed to collect static files"
@@ -178,7 +179,7 @@ check_services() {
     
     # Check each service
     for service in db backend frontend nginx; do
-        if docker compose -f $COMPOSE_FILE ps | grep -q "$service.*Up"; then
+        if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE ps | grep -q "$service.*Up"; then
             print_success "$service is running"
         else
             print_error "$service is not running"
@@ -205,7 +206,7 @@ show_logs() {
     fi
     
     print_status "Showing last $lines lines of $service logs..."
-    docker compose -f $COMPOSE_FILE logs $service --tail=$lines
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE logs $service --tail=$lines
 }
 
 # Restart a specific service
@@ -218,7 +219,7 @@ restart_service() {
     fi
     
     print_status "Restarting $service..."
-    if docker compose -f $COMPOSE_FILE restart $service; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE restart $service; then
         print_success "$service restarted successfully"
     else
         print_error "Failed to restart $service"
@@ -232,7 +233,7 @@ quick_deploy() {
     
     # Build images first
     print_status "Building new images..."
-    if ! docker compose -f $COMPOSE_FILE build; then
+    if ! docker compose -p $PROJECT_NAME -f $COMPOSE_FILE build; then
         print_error "Build failed, aborting deployment"
         return 1
     fi
@@ -244,15 +245,15 @@ quick_deploy() {
     print_status "Updating services with minimal downtime..."
     
     # Update backend first
-    docker compose -f $COMPOSE_FILE up -d backend --no-deps
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d backend --no-deps
     sleep 5
     
     # Update frontend
-    docker compose -f $COMPOSE_FILE up -d frontend --no-deps
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d frontend --no-deps
     sleep 5
     
     # Update nginx last
-    docker compose -f $COMPOSE_FILE up -d nginx --no-deps
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d nginx --no-deps
     
     print_success "Quick deployment completed!"
     check_services
@@ -268,7 +269,7 @@ backup_database() {
     mkdir -p $backup_dir
     
     print_status "Creating database backup..."
-    if docker compose -f $COMPOSE_FILE exec -T db pg_dump -U postgres django_db > $backup_file; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE exec -T db pg_dump -U postgres django_db > $backup_file; then
         print_success "Database backed up to $backup_file"
     else
         print_error "Failed to backup database"
