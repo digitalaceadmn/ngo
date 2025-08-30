@@ -296,3 +296,64 @@ a {
 .background-white{
   background-color: white;
 }
+/* 
+.icon-3d {
+  display: inline-block;
+  perspective: 1000px;
+}
+
+.icon-3d svg {
+  font-size: 3.5rem;
+  color: #007bff;
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.icon-3d:hover svg {
+  filter: drop-shadow(0px 8px 15px rgba(0, 123, 255, 0.6));
+}
+
+.icon-3d svg {
+  font-size: 3.5rem;
+  color: #007bff;
+  background: linear-gradient(145deg, #1e90ff, #0056b3);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 
+      4px 4px 10px rgba(0,0,0,0.4), 
+      -4px -4px 10px rgba(255,255,255,0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.icon-3d:hover svg {
+  transform: translateY(-8px) scale(1.2) rotateX(10deg) rotateY(-10deg);
+  box-shadow: 
+      6px 6px 15px rgba(0,0,0,0.5), 
+      -6px -6px 15px rgba(255,255,255,0.7);
+} */
+
+
+.icon-3d {
+  display: inline-block;
+  perspective: 1200px; /* deeper 3D space */
+}
+
+.icon-3d svg {
+  font-size: 3.5rem;
+  color: #007bff;
+  background: linear-gradient(145deg, #1e90ff, #0056b3); /* glossy */
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow:
+    2px 2px 6px rgba(0,0,0,0.4),
+    -2px -2px 6px rgba(255,255,255,0.6);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+}
+
+.icon-3d:hover svg {
+  transform: translateY(-20px) scale(1.25) rotateX(12deg) rotateY(-12deg);
+  box-shadow:
+    0px 20px 35px rgba(0, 123, 255, 0.6),
+    0px 8px 20px rgba(0,0,0,0.4);
+  filter: brightness(1.1) saturate(1.2);
+  cursor: pointer;
+}

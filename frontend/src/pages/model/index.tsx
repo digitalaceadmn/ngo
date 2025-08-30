@@ -79,36 +79,36 @@ export default function ModelPage() {
         {
             title: "Knowledge Updates",
             desc: "Regular dissemination of the latest medical information and guidelines.",
-            icon: <MenuBook fontSize="large" />,
+            icon: <MenuBook fontSize="large" className="text-white" />,
         },
         {
             title: "Patient Awareness",
             desc: "Community education initiatives to improve understanding of health issues and services.",
-            icon: <Groups fontSize="large" />,
+            icon: <Groups fontSize="large" className="text-white" />,
         },
         {
             title: "Aspirant Education",
             desc: "Training and educational support for future healthcare professionals.",
-            icon: <School fontSize="large" />,
+            icon: <School fontSize="large" className="text-white" />,
         },
         {
             title: "Consultation Support",
             desc: "Tools and services to help GPs make better clinical decisions.",
-            icon: <LocalHospital fontSize="large" />,
+            icon: <LocalHospital fontSize="large" className="text-white" />,
         },
         {
             title: "Doctor-to-Doctor Consultation (Flagship)",
             desc: "A structured channel for general practitioners to consult with specialists.",
-            icon: <Handshake fontSize="large" />,
+            icon: <Handshake fontSize="large" className="text-white" />,
         },
     ];
 
     const flowSteps = [
-        { step: "GP uploads case", icon: <UploadFile fontSize="large" /> },
-        { step: "Specialist responds", icon: <MedicalInformation fontSize="large" /> },
-        { step: "Advice note sent", icon: <NoteAlt fontSize="large" /> },
-        { step: "Navigator follows up", icon: <PersonPinCircle fontSize="large" /> },
-        { step: "Patient benefits", icon: <Favorite fontSize="large" /> },
+        { step: "GP uploads case", icon: <UploadFile fontSize="large" className="text-white" /> },
+        { step: "Specialist responds", icon: <MedicalInformation fontSize="large" className="text-white" /> },
+        { step: "Advice note sent", icon: <NoteAlt fontSize="large" className="text-white" /> },
+        { step: "Navigator follows up", icon: <PersonPinCircle fontSize="large" className="text-white" /> },
+        { step: "Patient benefits", icon: <Favorite fontSize="large" className="text-white" /> },
     ];
 
     const districts = ["Gaya", "Bahraich", "Chhatarpur", "Malkangiri", "Dhubri"];
@@ -131,10 +131,14 @@ export default function ModelPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <Card className="text-center shadow-lg p-3 h-100 rounded-4 border-0">
-                                    <div className="text-primary mb-3">
+                                <Card className="text-center shadow-lg p-3 h-100 rounded-4 border-0 icon-3d">
+                                    <div className="icon-3d text-white">
                                         {pillar.icon}
                                     </div>
+
+                                    {/* <div className="text-primary mb-3">
+                                        {pillar.icon}
+                                    </div> */}
                                     <Card.Title>{pillar.title}</Card.Title>
                                     <Card.Text>{pillar.desc}</Card.Text>
                                 </Card>
@@ -159,7 +163,7 @@ export default function ModelPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.2 }}
                             >
-                                <div className="bg-light shadow rounded-circle p-4 mb-3 d-inline-block text-primary">
+                                <div className="bg-light shadow rounded-circle p-4 mb-3 d-inline-block text-primary icon-3d ">
                                     {f.icon}
                                 </div>
                                 <p>{f.step}</p>
