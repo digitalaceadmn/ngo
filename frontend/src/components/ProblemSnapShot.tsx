@@ -2,8 +2,16 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Container, Row, Col } from "react-bootstrap";
-import { Card, CardContent, Typography } from "@mui/material";
-import { Stethoscope, Users, HeartPulse, Globe2, Hospital } from "lucide-react";
+import { Card, CardContent, Typography, Divider } from "@mui/material";
+import {
+    Stethoscope,
+    Baby,
+    Hospital,
+    HeartPulse,
+    User,
+    MapPin,
+} from "lucide-react";
+import DoctorShortage from "@/assets/images/doctor-shortage.png";
 
 const ProblemSnapShot = () => {
     const [counts, setCounts] = useState({ consults: 0, patients: 0, distance: 0, beds: 0 });
@@ -29,130 +37,113 @@ const ProblemSnapShot = () => {
     }, []);
 
     return (
-        <section className="py-5 bg-light">
+        <section className="py-5" style={{background: "#fff9f2"}}>
             <Container>
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <h2 className="text-center mb-4 fw-bold">1.2 Problem Snapshot</h2>
-                    <p className="text-center text-muted mb-5 fs-5">
-                        Rural India continues to face major healthcare challenges.
-                        Lack of specialists, insufficient hospital infrastructure,
-                        and long travel distances are preventing timely access to
-                        quality healthcare.
-                    </p>
-                </motion.div>
-
-                {/* Problem Cards */}
-                <Row className="g-4">
-                    {/* Stat Card 1 */}
-                    <Col md={3} sm={6}>
-                        <motion.div whileHover={{ scale: 1.05 }}>
-                            <Card className="shadow-sm h-100 text-center">
-                                <CardContent>
-                                    <Stethoscope size={40} className="text-primary mb-3" />
-                                    <Typography variant="h6" gutterBottom>
-                                        80% of CHCs lack Specialists
-                                    </Typography>
-                                    <img
-                                        src="https://img.icons8.com/external-flaticons-flat-flat-icons/512/external-doctor-hospital-flaticons-flat-flat-icons.png"
-                                        alt="Doctor Shortage"
-                                        style={{ height: "80px" }}
-                                    />
-                                    <Typography variant="body2" color="textSecondary">
-                                        Most rural health centers do not have gynecologists, pediatricians,
-                                        or surgeons, creating massive gaps in primary care.
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    </Col>
-
-                    {/* Stat Card 2 */}
-                    <Col md={3} sm={6}>
-                        <motion.div whileHover={{ scale: 1.05 }}>
-                            <Card className="shadow-sm h-100 text-center">
-                                <CardContent>
-                                    <Users size={40} className="text-success mb-3" />
-                                    <Typography variant="h6" gutterBottom>
-                                        {counts.patients.toLocaleString()}+ Patients
-                                    </Typography>
-                                    <img
-                                        src="https://img.icons8.com/external-flat-juicy-fish/512/external-patient-hospital-flat-flat-juicy-fish.png"
-                                        alt="Patients"
-                                        style={{ height: "80px" }}
-                                    />
-                                    <Typography variant="body2" color="textSecondary">
-                                        Millions of rural patients continue to face delays
-                                        in receiving essential diagnosis and treatments.
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    </Col>
-
-                    {/* Stat Card 3 */}
-                    <Col md={3} sm={6}>
-                        <motion.div whileHover={{ scale: 1.05 }}>
-                            <Card className="shadow-sm h-100 text-center">
-                                <CardContent>
-                                    <Globe2 size={40} className="text-danger mb-3" />
-                                    <Typography variant="h6" gutterBottom>
-                                        {counts.distance.toLocaleString()}+ km Travel
-                                    </Typography>
-                                    <img
-                                        src="https://img.icons8.com/external-flaticons-flat-flat-icons/512/external-long-distance-logistics-flaticons-flat-flat-icons.png"
-                                        alt="Travel Distance"
-                                        style={{ height: "80px" }}
-                                    />
-                                    <Typography variant="body2" color="textSecondary">
-                                        Patients often travel for hours to reach care,
-                                        leading to missed or late treatments.
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    </Col>
-
-                    {/* Stat Card 4 (NEW) */}
-                    <Col md={3} sm={6}>
-                        <motion.div whileHover={{ scale: 1.05 }}>
-                            <Card className="shadow-sm h-100 text-center">
-                                <CardContent>
-                                    <Hospital size={40} className="text-warning mb-3" />
-                                    <Typography variant="h6" gutterBottom>
-                                        {counts.beds.toLocaleString()} Bed Shortage
-                                    </Typography>
-                                    <img
-                                        src="https://img.icons8.com/external-flatart-icons-flat-flatarticons/512/external-hospital-hospital-and-medical-flatart-icons-flat-flatarticons.png"
-                                        alt="Hospital Beds"
-                                        style={{ height: "80px" }}
-                                    />
-                                    <Typography variant="body2" color="textSecondary">
-                                        Rural hospitals face massive shortages of beds
-                                        and critical equipment, limiting emergency care access.
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
+                <Row className="text-center mb-5">
+                    <Col>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="fw-bold display-5 text-dark"
+                        >
+                            Problem Snapshot
+                        </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="fs-5 text-muted"
+                        >
+                            <strong className="text-danger">80% of CHCs lack specialists</strong>
+                        </motion.p>
                     </Col>
                 </Row>
+                <Row className="align-items-center g-4">
+                    {/* Left Image */}
+                    <Col md={6} sm={12} className="text-center">
+                        <motion.img
+                            src={DoctorShortage.src}
+                            alt="Doctor Shortage"
+                            style={{ maxHeight: "800px", width: "100%", objectFit: "contain" }}
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        />
+                    </Col>
 
-                {/* Infographic Row */}
-                <Row className="mt-5 text-center">
-                    <Col md={4}>
-                        <h4 className="fw-bold text-danger">1 in 3</h4>
-                        <p className="text-muted">villages lack any health facility</p>
-                    </Col>
-                    <Col md={4}>
-                        <h4 className="fw-bold text-warning">60%</h4>
-                        <p className="text-muted">patients delay treatment due to cost & travel</p>
-                    </Col>
-                    <Col md={4}>
-                        <h4 className="fw-bold text-success">70%</h4>
-                        <p className="text-muted">rural population depends on government healthcare</p>
+                    {/* Right Card Content */}
+                    <Col md={6} sm={12}>
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            whileHover={{ scale: 1.02 }}
+                        >
+                            <Card className="shadow-lg h-100 border-0 rounded-3 p-3">
+                                <CardContent>
+                                    <Stethoscope size={40} className="text-primary mb-3" />
+                                    <Typography variant="h5" gutterBottom fontWeight="bold">
+                                        80% of India’s Community Health Centres Struggle Without Specialists
+                                    </Typography>
+                                    <Typography variant="body1" color="textSecondary" paragraph>
+                                        Community Health Centres (CHCs) form the backbone of India’s rural healthcare system, acting as referral units for Primary Health Centres (PHCs).
+                                        Each CHC is mandated to have four key specialists – a surgeon, physician, gynecologist, and pediatrician.
+                                        However, nearly <b>80% of CHCs lack these essential specialists</b>, leaving millions of rural families deprived of critical medical services.
+                                    </Typography>
+                                    <Typography variant="body1" color="textSecondary" paragraph>
+                                        The shortage is most acute in underserved regions. Rural patients often travel long distances to district hospitals,
+                                        causing delays in treatment and increased out-of-pocket expenses. Pregnant women, children, and chronic patients are especially vulnerable.
+                                    </Typography>
+                                    <Typography variant="body1" color="textSecondary" paragraph>
+                                        Factors such as poor infrastructure, lack of incentives, and challenging living conditions deter doctors from working in rural areas.
+                                        Bridging this gap requires incentives, telemedicine, public-private partnerships, and NGO involvement to deliver timely and affordable care.
+                                    </Typography>
+
+                                    <Divider className="my-3" />
+
+                                    {/* Animated Stats */}
+                                    <Row className="text-center">
+                                        <Col xs={6} className="mb-3">
+                                            <motion.div whileHover={{ scale: 1.1 }}>
+                                                <User size={28} className="text-success mb-2" />
+                                                <Typography variant="h6">{counts.consults}+</Typography>
+                                                <Typography variant="caption" color="textSecondary">
+                                                    Monthly Consults
+                                                </Typography>
+                                            </motion.div>
+                                        </Col>
+                                        <Col xs={6} className="mb-3">
+                                            <motion.div whileHover={{ scale: 1.1 }}>
+                                                <Baby size={28} className="text-warning mb-2" />
+                                                <Typography variant="h6">{counts.patients}+</Typography>
+                                                <Typography variant="caption" color="textSecondary">
+                                                    Child Patients
+                                                </Typography>
+                                            </motion.div>
+                                        </Col>
+                                        <Col xs={6} className="mb-3">
+                                            <motion.div whileHover={{ scale: 1.1 }}>
+                                                <MapPin size={28} className="text-danger mb-2" />
+                                                <Typography variant="h6">{counts.distance} km</Typography>
+                                                <Typography variant="caption" color="textSecondary">
+                                                    Travel for Care
+                                                </Typography>
+                                            </motion.div>
+                                        </Col>
+                                        <Col xs={6} className="mb-3">
+                                            <motion.div whileHover={{ scale: 1.1 }}>
+                                                <Hospital size={28} className="text-primary mb-2" />
+                                                <Typography variant="h6">{counts.beds}+</Typography>
+                                                <Typography variant="caption" color="textSecondary">
+                                                    Beds Shortage
+                                                </Typography>
+                                            </motion.div>
+                                        </Col>
+                                    </Row>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
                     </Col>
                 </Row>
             </Container>

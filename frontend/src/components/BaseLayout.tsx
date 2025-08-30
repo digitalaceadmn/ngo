@@ -5,6 +5,7 @@ import { Container } from "react-bootstrap";
 import { Box, CssBaseline } from "@mui/material";
 import { useLayout } from "@/contexts/LayoutContext";
 import Header from "@/components/Header";
+import Footer from "./Footer";
 
 const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     const { title, theme } = useLayout();
@@ -47,6 +48,7 @@ const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                     </Container>
                 </Box>
             </Box>
+            <Footer />
         </>
     );
 };

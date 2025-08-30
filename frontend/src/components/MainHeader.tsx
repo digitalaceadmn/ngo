@@ -4,12 +4,12 @@ import Link from "next/link";
 
 const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Causes", path: "/causes" },
-    { name: "Events", path: "/events" },
-    { name: "Portfolio", path: "/portfolio" },
-    { name: "About Us", path: "/about" },
-    { name: "Blog", path: "/blog" },
-    { name: "Contact", path: "/contact" },
+    // { name: "Causes", path: "/causes" },
+    // { name: "Events", path: "/events" },
+    // { name: "Portfolio", path: "/portfolio" },
+    { name: "About Us", path: "/about-us" },
+    { name: "Model", path: "/model" },
+    { name: "Contact", path: "/contact-us" },
 ];
 
 const MainHeader: React.FC = () => {
