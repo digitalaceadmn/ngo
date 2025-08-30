@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Banner from "@/assets/images/banner3.jpg";
+import Banner from "@/assets/images/banner-4.png";
 
 import { Stethoscope, Handshake, HeartHandshake } from "lucide-react";
 
@@ -24,6 +24,11 @@ const HomeBanner = () => {
                 backgroundAttachment: "fixed", // Parallax effect
             }}
         >
+            {/*<div*/}
+            {/*    className="position-absolute top-0 start-0 w-100 h-100"*/}
+            {/*    style={{ background: "rgba(255,255,255,0.2)" }}*/}
+            {/*/>*/}
+
             {/* Hero Content */}
             <div
                 className="position-relative z-1 d-flex flex-column justify-content-center"

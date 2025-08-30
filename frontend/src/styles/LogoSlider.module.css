@@ -1,0 +1,36 @@
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-250px * 7)); } /* 7 = number of unique logos */
+}
+
+.slider {
+    height: 100px;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.slideTrack {
+    display: flex;
+    width: calc(250px * 14); /* 2 × logos.length */
+    animation: scroll 40s linear infinite;
+}
+
+.slide {
+    height: 100px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide img {
+    width: 140px;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: white;
+    padding: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
