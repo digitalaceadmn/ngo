@@ -68,18 +68,19 @@ export default function ContactPage() {
                     marginBottom: "30px",
                 }}
             >
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
-                    className="fw-bold display-4"
-                >
-                    Contact Us
-                </motion.h1>
+                
             </section>
 
             {/* Contact Details */}
             <Container className="py-5">
+                <motion.h1
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
+                    className="fw-bold display-4 mb-3"
+                >
+                    Contact Us
+                </motion.h1>
                 <Row className="text-center g-4">
                     <Col md={3}>
                         <motion.div whileHover={{ scale: 1.1 }} className="p-4 bg-light rounded shadow">
