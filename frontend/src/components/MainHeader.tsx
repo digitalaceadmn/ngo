@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "@/assets/images/logo.jpeg";
+import Logo from "@/assets/images/logo-t.png";
 import Link from "next/link";
 
 const navLinks = [
@@ -14,7 +14,14 @@ const navLinks = [
 
 const MainHeader: React.FC = () => {
     return (
-        <header className="sticky-top bg-black border-bottom border-golden shadow-sm">
+        <header
+            className="sticky-top border-bottom border-golden shadow-sm"
+            style={{
+                backgroundColor: "#0a1f44",
+                boxShadow:
+                    "rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px !important" ,
+            }}
+        >
             <div className="container d-flex align-items-center justify-content-between py-3">
                 {/* Logo */}
                 <div className="d-flex align-items-center">

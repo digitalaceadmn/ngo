@@ -12,6 +12,8 @@ import dynamic from "next/dynamic";
 import MissionAndVision from "@/components/MissionAndVisaion";
 import JoinTheMovement from "@/components/JoinTheMovement";
 import Learning from "../components/Learning";
+import ImpactSection from "@/components/ImpactSection";
+import ProblemSnapShot from "@/components/ProblemSnapShot";
 
 const PatientStoriesTabs = dynamic(() => import("@/components/PatientStoriesTabs"), { ssr: false });
 
@@ -26,6 +28,8 @@ export default function HomePage() {
     return (
         <>
             <HomeBanner />
+            <ProblemSnapShot/>
+            <ImpactSection/>
             {/*<UrgentCause/>*/}
             <MissionAndVision></MissionAndVision>
             <FounderStoryComponent />
