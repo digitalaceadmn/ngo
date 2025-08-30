@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useLayout } from "@/contexts/LayoutContext";
-import Banner from "@/assets/images/about-us-banner.webp";
+import Banner from "@/assets/images/about-us.jpg";
 import { motion } from "framer-motion";
 import { Container, Row, Col } from "react-bootstrap";
 import {
@@ -17,6 +17,7 @@ import {
     Lightbulb,
     Group,
 } from "@mui/icons-material";
+import OurStory from "@/assets/images/our-story.jpg";
 
 
 export default function AboutPage() {
@@ -28,87 +29,58 @@ export default function AboutPage() {
 
     return (
         <>
-            {/* Hero Section */}
             <section
                 className="position-relative d-flex align-items-center justify-content-center text-center text-white"
                 style={{
-                    height: "90vh",
+                    height: "70vh",
                     backgroundImage: `url('${Banner.src}')`,
                     backgroundSize: "cover",
-                    backgroundPosition: "center",
+                    backgroundPosition: "bottom",
+                    marginBottom: "30px",
                 }}
             >
-                <div
-                    className="position-absolute top-0 start-0 w-100 h-100 bg-dark"
-                    style={{ opacity: 0.6 }}
-                />
 
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1 }}
-                    className="position-relative z-1 container bg-white p-5 rounded shadow-lg"
-                    style={{ maxWidth: "80%" }}
-                >
-                    <motion.h1
-                        initial={{ opacity: 0, y: -40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1 }}
-                        className="fw-bold mb-3 text-dark d-flex align-items-center justify-content-center gap-2"
-                    >
-                        <EmojiPeople color="primary" /> About Us
-                    </motion.h1>
-                    <p className="mb-4 lead text-secondary">
-                        We stand beside patients, helping them find trusted doctors and access
-                        the treatment they deserve. Together, we bring light and vitality in
-                        times of darkness.
-                    </p>
-                </motion.div>
             </section>
 
-            {/* Our Story */}
-            <Container className="my-5">
-                <Row className="align-items-center">
-                    <Col md={6}>
-                        <motion.div
-                            initial={{ opacity: 0, x: -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 1 }}
-                            viewport={{ once: true }}
-                        >
-                            <h2 className="fw-bold mb-3 d-flex align-items-center gap-2">
-                                <Lightbulb color="warning" /> Our Story
-                            </h2>
-                            <p className="text-muted">
-                                When <b>Himanshu Tiwari</b> witnessed the impact of cancer within his
-                                own circle, he realized that treatment begins long before the first
-                                prescription. It begins with courage, compassion, and connection.
-                                That calling became <b>PranKiran – Ray of Vitality</b>.
-                            </p>
-                            <p className="text-muted">
-                                For Himanshu, “Pran” (life breath) and “Kiran” (ray of light) are a
-                                philosophy: every person deserves light even in the darkest times.
-                                With guided check-ins, caregiver empowerment, and community
-                                storytelling, his vision is to bring calm and dignity into lives
-                                disrupted by cancer.
-                            </p>
-                        </motion.div>
-                    </Col>
-                    <Col md={6}>
-                        <motion.img
-                            src="/images/story.jpg"
-                            alt="Our Story"
-                            className="img-fluid rounded shadow"
-                            initial={{ opacity: 0, x: 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 1 }}
-                            viewport={{ once: true }}
-                        />
-                    </Col>
-                </Row>
-            </Container>
+            <Row className="px-5 py-5  align-items-center bg-soft-golden">
+                <Col md={6}>
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 1 }}
+                        viewport={{ once: true }}
+                    >
+                        <h2 className="fw-bold mb-3 d-flex align-items-center gap-2">
+                            <Lightbulb color="warning" /> Our Story
+                        </h2>
+                        <p className="text-muted">
+                            When <b>Himanshu Tiwari</b> witnessed the impact of cancer within his
+                            own circle, he realized that treatment begins long before the first
+                            prescription. It begins with courage, compassion, and connection.
+                            That calling became <b>PranKiran – Ray of Vitality</b>.
+                        </p>
+                        <p className="text-muted">
+                            For Himanshu, “Pran” (life breath) and “Kiran” (ray of light) are a
+                            philosophy: every person deserves light even in the darkest times.
+                            With guided check-ins, caregiver empowerment, and community
+                            storytelling, his vision is to bring calm and dignity into lives
+                            disrupted by cancer.
+                        </p>
+                    </motion.div>
+                </Col>
+                <Col md={6}>
+                    <motion.img
+                        src={OurStory.src}
+                        alt="Our Story"
+                        className="img-fluid rounded shadow"
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 1 }}
+                        viewport={{ once: true }}
+                    />
+                </Col>
+            </Row>
 
-            {/* Vision */}
             <section className="bg-light py-5">
                 <Container>
                     <motion.div
@@ -128,7 +100,6 @@ export default function AboutPage() {
                 </Container>
             </section>
 
-            {/* Core Values */}
             <Container className="my-5">
                 <h2 className="fw-bold text-center mb-4 d-flex align-items-center justify-content-center gap-2">
                     <Group color="success" /> Our Core Values
@@ -177,7 +148,7 @@ export default function AboutPage() {
             </Container>
 
             {/* Global Inspirations */}
-            <section className="bg-dark text-white py-5">
+            <section className=" text-white py-5 bg-soft-golden">
                 <Container>
                     <h2 className="fw-bold text-center mb-4 d-flex align-items-center justify-content-center gap-2">
                         <LocalHospital /> Global Inspirations
@@ -203,11 +174,11 @@ export default function AboutPage() {
                         ].map((item, idx) => (
                             <Col md={6} key={idx}>
                                 <motion.div
-                                    className="p-4 bg-secondary rounded shadow h-100"
+                                    className="p-4 bg-light rounded shadow h-100"
                                     whileHover={{ scale: 1.05, y: -5 }}
                                     transition={{ duration: 0.4 }}
                                 >
-                                    <LocalHospital className="mb-2" />
+                                    <LocalHospital className="mb-2 text-warning" />
                                     <h5 className="fw-bold">{item.title}</h5>
                                     <p>{item.text}</p>
                                 </motion.div>

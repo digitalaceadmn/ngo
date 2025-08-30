@@ -31,15 +31,16 @@ export default function HomePage() {
             <ProblemSnapShot/>
             <ImpactSection/>
             {/*<UrgentCause/>*/}
-            <MissionAndVision></MissionAndVision>
-            <FounderStoryComponent />
             <PatientStoriesTabs />
+
+            {/* <MissionAndVision></MissionAndVision> */}
+            <FounderStoryComponent />
             <MissionVision />
             <CancerJourney />
             <QuickHelpMenu />
             <Learning/>
             <JoinTheMovement />
-            <Footer />
+            
         </>
     );
 }

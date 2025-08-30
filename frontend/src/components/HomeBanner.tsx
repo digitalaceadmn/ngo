@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Banner from "@/assets/images/banner-4.png";
+import Banner from "@/assets/images/banner-6.png";
 
 import { Stethoscope, Handshake, HeartHandshake } from "lucide-react";
 
@@ -15,13 +15,14 @@ const HomeBanner = () => {
 
     return (
         <section
-            className="position-relative d-flex align-items-center"
+            className="position-relative d-flex align-items-center "
             style={{
-                height: "80vh",
+                height: "100vh",
                 backgroundImage: `url('${Banner.src}')`,
                 backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundAttachment: "fixed", // Parallax effect
+                backgroundPosition: "top",
+                // backgroundAttachment: "fixed", 
+                justifyContent: "flex-end"
             }}
         >
             {/*<div*/}
@@ -30,9 +31,15 @@ const HomeBanner = () => {
             {/*/>*/}
 
             {/* Hero Content */}
+
             <div
                 className="position-relative z-1 d-flex flex-column justify-content-center"
-                style={{ maxWidth: "650px", padding: "2rem", marginLeft: "8%" }}
+                style={{
+                    maxWidth: "650px",
+                    padding: "2rem",
+                    background: "#5b78b45e",
+                    borderRadius: "10px",
+                }}
             >
                 {/* Animated Title */}
                 <motion.h1

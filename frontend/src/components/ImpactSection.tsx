@@ -43,27 +43,20 @@ const ImpactSection = () => {
     return (
         <section className="py-5" style={{ background: "linear-gradient(135deg, #ffffff 0%, #f9f9ff 100%)" }}>
             <Container>
-                <Row className="text-center mb-5">
+
+                <Row className="text-center mb-3">
                     <Col>
-                        <motion.h2
+                        <motion.h6
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="fw-bold display-5 text-dark"
+                            className="fw-bold display-6 text-dark"
                         >
-                            Problem Snapshot
-                        </motion.h2>
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ delay: 0.3 }}
-                            className="fs-5 text-muted"
-                        >
-                            <strong className="text-danger">80% of CHCs lack specialists</strong>
-                        </motion.p>
+                            Our Solution
+                        </motion.h6>
+                       
                     </Col>
                 </Row>
-
 
                 <Row className="text-center mb-5">
                     <Col>
@@ -73,7 +66,7 @@ const ImpactSection = () => {
                             transition={{ duration: 0.8 }}
                             className="fw-bold mb-3 display-6"
                         >
-                            Our Solution
+                            Doctor-to-Doctor Model
                         </motion.h2>
                         <p className="text-muted fs-5">
                             Improving health outcomes, reducing costs, saving time & building rural healthcare capacity.
@@ -101,8 +94,8 @@ const ImpactSection = () => {
                                     <CardContent>
                                         <motion.div
                                             className="mb-3 text-primary d-flex justify-content-center"
-                                            // animate={{ rotate: [0, 10, -10, 0] }}
-                                            // transition={{ repeat: Infinity, duration: 3 }}
+                                        // animate={{ rotate: [0, 10, -10, 0] }}
+                                        // transition={{ repeat: Infinity, duration: 3 }}
                                         >
                                             {item.icon}
                                         </motion.div>
@@ -127,7 +120,7 @@ const ImpactSection = () => {
                             transition={{ duration: 0.8 }}
                             className="fw-bold mb-3 display-6"
                         >
-                            Our Impact
+                            Impact Teaser
                         </motion.h2>
                         <p className="text-muted fs-5">
                             Improving health outcomes, reducing costs, saving time & building rural healthcare capacity.
@@ -171,9 +164,23 @@ const ImpactSection = () => {
                 {/*    </Col>*/}
                 {/*</Row>*/}
 
+                <Row className="text-center mt-5">
+                    <Col>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="fw-bold mb-3 display-6"
+                        >
+                            Our Partners
+                        </motion.h2>
+                        
+                    </Col>
+                </Row>
+
+
                 <Row className="mt-5 text-center">
                     <Col>
-                        <p className="text-muted mb-3 fs-5">In Collaboration With</p>
 
                         <div className={styles.slider}>
                             <div className={styles.slideTrack}>
