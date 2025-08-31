@@ -68,15 +68,16 @@ const ImpactSection = () => {
                         >
                             Doctor-to-Doctor Model
                         </motion.h2>
+                        <h5
+                            className="fw-bold mb-3 display-9 text-black"
+                        >
+                            How it works ?
+                        </h5>
                         <p className="text-muted fs-5">
                             We empower local healthcare providers with the guidance and expertise of specialists, ensuring patients in underserved areas receive timely and accurate care.
                         </p>
                     </Col>
                 </Row>
-
-                <p className="text-black fs-5 text-start mb-2">
-                    How it works ❓
-                </p>
 
                 <Row className="g-4 mb-5">
                     {[
@@ -90,7 +91,7 @@ const ImpactSection = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ duration: 0.6, delay: i * 0.2 }}
-                                style={{height: "100%"}}
+                                style={{ height: "100%" }}
                             >
                                 <Card
                                     className="shadow-lg h-100 border-0 rounded-4 text-center"
@@ -133,9 +134,7 @@ const ImpactSection = () => {
                     </Col>
                 </Row>
 
-                <p className="text-black fs-5 text-start mb-2">
-                   🎯 This model not only improves health outcomes but also reduces costs, saves time, and builds capacity in rural healthcare systems.
-                </p>
+
 
                 <Row className="text-center g-4">
                     {[
@@ -158,6 +157,10 @@ const ImpactSection = () => {
                     ))}
                 </Row>
 
+                <p className="text-black fs-5 text-start mt-3">
+                    🎯 This model not only improves health outcomes but also reduces costs, saves time, and builds capacity in rural healthcare systems.
+                </p>
+
                 {/*<Row className="mt-5 text-center">*/}
                 {/*    <Col>*/}
                 {/*        <p className="text-muted mb-3 fs-5">In Collaboration With</p>*/}
@@ -173,19 +176,22 @@ const ImpactSection = () => {
                 {/*    </Col>*/}
                 {/*</Row>*/}
 
-                <Row className="text-center mt-5">
+
+                <Row className="text-center mt-5 mb-3">
                     <Col>
-                        <motion.h2
+                        <motion.h6
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="fw-bold mb-3 display-8"
+                            className="fw-bold display-6 text-dark"
                         >
                             Our Partners
-                        </motion.h2>
+                        </motion.h6>
 
                     </Col>
                 </Row>
+
+
 
 
                 <Row className="mt-5 text-center">
@@ -203,6 +209,7 @@ const ImpactSection = () => {
                         </div>
                     </Col>
                 </Row>
+
 
 
             </Container>
