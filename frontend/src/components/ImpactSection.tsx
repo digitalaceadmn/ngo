@@ -64,7 +64,7 @@ const ImpactSection = () => {
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="fw-bold mb-3 display-6"
+                            className="fw-bold mb-3 display-8"
                         >
                             Doctor-to-Doctor Model
                         </motion.h2>
@@ -99,7 +99,7 @@ const ImpactSection = () => {
                                         >
                                             {item.icon}
                                         </motion.div>
-                                        <Typography variant="h6" className="fw-bold">
+                                        <Typography variant="h6" className="fw-bold  display-6">
                                             {item.title}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
@@ -118,7 +118,7 @@ const ImpactSection = () => {
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="fw-bold mb-3 display-6"
+                            className="fw-bold mb-3 display-8"
                         >
                             Impact Teaser
                         </motion.h2>
@@ -142,7 +142,7 @@ const ImpactSection = () => {
                                 className="p-4 rounded-4 shadow-lg bg-white"
                             >
                                 <div className="text-primary mb-2">{item.icon}</div>
-                                <h2 className="fw-bold text-primary display-6">{item.value.toLocaleString()}+</h2>
+                                <h6 className="fw-bold text-primary display-6" style={{ fontSize: "33px" }}>{item.value.toLocaleString()}+</h6>
                                 <p className="text-muted">{item.label}</p>
                             </motion.div>
                         </Col>
@@ -170,7 +170,7 @@ const ImpactSection = () => {
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="fw-bold mb-3 display-6"
+                            className="fw-bold mb-3 display-8"
                         >
                             Our Partners
                         </motion.h2>
