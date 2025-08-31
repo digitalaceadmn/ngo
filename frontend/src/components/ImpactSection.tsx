@@ -54,11 +54,11 @@ const ImpactSection = () => {
                         >
                             Our Solution
                         </motion.h6>
-                       
+
                     </Col>
                 </Row>
 
-                <Row className="text-center mb-5">
+                <Row className="text-center mb-3">
                     <Col>
                         <motion.h2
                             initial={{ opacity: 0, y: 50 }}
@@ -69,16 +69,20 @@ const ImpactSection = () => {
                             Doctor-to-Doctor Model
                         </motion.h2>
                         <p className="text-muted fs-5">
-                            Improving health outcomes, reducing costs, saving time & building rural healthcare capacity.
+                            We empower local healthcare providers with the guidance and expertise of specialists, ensuring patients in underserved areas receive timely and accurate care.
                         </p>
                     </Col>
                 </Row>
 
+                <p className="text-black fs-5 text-start mb-2">
+                    How it works ❓
+                </p>
+
                 <Row className="g-4 mb-5">
                     {[
                         { icon: <Stethoscope size={40} />, title: "Specialists", desc: "Share knowledge & guide complex cases." },
-                        { icon: <UserCheck size={40} />, title: "Rural GPs", desc: "Get expert support & upgrade their skills." },
-                        { icon: <Users size={40} />, title: "Patients", desc: "Receive faster & affordable treatment locally." },
+                        { icon: <UserCheck size={40} />, title: "Rural GPs", desc: "Get expert support, upgrade their skills, and provide better care locally." },
+                        { icon: <Users size={40} />, title: "Patients", desc: " Receive improved, faster, and more affordable treatment without traveling long distances." },
                     ].map((item, i) => (
                         <Col md={4} key={i}>
                             <motion.div
@@ -86,6 +90,7 @@ const ImpactSection = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ duration: 0.6, delay: i * 0.2 }}
+                                style={{height: "100%"}}
                             >
                                 <Card
                                     className="shadow-lg h-100 border-0 rounded-4 text-center"
@@ -112,7 +117,7 @@ const ImpactSection = () => {
                     ))}
                 </Row>
 
-                <Row className="text-center mb-5">
+                <Row className="text-center mb-3">
                     <Col>
                         <motion.h2
                             initial={{ opacity: 0, y: 50 }}
@@ -123,10 +128,14 @@ const ImpactSection = () => {
                             Impact Teaser
                         </motion.h2>
                         <p className="text-muted fs-5">
-                            Improving health outcomes, reducing costs, saving time & building rural healthcare capacity.
+                            Our work is already making a measurable difference
                         </p>
                     </Col>
                 </Row>
+
+                <p className="text-black fs-5 text-start mb-2">
+                   🎯 This model not only improves health outcomes but also reduces costs, saves time, and builds capacity in rural healthcare systems.
+                </p>
 
                 <Row className="text-center g-4">
                     {[
@@ -174,7 +183,7 @@ const ImpactSection = () => {
                         >
                             Our Partners
                         </motion.h2>
-                        
+
                     </Col>
                 </Row>
 
