@@ -119,7 +119,7 @@ const HomeBanner = () => {
                         <Handshake size={22} /> Partner as NGO
                     </motion.button>
 
-                    {/* Support as Funder */}
+                    {/* Support Our Initiative */}
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -131,7 +131,7 @@ const HomeBanner = () => {
                             boxShadow: "0 4px 15px rgba(40,167,69,0.4)",
                         }}
                     >
-                        <HeartHandshake size={22} /> Support as Funder
+                        <HeartHandshake size={22} /> Support Our Initiative
                     </motion.button>
                 </motion.div>
             </div>
