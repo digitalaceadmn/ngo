@@ -2,11 +2,16 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Banner from "@/assets/images/banner-6.png";
+import {  AnimatePresence } from "framer-motion";
 
 import { Stethoscope, Handshake, HeartHandshake } from "lucide-react";
+import ModalForm from "@/components/ModalForm";
+
+type FormType = "doctor" | "ngo" | "support";
 
 const HomeBanner = () => {
     const [showContent, setShowContent] = useState(false);
+    const [modalType, setModalType] = useState<FormType | null>(null);
 
     useEffect(() => {
         const timer = setTimeout(() => setShowContent(true), 300);
@@ -89,6 +94,7 @@ const HomeBanner = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="btn btn-warning btn-lg px-4 d-flex align-items-center gap-2"
+                        onClick={() => setModalType("doctor")}
                         style={{
                             borderRadius: "50px",
                             fontWeight: "600",
@@ -103,6 +109,7 @@ const HomeBanner = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="btn btn-outline-light btn-lg px-4 d-flex align-items-center gap-2"
+                        onClick={() => setModalType("ngo")}
                         style={{
                             borderRadius: "50px",
                             fontWeight: "600",
@@ -117,6 +124,7 @@ const HomeBanner = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="btn btn-success btn-lg px-4 d-flex align-items-center gap-2"
+                        onClick={() => setModalType("support")}
                         style={{
                             borderRadius: "50px",
                             fontWeight: "600",
@@ -127,6 +135,7 @@ const HomeBanner = () => {
                     </motion.button>
                 </motion.div>
             </div>
+            <AnimatePresence>{modalType && <ModalForm type={modalType} onClose={() => setModalType(null)} />}</AnimatePresence>
         </section>
     );
 };
