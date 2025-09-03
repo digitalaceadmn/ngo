@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Banner from "@/assets/images/banner-6.png";
+import Banner from "@/assets/images/banner-7.png";
 import {  AnimatePresence } from "framer-motion";
 
 import { Stethoscope, Handshake, HeartHandshake } from "lucide-react";
@@ -22,10 +22,10 @@ const HomeBanner = () => {
         <section
             className="position-relative d-flex align-items-center "
             style={{
-                height: "100vh",
+                height: "120vh",
                 backgroundImage: `url('${Banner.src}')`,
                 backgroundSize: "cover",
-                backgroundPosition: "top",
+                backgroundPosition: "bottom",
                 // backgroundAttachment: "fixed", 
                 justifyContent: "flex-end"
             }}

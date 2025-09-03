@@ -1,3 +1,6 @@
+import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
+
+
 const Footer = () => {
     return (
         <footer className=" text-dark py-10 px-6 md:px-20" style={{background:"#0a1f44"}}>
@@ -25,13 +28,33 @@ const Footer = () => {
                 </div>
 
                 {/* Live Hope Counter */}
-                <div>
+                {/* <div>
                     <h3 className="font-semibold mb-3 text-lg">Live Hope Counter</h3>
                     <div className="bg-white text-dark p-4 rounded-xl shadow-md text-center">
                         <p className="text-xl font-bold">Hope Shared Today</p>
                         <p className="text-2xl text-golden font-extrabold">1,254 Rays</p>
                         <a href="#hope-stories" className="mt-2 inline-block text-sm text-golden underline">
                             See Hope Stories →
+                        </a>
+                    </div>
+                </div> */}
+                 <div>
+                    <h3 className="font-semibold mb-3 text-lg">Follow Us</h3>
+                    <div className="flex space-x-4">
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
+                            <Facebook size={28} />
+                        </a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
+                            <Twitter size={28} />
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
+                            <Instagram size={28} />
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
+                            <Linkedin size={28} />
+                        </a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
+                            <Youtube size={28} />
                         </a>
                     </div>
                 </div>
