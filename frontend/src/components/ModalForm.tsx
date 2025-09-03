@@ -146,7 +146,92 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
     const [step, setStep] = useState<number>(0);
     const steps = stepsConfig[type];
 
+    // Track all field values
+    const [formData, setFormData] = useState<Record<string, any>>({});
+
     const progressPercent = ((step + 1) / steps.length) * 100;
+
+    // Handle input change
+    const handleChange = (label: string, value: any) => {
+        setFormData((prev) => ({
+            ...prev,
+            [label]: value,
+        }));
+    };
+
+    // Handle checkbox change (multiple values)
+    const handleCheckboxChange = (label: string, option: string, checked: boolean) => {
+        setFormData((prev) => {
+            const arr = prev[label] || [];
+            if (checked) {
+                return { ...prev, [label]: [...arr, option] };
+            } else {
+                return { ...prev, [label]: arr.filter((v: string) => v !== option) };
+            }
+        });
+    };
+
+    // Submit handler
+    const handleSubmit = async () => {
+        let res;
+        if (type === "doctor") {
+            // Map frontend labels to backend field names
+            const mappedData = {
+                full_name: formData["Full Name"],
+                date_of_birth: formData["Date of Birth"],
+                gender: formData["Gender"],
+                mobile_number: formData["Mobile Number"],
+                email: formData["Email ID"],
+                address: formData["Address"],
+                medical_registration_no: formData["Medical Registration No."],
+                qualification: formData["Qualification"],
+                specialization: formData["Specialization"],
+                years_of_experience: formData["Years of Experience"],
+                current_hospital_clinic: formData["Current Hospital/Clinic"],
+                location_city_state: formData["Location – City/State"],
+                areas_of_interest: formData["Areas of Interest"],
+                languages_spoken: formData["Languages Spoken"],
+                preferred_mode_of_consultation: formData["Preferred Mode of Consultation"],
+                // Add other fields as needed
+            };
+
+            res = await submitDoctorApplication(mappedData);
+        } else if (type === "ngo") {
+            // Example mapping for NGOApplication
+            const ngoData = {
+                ngo_name: formData["NGO Name"],
+                registration_number: formData["Registration Number"],
+                date_of_registration: formData["Date of Registration"],
+                registered_address: formData["Registered Address"],
+                website_social: formData["Website / Social Media"], // fix label to match your form
+                contact_full_name: formData["Full Name"],           // <-- fix here
+                contact_designation: formData["Designation"],       // <-- fix here
+                contact_email: formData["Email"],                   // <-- fix here
+                contact_mobile: formData["Mobile Number"],          // <-- fix here
+                partnership_reason: formData["Why do you want to partner?"],
+                pillars: formData["Pillars"],
+                support: formData["Support"],
+            };
+            res = await submitNGOApplication(ngoData);
+        } else if (type === "support") {
+            // Example mapping for SupportApplication
+            const supportData = {
+                name_or_org: formData["Full Name / Organization"],
+                type: formData["Type"],
+                contact_number: formData["Contact Number"],
+                email: formData["Email"],
+                address_city: formData["Address / City"],
+                ways_to_support: formData["Ways to Support"], // should be an array
+                frequency: formData["Frequency"],
+                approx_contribution: formData["Approx Contribution"],
+                skills_resources: formData["Skills / Resources"],
+                reason_for_prankiran: formData["Why Prankiran?"],
+            };
+            res = await submitSupportApplication(supportData);
+        }
+        // Optionally show success/error message here
+        onClose();
+    };
 
     return (
         <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.7)" }}>
@@ -210,19 +295,43 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                                 field.type === "email" ||
                                 field.type === "number" ||
                                 field.type === "date" ? (
-                                    <input type={field.type} className="form-control" required={field.required} />
+                                    <input
+                                        type={field.type}
+                                        className="form-control"
+                                        required={field.required}
+                                        value={formData[field.label] || ""}
+                                        onChange={(e) => handleChange(field.label, e.target.value)}
+                                    />
                                 ) : field.type === "textarea" ? (
-                                    <textarea className="form-control" rows={3}></textarea>
+                                    <textarea
+                                        className="form-control"
+                                        rows={3}
+                                        value={formData[field.label] || ""}
+                                        onChange={(e) => handleChange(field.label, e.target.value)}
+                                    ></textarea>
                                 ) : field.type === "select" ? (
-                                    <select className="form-select">
+                                    <select
+                                        className="form-select"
+                                        value={formData[field.label] || ""}
+                                        onChange={(e) => handleChange(field.label, e.target.value)}
+                                    >
+                                        <option value="">Select</option>
                                         {field.options?.map((opt: string, idx: number) => (
-                                            <option key={idx}>{opt}</option>
+                                            <option key={idx} value={opt}>{opt}</option>
                                         ))}
                                     </select>
                                 ) : field.type === "checkbox" ? (
                                     field.options?.map((opt: string, idx: number) => (
                                         <div className="form-check" key={idx}>
-                                            <input type="checkbox" className="form-check-input" id={`${field.label}-${idx}`} />
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                id={`${field.label}-${idx}`}
+                                                checked={formData[field.label]?.includes(opt) || false}
+                                                onChange={(e) =>
+                                                    handleCheckboxChange(field.label, opt, e.target.checked)
+                                                }
+                                            />
                                             <label className="form-check-label">{opt}</label>
                                         </div>
                                     ))
@@ -243,7 +352,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                                 Next
                             </button>
                         ) : (
-                            <button className="btn btn-success" onClick={onClose}>
+                            <button className="btn btn-success" onClick={handleSubmit}>
                                 Submit
                             </button>
                         )}
@@ -253,5 +362,41 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
         </div>
     );
 };
+
+// Example function to submit Doctor Application
+async function submitDoctorApplication(data: any) {
+    const response = await fetch("http://localhost:8000/api/doctor-application/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    return response.json();
+}
+
+// Example function to submit NGO Application
+async function submitNGOApplication(data: any) {
+    const response = await fetch("http://localhost:8000/api/ngo-application/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    return response.json();
+}
+
+// Example function to submit Support Application
+async function submitSupportApplication(data: any) {
+    const response = await fetch("http://localhost:8000/api/support-application/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    return response.json();
+}
 
 export default ModalForm;
