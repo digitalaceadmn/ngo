@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useLayout } from "@/contexts/LayoutContext";
-import Banner from "@/assets/images/contact-us.jpg";
+import Banner from "@/assets/images/contact-us-banner.jpg";
 import { motion } from "framer-motion";
 import { Container, Row, Col, Modal, Form, Button } from "react-bootstrap";
 import {

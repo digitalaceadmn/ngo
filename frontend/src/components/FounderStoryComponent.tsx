@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Container, Row, Col } from "react-bootstrap";
-import Person from "@/assets/images/person.png";
+import Person from "@/assets/images/founder-image.jpg";
 
 const founders = [
     {
@@ -32,7 +32,7 @@ const FounderStoryComponent = () => {
                                             alt={founder.name}
                                             width={350}
                                             height={350}
-                                            className="d-block mx-auto rounded-circle border border-4 border-golden shadow-sm"
+                                            className="d-block mx-auto  border border-4 border-golden shadow-sm"
                                         />
                                     </Col>
 

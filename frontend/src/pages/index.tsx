@@ -14,6 +14,7 @@ import JoinTheMovement from "@/components/JoinTheMovement";
 import Learning from "../components/Learning";
 import ImpactSection from "@/components/ImpactSection";
 import ProblemSnapShot from "@/components/ProblemSnapShot";
+import FounderComponent from "@/components/FounderComponent";
 
 const PatientStoriesTabs = dynamic(() => import("@/components/PatientStoriesTabs"), { ssr: false });
 
@@ -34,8 +35,9 @@ export default function HomePage() {
             {/* <PatientStoriesTabs /> */}
 
             {/* <MissionAndVision></MissionAndVision> */}
-            {/* <FounderStoryComponent />
-            <MissionVision />
+             <FounderStoryComponent />
+             <FounderComponent />
+            {/*<MissionVision />
             <CancerJourney />
             <QuickHelpMenu />
             <Learning/>
