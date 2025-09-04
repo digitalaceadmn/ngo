@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLayout } from "@/contexts/LayoutContext";
 import Banner from "@/assets/images/about-us.jpg";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Container, Row, Col } from "react-bootstrap";
 import {
     Favorite,
@@ -18,13 +18,25 @@ import {
     Group,
 } from "@mui/icons-material";
 import OurStory from "@/assets/images/our-story.jpg";
+import Person from "@/assets/images/founder-image.jpg";
+import ModalForm from "@/components/ModalForm";
 
+const founders = [
+    {
+        name: "John Doe",
+        role: "Founder & CEO",
+        image: "/images/founders/founder1.jpg",
+        story: "<p>When Himanshu Tiwari witnessed the impact of cancer within his own circle, he realized that treatment begins long before the first prescription. It begins with courage, compassion, and connection. Watching loved ones struggle—not only with the illness, but with silence, fear, and isolation—he felt a calling to create a space where no one has to face the journey alone.</p>",
+    }
+];
+type FormType = "doctor" | "ngo" | "support";
 
 export default function AboutPage() {
     const { setTitle } = useLayout();
+    const [modalType, setModalType] = useState<FormType | null>(null);
 
     useEffect(() => {
-        setTitle("About");
+        setTitle("About us - PranKiran");
     }, [setTitle]);
 
     return (
@@ -43,42 +55,73 @@ export default function AboutPage() {
             </section>
 
             <Row className="px-5 py-5  align-items-center bg-soft-golden">
-                <Col md={6}>
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1 }}
-                        viewport={{ once: true }}
-                    >
-                        <h2 className="fw-bold mb-3 d-flex align-items-center gap-2">
-                            <Lightbulb color="warning" /> Our Story
-                        </h2>
-                        <p className="text-muted">
-                            When <b>Himanshu Tiwari</b> witnessed the impact of cancer within his
-                            own circle, he realized that treatment begins long before the first
-                            prescription. It begins with courage, compassion, and connection.
-                            That calling became <b>PranKiran – Ray of Vitality</b>.
-                        </p>
-                        <p className="text-muted">
-                            For Himanshu, “Pran” (life breath) and “Kiran” (ray of light) are a
-                            philosophy: every person deserves light even in the darkest times.
-                            With guided check-ins, caregiver empowerment, and community
-                            storytelling, his vision is to bring calm and dignity into lives
-                            disrupted by cancer.
-                        </p>
-                    </motion.div>
-                </Col>
-                <Col md={6}>
-                    <motion.img
-                        src={OurStory.src}
-                        alt="Our Story"
-                        className="img-fluid rounded shadow"
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1 }}
-                        viewport={{ once: true }}
-                    />
-                </Col>
+                <Container>
+                    <h2 className="text-center mb-5 text-dark-golden">✨ Our Founder</h2>
+
+                    <div id="founderCarousel" className="carousel slide" data-bs-ride="carousel">
+                        <div className="carousel-inner">
+                            {founders.map((founder, index) => (
+                                <div
+                                    key={index}
+                                    className={`carousel-item ${index === 0 ? "active" : ""}`}
+                                >
+                                    <Row className="align-items-center founder-story">
+                                        {/* Founder Image */}
+                                        <Col md={5} className="text-center">
+                                            <img
+                                                src={Person.src}
+                                                alt={founder.name}
+                                                width={350}
+                                                height={350}
+                                                className="d-block mx-auto  border border-4 border-golden shadow-sm"
+                                                style={{ objectFit: "cover", objectPosition: "center", borderRadius: "50%", height: '350px', width: '350px' }}
+                                            />
+                                        </Col>
+
+                                        {/* Founder Story */}
+                                        <Col md={7} className="mt-4 mt-md-0">
+                                            <h4 className="fw-bold text-dark mb-3">The Journey of PranKiran</h4>
+
+                                            <p className="fs-5 text-muted">
+                                                When <span className="fw-semibold text-dark">Himanshu Tiwari</span> witnessed
+                                                the impact of cancer within his own circle, he realized that treatment begins
+                                                long before the first prescription. It begins with <span className="text-dark-golden">courage, compassion, and connection</span>.
+                                            </p>
+
+                                            <blockquote className="border-start border-3 border-golden ps-3 fst-italic text-secondary my-3">
+                                                “Healing is more than medicine — it is human connection, small acts of care,
+                                                and a reminder that you are never alone.”
+                                            </blockquote>
+
+                                            <p className="fs-5 text-muted">
+                                                Watching loved ones struggle not only with the illness, but with silence,
+                                                fear, and isolation, Himanshu felt a calling to create a space where no one
+                                                has to face the journey alone. That calling became <span className="fw-bold text-dark">PranKiran – Ray of Vitality</span>.
+                                            </p>
+
+                                            <h5 className="mt-4 text-dark fw-bold">🌟 The Philosophy</h5>
+                                            <ul className="fs-6 text-muted">
+                                                <li><strong>“Pran”</strong> (life breath) – the essence of being.</li>
+                                                <li><strong>“Kiran”</strong> (ray of light) – hope in the darkest times.</li>
+                                                <li>Together, they represent vitality, dignity, and compassion.</li>
+                                            </ul>
+
+                                            <p className="fs-5 text-muted mt-3">
+                                                Under his leadership, PranKiran was designed as an early emotional support
+                                                system for patients and caregivers. Through guided check-ins, caregiver
+                                                empowerment, and community storytelling, his vision is to bring calm and
+                                                dignity into lives disrupted by cancer.
+                                            </p>
+
+                                            <h5 className="text-dark-golden fw-bold mt-4">{founder.role}</h5>
+                                            <h6 className="fst-italic text-secondary">— {founder.name}</h6>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </Container>
             </Row>
 
             <section className="bg-light py-5">
@@ -207,12 +250,14 @@ export default function AboutPage() {
                     <div className="d-flex justify-content-center gap-3 flex-wrap">
                         <motion.button
                             whileHover={{ scale: 1.1 }}
+                            onClick={() => setModalType("doctor")}
                             className="btn btn-primary px-4"
                         >
                             Join as Doctor
                         </motion.button>
                         <motion.button
                             whileHover={{ scale: 1.1 }}
+                            onClick={() => setModalType("ngo")}
                             className="btn btn-success px-4"
                         >
                             Partner as NGO
@@ -220,10 +265,12 @@ export default function AboutPage() {
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             className="btn btn-warning px-4"
+                            onClick={() => setModalType("support")}
                         >
-                            Support as Funder
+                            Support Our Initiative
                         </motion.button>
                     </div>
+                    <AnimatePresence>{modalType && <ModalForm type={modalType} onClose={() => setModalType(null)} />}</AnimatePresence>
                 </Container>
             </section>
         </>

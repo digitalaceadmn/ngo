@@ -15,7 +15,7 @@ const FounderStoryComponent = () => {
     return (
         <section className="py-5">
             <Container>
-                <h2 className="text-center mb-5 text-dark-golden">✨ Our Founders</h2>
+                <h2 className="text-center mb-5 text-dark-golden">✨ Our Founder</h2>
 
                 <div id="founderCarousel" className="carousel slide" data-bs-ride="carousel">
                     <div className="carousel-inner">
@@ -33,6 +33,7 @@ const FounderStoryComponent = () => {
                                             width={350}
                                             height={350}
                                             className="d-block mx-auto  border border-4 border-golden shadow-sm"
+                                            style={{ objectFit: "cover", objectPosition: "center", borderRadius: "50%" , height: '350px' , width: '350px'}} 
                                         />
                                     </Col>
 
@@ -73,31 +74,11 @@ const FounderStoryComponent = () => {
 
                                         <h5 className="text-dark-golden fw-bold mt-4">{founder.role}</h5>
                                         <h6 className="fst-italic text-secondary">— {founder.name}</h6>
-                                    </Col>  
+                                    </Col>
                                 </Row>
                             </div>
                         ))}
                     </div>
-
-                    {/* Carousel Controls */}
-                    <button
-                        className="carousel-control-prev custom-carousel-btn"
-                        type="button"
-                        data-bs-target="#founderCarousel"
-                        data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-
-                    <button
-                        className="carousel-control-next custom-carousel-btn"
-                        type="button"
-                        data-bs-target="#founderCarousel"
-                        data-bs-slide="next"
-                    >
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Next</span>
-                    </button>
                 </div>
             </Container>
         </section>

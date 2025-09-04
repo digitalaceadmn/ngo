@@ -3,7 +3,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 
 const Footer = () => {
     return (
-        <footer className=" text-dark py-10 px-6 md:px-20" style={{background:"#0a1f44"}}>
+        <footer className=" text-dark py-10 px-6 md:px-20" style={{ background: "#0a1f44" }}>
             <div className="grid md:grid-cols-3 gap-10">
 
                 {/* Contact Info */}
@@ -38,26 +38,23 @@ const Footer = () => {
                         </a>
                     </div>
                 </div> */}
-                 <div>
+                <div>
                     <h3 className="font-semibold mb-3 text-lg">Follow Us</h3>
-                    <div className="flex space-x-4">
-                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
-                            <Facebook size={28} />
-                        </a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
-                            <Twitter size={28} />
-                        </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
-                            <Instagram size={28} />
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
-                            <Linkedin size={28} />
-                        </a>
-                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-golden">
-                            <Youtube size={28} />
-                        </a>
+                    <div className="flex flex-col space-y-3">
+                        <div
+                            className="fb-page"
+                            data-href="https://www.facebook.com/profile.php?id=61579387072095"
+                            data-tabs="timeline"
+                            data-width="420"
+                            data-height="250"
+                            data-small-header="true"
+                            data-adapt-container-width="true"
+                            data-hide-cover="false"
+                            data-show-facepile="false"
+                        ></div>
                     </div>
                 </div>
+
             </div>
 
             {/* Footer Bottom Section */}

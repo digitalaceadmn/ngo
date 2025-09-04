@@ -36,7 +36,6 @@ export default function HomePage() {
 
             {/* <MissionAndVision></MissionAndVision> */}
              <FounderStoryComponent />
-             <FounderComponent />
             {/*<MissionVision />
             <CancerJourney />
             <QuickHelpMenu />
