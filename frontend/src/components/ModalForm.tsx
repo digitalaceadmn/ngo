@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import DoctorApplication from "@/pojo/DoctorApplication";
+import NGOApplication from "@/pojo/NGOApplication";
+import SupportApplication from "@/pojo/SupportApplication";
 
 // =================== TYPES ===================
 type FieldType = "text" | "email" | "number" | "date" | "textarea" | "select" | "checkbox";
@@ -24,7 +27,8 @@ interface ModalFormProps {
     onClose: () => void;
 }
 
-// =================== FORM CONFIG ===================
+const domain = window.location.hostname;
+
 const stepsConfig: Record<FormType, Step[]> = {
     doctor: [
         {
@@ -146,13 +150,11 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
     const [step, setStep] = useState<number>(0);
     const steps = stepsConfig[type];
 
-    // Track all field values
-    const [formData, setFormData] = useState<Record<string, any>>({});
+    const [formData, setFormData] = useState<Record<string, string | number | string[] | undefined>>({});
 
     const progressPercent = ((step + 1) / steps.length) * 100;
 
-    // Handle input change
-    const handleChange = (label: string, value: any) => {
+    const handleChange = (label: string, value: string | number | string[]) => {
         setFormData((prev) => ({
             ...prev,
             [label]: value,
@@ -162,7 +164,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
     // Handle checkbox change (multiple values)
     const handleCheckboxChange = (label: string, option: string, checked: boolean) => {
         setFormData((prev) => {
-            const arr = prev[label] || [];
+            const arr = Array.isArray(prev[label]) ? prev[label] as string[] : [];
             if (checked) {
                 return { ...prev, [label]: [...arr, option] };
             } else {
@@ -176,56 +178,55 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
         let res;
         if (type === "doctor") {
             // Map frontend labels to backend field names
-            const mappedData = {
-                full_name: formData["Full Name"],
-                date_of_birth: formData["Date of Birth"],
-                gender: formData["Gender"],
-                mobile_number: formData["Mobile Number"],
-                email: formData["Email ID"],
-                address: formData["Address"],
-                medical_registration_no: formData["Medical Registration No."],
-                qualification: formData["Qualification"],
-                specialization: formData["Specialization"],
-                years_of_experience: formData["Years of Experience"],
-                current_hospital_clinic: formData["Current Hospital/Clinic"],
-                location_city_state: formData["Location – City/State"],
-                areas_of_interest: formData["Areas of Interest"],
-                languages_spoken: formData["Languages Spoken"],
-                preferred_mode_of_consultation: formData["Preferred Mode of Consultation"],
-                // Add other fields as needed
+            const mappedData: DoctorApplication = {
+                full_name: String(formData["Full Name"] ?? ""),
+                date_of_birth: formData["Date of Birth"] ? String(formData["Date of Birth"]) : undefined,
+                gender: formData["Gender"] ? String(formData["Gender"]) : undefined,
+                mobile_number: String(formData["Mobile Number"] ?? ""),
+                email: String(formData["Email ID"] ?? ""),
+                address: formData["Address"] ? String(formData["Address"]) : undefined,
+                medical_registration_no: String(formData["Medical Registration No."] ?? ""),
+                qualification: formData["Qualification"] ? String(formData["Qualification"]) : undefined,
+                specialization: formData["Specialization"] ? String(formData["Specialization"]) : undefined,
+                years_of_experience: formData["Years of Experience"] !== undefined && formData["Years of Experience"] !== "" ? Number(formData["Years of Experience"]) : undefined,
+                current_hospital_clinic: formData["Current Hospital/Clinic"] ? String(formData["Current Hospital/Clinic"]) : undefined,
+                location_city_state: formData["Location – City/State"] ? String(formData["Location – City/State"]) : undefined,
+                areas_of_interest: Array.isArray(formData["Areas of Interest"]) ? formData["Areas of Interest"] as string[] : undefined,
+                languages_spoken: formData["Languages Spoken"] ? String(formData["Languages Spoken"]) : undefined,
+                preferred_mode_of_consultation: formData["Preferred Mode of Consultation"] ? String(formData["Preferred Mode of Consultation"]) : undefined,
             };
 
             res = await submitDoctorApplication(mappedData);
         } else if (type === "ngo") {
-            // Example mapping for NGOApplication
-            const ngoData = {
-                ngo_name: formData["NGO Name"],
-                registration_number: formData["Registration Number"],
-                date_of_registration: formData["Date of Registration"],
-                registered_address: formData["Registered Address"],
-                website_social: formData["Website / Social Media"], // fix label to match your form
-                contact_full_name: formData["Full Name"],           // <-- fix here
-                contact_designation: formData["Designation"],       // <-- fix here
-                contact_email: formData["Email"],                   // <-- fix here
-                contact_mobile: formData["Mobile Number"],          // <-- fix here
-                partnership_reason: formData["Why do you want to partner?"],
-                pillars: formData["Pillars"],
-                support: formData["Support"],
+            // Map frontend labels to backend field names and types
+            const ngoData: NGOApplication = {
+                ngo_name: String(formData["NGO Name"] ?? ""),
+                registration_number: formData["Registration Number"] ? String(formData["Registration Number"]) : undefined,
+                date_of_registration: formData["Date of Registration"] ? String(formData["Date of Registration"]) : undefined,
+                registered_address: formData["Registered Address"] ? String(formData["Registered Address"]) : undefined,
+                website_social: formData["Website / Social Media"] ? String(formData["Website / Social Media"]) : undefined,
+                contact_full_name: String(formData["Full Name"] ?? ""),
+                contact_designation: formData["Designation"] ? String(formData["Designation"]) : undefined,
+                contact_email: String(formData["Email"] ?? ""),
+                contact_mobile: String(formData["Mobile Number"] ?? ""),
+                partnership_reason: formData["Why do you want to partner?"] ? String(formData["Why do you want to partner?"]) : undefined,
+                pillars: Array.isArray(formData["Pillars"]) ? formData["Pillars"] as string[] : undefined,
+                support: Array.isArray(formData["Support"]) ? formData["Support"] as string[] : undefined,
             };
             res = await submitNGOApplication(ngoData);
         } else if (type === "support") {
             // Example mapping for SupportApplication
-            const supportData = {
-                name_or_org: formData["Full Name / Organization"],
-                type: formData["Type"],
-                contact_number: formData["Contact Number"],
-                email: formData["Email"],
-                address_city: formData["Address / City"],
-                ways_to_support: formData["Ways to Support"], // should be an array
-                frequency: formData["Frequency"],
-                approx_contribution: formData["Approx Contribution"],
-                skills_resources: formData["Skills / Resources"],
-                reason_for_prankiran: formData["Why Prankiran?"],
+            const supportData: SupportApplication = {
+                name_or_org: String(formData["Full Name / Organization"] ?? ""),
+                type: String(formData["Type"] ?? ""),
+                contact_number: String(formData["Contact Number"] ?? ""),
+                email: String(formData["Email"] ?? ""),
+                address_city: formData["Address / City"] ? String(formData["Address / City"]) : undefined,
+                ways_to_support: Array.isArray(formData["Ways to Support"]) ? formData["Ways to Support"] as string[] : undefined,
+                frequency: formData["Frequency"] ? String(formData["Frequency"]) : undefined,
+                approx_contribution: formData["Approx Contribution"] !== undefined && formData["Approx Contribution"] !== "" ? Number(formData["Approx Contribution"]) : undefined,
+                skills_resources: formData["Skills / Resources"] ? String(formData["Skills / Resources"]) : undefined,
+                reason_for_prankiran: formData["Why Prankiran?"] ? String(formData["Why Prankiran?"]) : undefined,
             };
             res = await submitSupportApplication(supportData);
         }
@@ -243,11 +244,9 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                     exit={{ opacity: 0, y: 100 }}
                     transition={{ duration: 0.5 }}
                 >
-                    {/* Header */}
                     <div className="modal-header border-0 flex-column align-items-start">
                         <h5 className="modal-title w-100">{steps[step].title}</h5>
 
-                        {/* Progress Bar */}
                         <div className="w-100 mt-3">
                             <div className="progress" style={{ height: "8px" }}>
                                 <motion.div
@@ -260,14 +259,12 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                             </div>
                         </div>
 
-                        {/* Step Indicators */}
                         <div className="d-flex justify-content-between w-100 mt-2">
                             {steps.map((s, idx) => (
                                 <div key={idx} className="text-center flex-fill">
                                     <div
-                                        className={`rounded-circle mx-auto mb-1 ${
-                                            idx <= step ? "bg-primary text-white" : "bg-light text-muted"
-                                        }`}
+                                        className={`rounded-circle mx-auto mb-1 ${idx <= step ? "bg-primary text-white" : "bg-light text-muted"
+                                            }`}
                                         style={{
                                             width: "28px",
                                             height: "28px",
@@ -286,15 +283,14 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                         <button className="btn-close position-absolute top-0 end-0 mt-3 me-3" onClick={onClose}></button>
                     </div>
 
-                    {/* Body */}
                     <div className="modal-body">
                         {steps[step].fields.map((field: Field, i: number) => (
                             <div className="mb-3" key={i}>
                                 <label className="form-label">{field.label}</label>
                                 {field.type === "text" ||
-                                field.type === "email" ||
-                                field.type === "number" ||
-                                field.type === "date" ? (
+                                    field.type === "email" ||
+                                    field.type === "number" ||
+                                    field.type === "date" ? (
                                     <input
                                         type={field.type}
                                         className="form-control"
@@ -327,7 +323,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                                                 type="checkbox"
                                                 className="form-check-input"
                                                 id={`${field.label}-${idx}`}
-                                                checked={formData[field.label]?.includes(opt) || false}
+                                                checked={Array.isArray(formData[field.label]) ? (formData[field.label] as string[]).includes(opt) : false}
                                                 onChange={(e) =>
                                                     handleCheckboxChange(field.label, opt, e.target.checked)
                                                 }
@@ -340,7 +336,6 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                         ))}
                     </div>
 
-                    {/* Footer Navigation */}
                     <div className="modal-footer border-0">
                         {step > 0 && (
                             <button className="btn btn-secondary" onClick={() => setStep(step - 1)}>
@@ -363,9 +358,8 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
     );
 };
 
-// Example function to submit Doctor Application
-async function submitDoctorApplication(data: any) {
-    const response = await fetch("http://localhost:8000/api/doctor-application/", {
+async function submitDoctorApplication(data: DoctorApplication) {
+    const response = await fetch(`http://${domain}/api/doctor-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -375,9 +369,8 @@ async function submitDoctorApplication(data: any) {
     return response.json();
 }
 
-// Example function to submit NGO Application
-async function submitNGOApplication(data: any) {
-    const response = await fetch("http://localhost:8000/api/ngo-application/", {
+async function submitNGOApplication(data: NGOApplication) {
+    const response = await fetch(`http://${domain}/api/ngo-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -387,9 +380,8 @@ async function submitNGOApplication(data: any) {
     return response.json();
 }
 
-// Example function to submit Support Application
-async function submitSupportApplication(data: any) {
-    const response = await fetch("http://localhost:8000/api/support-application/", {
+async function submitSupportApplication(data: SupportApplication) {
+    const response = await fetch(`http://${domain}/api/support-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
