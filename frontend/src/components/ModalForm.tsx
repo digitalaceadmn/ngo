@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import DoctorApplication from "@/pojo/DoctorApplication";
 import NGOApplication from "@/pojo/NGOApplication";
@@ -27,7 +27,6 @@ interface ModalFormProps {
     onClose: () => void;
 }
 
-const domain = window.location.hostname;
 
 const stepsConfig: Record<FormType, Step[]> = {
     doctor: [
@@ -149,6 +148,14 @@ const stepsConfig: Record<FormType, Step[]> = {
 const ModalForm = ({ type, onClose }: ModalFormProps) => {
     const [step, setStep] = useState<number>(0);
     const steps = stepsConfig[type];
+    const [domain , setDomain] = useState<string>("");
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const domain = window.location.hostname;
+            setDomain(domain);
+        }
+    }, []);
 
     const [formData, setFormData] = useState<Record<string, string | number | string[] | undefined>>({});
 
@@ -196,7 +203,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                 preferred_mode_of_consultation: formData["Preferred Mode of Consultation"] ? String(formData["Preferred Mode of Consultation"]) : undefined,
             };
 
-            res = await submitDoctorApplication(mappedData);
+            res = await submitDoctorApplication(mappedData , domain);
         } else if (type === "ngo") {
             // Map frontend labels to backend field names and types
             const ngoData: NGOApplication = {
@@ -213,7 +220,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                 pillars: Array.isArray(formData["Pillars"]) ? formData["Pillars"] as string[] : undefined,
                 support: Array.isArray(formData["Support"]) ? formData["Support"] as string[] : undefined,
             };
-            res = await submitNGOApplication(ngoData);
+            res = await submitNGOApplication(ngoData , domain);
         } else if (type === "support") {
             // Example mapping for SupportApplication
             const supportData: SupportApplication = {
@@ -228,7 +235,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                 skills_resources: formData["Skills / Resources"] ? String(formData["Skills / Resources"]) : undefined,
                 reason_for_prankiran: formData["Why Prankiran?"] ? String(formData["Why Prankiran?"]) : undefined,
             };
-            res = await submitSupportApplication(supportData);
+            res = await submitSupportApplication(supportData , domain);
         }
         // Optionally show success/error message here
         onClose();
@@ -358,7 +365,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
     );
 };
 
-async function submitDoctorApplication(data: DoctorApplication) {
+async function submitDoctorApplication(data: DoctorApplication, domain: string) {
     const response = await fetch(`http://${domain}/api/doctor-application/`, {
         method: "POST",
         headers: {
@@ -369,7 +376,7 @@ async function submitDoctorApplication(data: DoctorApplication) {
     return response.json();
 }
 
-async function submitNGOApplication(data: NGOApplication) {
+async function submitNGOApplication(data: NGOApplication, domain: string) {
     const response = await fetch(`http://${domain}/api/ngo-application/`, {
         method: "POST",
         headers: {
@@ -380,7 +387,7 @@ async function submitNGOApplication(data: NGOApplication) {
     return response.json();
 }
 
-async function submitSupportApplication(data: SupportApplication) {
+async function submitSupportApplication(data: SupportApplication, domain: string) {
     const response = await fetch(`http://${domain}/api/support-application/`, {
         method: "POST",
         headers: {

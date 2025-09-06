@@ -17,7 +17,6 @@ import {
     Lightbulb,
     Group,
 } from "@mui/icons-material";
-import OurStory from "@/assets/images/our-story.jpg";
 import Person from "@/assets/images/founder-image.jpg";
 import ModalForm from "@/components/ModalForm";
 
