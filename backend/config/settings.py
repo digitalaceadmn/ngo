@@ -142,7 +142,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -156,14 +155,12 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-# CORS settings
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', 
     default='http://localhost:3000,http://127.0.0.1:3000', 
     cast=lambda v: [s.strip() for s in v.split(',')])
 
 CORS_ALLOW_CREDENTIALS = True
 
-# JWT Settings
 from datetime import timedelta
 
 SIMPLE_JWT = {
@@ -176,13 +173,22 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-# Spectacular settings for API documentation
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Django API',
     'DESCRIPTION': 'API documentation',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'site.autoemail@gmail.com'
+EMAIL_HOST_PASSWORD = 'mywenfyaiirvdrdg'
+SEND_TO_EMAIL = 'kundan.softech@gmail.com'
+DISPLAY_NAME = 'no-reply@prankiran.org'
 
 # Celery Configuration (commented out - add Redis if needed)
 # CELERY_BROKER_URL = config('REDIS_URL', default='redis://redis:6379/0')
