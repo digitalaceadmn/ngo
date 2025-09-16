@@ -187,7 +187,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'site.autoemail@gmail.com'
 EMAIL_HOST_PASSWORD = 'mywenfyaiirvdrdg'
-SEND_TO_EMAIL = 'kundan.softech@gmail.com'
+SEND_TO_EMAIL = ['kundan.softech@gmail.com' , 'Jhanandini0605@gmail.com']
 DISPLAY_NAME = 'no-reply@prankiran.org'
 
 # Celery Configuration (commented out - add Redis if needed)

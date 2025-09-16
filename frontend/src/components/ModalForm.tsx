@@ -5,7 +5,6 @@ import DoctorApplication from "@/pojo/DoctorApplication";
 import NGOApplication from "@/pojo/NGOApplication";
 import SupportApplication from "@/pojo/SupportApplication";
 
-// =================== TYPES ===================
 type FieldType = "text" | "email" | "number" | "date" | "textarea" | "select" | "checkbox";
 
 interface Field {
@@ -144,7 +143,6 @@ const stepsConfig: Record<FormType, Step[]> = {
     ],
 };
 
-// =================== MODAL FORM ===================
 const ModalForm = ({ type, onClose }: ModalFormProps) => {
     const [step, setStep] = useState<number>(0);
     const steps = stepsConfig[type];
@@ -168,7 +166,6 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
         }));
     };
 
-    // Handle checkbox change (multiple values)
     const handleCheckboxChange = (label: string, option: string, checked: boolean) => {
         setFormData((prev) => {
             const arr = Array.isArray(prev[label]) ? prev[label] as string[] : [];
@@ -180,11 +177,9 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
         });
     };
 
-    // Submit handler
     const handleSubmit = async () => {
         let res;
         if (type === "doctor") {
-            // Map frontend labels to backend field names
             const mappedData: DoctorApplication = {
                 full_name: String(formData["Full Name"] ?? ""),
                 date_of_birth: formData["Date of Birth"] ? String(formData["Date of Birth"]) : undefined,
@@ -205,7 +200,6 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
 
             res = await submitDoctorApplication(mappedData , domain);
         } else if (type === "ngo") {
-            // Map frontend labels to backend field names and types
             const ngoData: NGOApplication = {
                 ngo_name: String(formData["NGO Name"] ?? ""),
                 registration_number: formData["Registration Number"] ? String(formData["Registration Number"]) : undefined,
@@ -222,7 +216,6 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
             };
             res = await submitNGOApplication(ngoData , domain);
         } else if (type === "support") {
-            // Example mapping for SupportApplication
             const supportData: SupportApplication = {
                 name_or_org: String(formData["Full Name / Organization"] ?? ""),
                 type: String(formData["Type"] ?? ""),
@@ -237,7 +230,6 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
             };
             res = await submitSupportApplication(supportData , domain);
         }
-        // Optionally show success/error message here
         onClose();
     };
 
@@ -366,7 +358,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
 };
 
 async function submitDoctorApplication(data: DoctorApplication, domain: string) {
-    const response = await fetch(`http://${domain}/api/doctor-application/`, {
+    const response = await fetch(`https://${domain}/api/doctor-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -377,7 +369,7 @@ async function submitDoctorApplication(data: DoctorApplication, domain: string) 
 }
 
 async function submitNGOApplication(data: NGOApplication, domain: string) {
-    const response = await fetch(`http://${domain}/api/ngo-application/`, {
+    const response = await fetch(`https://${domain}/api/ngo-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -388,7 +380,7 @@ async function submitNGOApplication(data: NGOApplication, domain: string) {
 }
 
 async function submitSupportApplication(data: SupportApplication, domain: string) {
-    const response = await fetch(`http://${domain}/api/support-application/`, {
+    const response = await fetch(`https://${domain}/api/support-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
