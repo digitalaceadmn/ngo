@@ -94,3 +94,7 @@ class SupportApplicationView(APIView):
             )
         print("Serializer errors:", serializer.errors) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def testAPI(request):
+    return HttpResponse("Test API is working!")
