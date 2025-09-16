@@ -6,7 +6,8 @@ from rest_framework.views import APIView
 from . models import DoctorApplication
 from . serializers import DoctorApplicationSerializer, NGOApplicationSerializer,SupportApplicationSerializer
 from .emails import send_admin_email, send_user_email
-from .utils import run_in_background 
+from .utils import run_in_background
+from django.http import HttpResponse
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
