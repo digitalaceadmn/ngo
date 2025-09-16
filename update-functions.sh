@@ -52,8 +52,11 @@ update_frontend() {
     fi
     
     # Stop and recreate frontend container
+    print_status "Stopping frontend container..."
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE stop frontend
+
     print_status "Recreating frontend container..."
-    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d frontend --force-recreate; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d frontend; then
         print_success "Frontend container updated successfully"
     else
         print_error "Failed to recreate frontend container"
@@ -93,8 +96,11 @@ update_backend() {
     collect_static
     
     # Stop and recreate backend container
+    print_status "Stopping backend container..."
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE stop backend
+
     print_status "Recreating backend container..."
-    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d backend --force-recreate; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d backend; then
         print_success "Backend container updated successfully"
     else
         print_error "Failed to recreate backend container"
@@ -133,9 +139,13 @@ update_all() {
     # Collect static files
     collect_static
     
+    # Stop all containers first
+    print_status "Stopping all containers..."
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE down
+
     # Recreate all containers
     print_status "Recreating all containers..."
-    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d --force-recreate; then
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d; then
         print_success "All containers updated successfully"
     else
         print_error "Failed to recreate containers"
