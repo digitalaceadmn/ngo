@@ -7,4 +7,5 @@ urlpatterns = [
     path('doctor-application/', views.DoctorApplicationView.as_view(), name='doctor_application'),
     path('ngo-application/', views.NGOApplicationView.as_view(), name='ngo_application'),
     path('support-application/', views.SupportApplicationView.as_view(), name='support_application'),
+    path('test-api/', views.testAPI, name='test_api'),
 ]
