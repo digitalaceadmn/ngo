@@ -38,10 +38,26 @@ check_production() {
     return 0
 }
 
+# Clean up any existing containers that might cause conflicts
+cleanup_existing_containers() {
+    print_status "Cleaning up any existing containers..."
+
+    # Stop and remove any containers from this project
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE down --remove-orphans 2>/dev/null || true
+
+    # Also try without project name in case containers exist without it
+    docker compose -f $COMPOSE_FILE down --remove-orphans 2>/dev/null || true
+
+    print_status "Cleanup completed"
+}
+
 # Update frontend only
 update_frontend() {
     print_status "Starting frontend update..."
-    
+
+    # Clean up any existing containers first
+    cleanup_existing_containers
+
     # Build the new frontend image
     print_status "Building frontend Docker image..."
     if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE build frontend; then
@@ -50,22 +66,19 @@ update_frontend() {
         print_error "Failed to build frontend image"
         return 1
     fi
-    
-    # Stop and recreate frontend container
-    print_status "Stopping frontend container..."
-    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE stop frontend
 
-    print_status "Recreating frontend container..."
-    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d frontend; then
+    # Start all required services (frontend needs backend)
+    print_status "Starting services..."
+    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d; then
         print_success "Frontend container updated successfully"
     else
-        print_error "Failed to recreate frontend container"
+        print_error "Failed to start frontend container"
         return 1
     fi
-    
+
     print_status "Waiting for frontend to be ready..."
     sleep 5
-    
+
     # Check if frontend is running
     if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE ps | grep -q "frontend.*Up"; then
         print_success "Frontend is running and updated!"
@@ -79,7 +92,10 @@ update_frontend() {
 # Update backend only
 update_backend() {
     print_status "Starting backend update..."
-    
+
+    # Clean up any existing containers first
+    cleanup_existing_containers
+
     # Build the new backend image
     print_status "Building backend Docker image..."
     if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE build backend; then
@@ -88,28 +104,27 @@ update_backend() {
         print_error "Failed to build backend image"
         return 1
     fi
-    
-    # Run migrations before updating
-    run_migrations
-    
-    # Collect static files
-    collect_static
-    
-    # Stop and recreate backend container
-    print_status "Stopping backend container..."
-    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE stop backend
 
-    print_status "Recreating backend container..."
-    if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d backend; then
-        print_success "Backend container updated successfully"
-    else
-        print_error "Failed to recreate backend container"
-        return 1
-    fi
-    
+    # Start database first
+    print_status "Starting database..."
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d db
+
+    print_status "Waiting for database to be ready..."
+    sleep 5
+
+    # Start backend to run migrations and collect static
+    print_status "Starting backend for migrations..."
+    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d backend
+
     print_status "Waiting for backend to be ready..."
     sleep 10
-    
+
+    # Run migrations
+    run_migrations
+
+    # Collect static files
+    collect_static
+
     # Check if backend is running
     if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE ps | grep -q "backend.*Up"; then
         print_success "Backend is running and updated!"
@@ -123,7 +138,10 @@ update_backend() {
 # Update both frontend and backend
 update_all() {
     print_status "Starting full application update..."
-    
+
+    # Clean up any existing containers first
+    cleanup_existing_containers
+
     # Build all images
     print_status "Building all Docker images..."
     if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE build; then
@@ -132,29 +150,25 @@ update_all() {
         print_error "Failed to build images"
         return 1
     fi
-    
-    # Run migrations
-    run_migrations
-    
-    # Collect static files
-    collect_static
-    
-    # Stop all containers first
-    print_status "Stopping all containers..."
-    docker compose -p $PROJECT_NAME -f $COMPOSE_FILE down
 
-    # Recreate all containers
-    print_status "Recreating all containers..."
+    # Start all containers
+    print_status "Starting all containers..."
     if docker compose -p $PROJECT_NAME -f $COMPOSE_FILE up -d; then
-        print_success "All containers updated successfully"
+        print_success "All containers started successfully"
     else
-        print_error "Failed to recreate containers"
+        print_error "Failed to start containers"
         return 1
     fi
-    
+
     print_status "Waiting for services to be ready..."
     sleep 10
-    
+
+    # Run migrations
+    run_migrations
+
+    # Collect static files
+    collect_static
+
     # Check if all services are running
     check_services
 }
