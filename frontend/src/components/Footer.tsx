@@ -18,12 +18,13 @@ const Footer = () => {
                 <div>
                     <h3 className="font-semibold mb-3 text-lg"> Quick Links</h3>
                     <ul className="space-y-2 p-0">
-                        <li><a href="#about" className="text-white hover:underline">About Us</a></li>
-                        <li><a href="#stories" className="text-white hover:underline">Patient Stories</a></li>
-                        <li><a href="#learning" className="text-white hover:underline">Join Learning Hub</a></li>
-                        <li><a href="#resources" className="text-white hover:underline">Resources (PDFs & Infographics)</a></li>
-                        <li><a href="#caregiver" className="text-white hover:underline">Caregiver Support</a></li>
-                        <li><a href="#contact" className="text-white hover:underline">Contact Us</a></li>
+                        <li><a href="/" className="text-white hover:underline">Home</a></li>
+                        <li><a href="/about-us" className="text-white hover:underline">About Us</a></li>
+                        <li><a href="/model" className="text-white hover:underline">Model</a></li>
+                        {/* <li><a href="#learning" className="text-white hover:underline">Join Learning Hub</a></li> */}
+                        {/* <li><a href="#resources" className="text-white hover:underline">Resources (PDFs & Infographics)</a></li> */}
+                        {/* <li><a href="#caregiver" className="text-white hover:underline">Caregiver Support</a></li> */}
+                        <li><a href="/contact-us" className="text-white hover:underline">Contact Us</a></li>
                     </ul>
                 </div>
 
