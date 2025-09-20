@@ -23,7 +23,7 @@ export default function HomePage() {
     const { setTitle } = useLayout();
 
     useEffect(() => {
-        setTitle("Prankiran");
+        setTitle("Prankiran - Ray of Vitality");
     }, [setTitle]);
 
     return (

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useLayout } from "@/contexts/LayoutContext";
 import Banner from "@/assets/images/contact-us-banner.jpg";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Container, Row, Col, Modal, Form, Button } from "react-bootstrap";
 import {
     Phone,
@@ -15,9 +15,13 @@ import {
     School,
     Favorite,
 } from "@mui/icons-material";
+import ModalForm from "@/components/ModalForm";
+
+type FormType = "doctor" | "ngo" | "support";
 
 export default function ContactPage() {
     const { setTitle } = useLayout();
+    const [modalType, setModalType] = useState<FormType | null>(null);
 
     const [selected, setSelected] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
@@ -40,7 +44,18 @@ export default function ContactPage() {
             alert("Please select a collaboration type first.");
             return;
         }
-        setShowModal(true);
+        // setShowModal(true);
+
+        let selection = '';
+
+        if (selected === "Investor") {
+            selection = "Support";
+        } else if (selected === "Doctor") {
+            selection = "Doctor";
+        } else if (selected === "NGO") {
+            selection = "NGO";
+        }
+        setModalType(selection?.toLowerCase() as FormType); 
     };
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,7 +150,6 @@ export default function ContactPage() {
                 </Container>
             </section>
 
-            {/* Collaboration Form */}
             <section className="py-5 bg-light">
                 <Container>
                     <motion.h2
@@ -154,8 +168,8 @@ export default function ContactPage() {
                         {[
                             { icon: <LocalHospital color="primary" fontSize="large" />, label: "Doctor" },
                             { icon: <Groups color="success" fontSize="large" />, label: "NGO" },
-                            { icon: <School color="warning" fontSize="large" />, label: "Student" },
-                            { icon: <Favorite color="error" fontSize="large" />, label: "Funder" },
+                            // { icon: <School color="warning" fontSize="large" />, label: "Student" },
+                            { icon: <Favorite color="error" fontSize="large" />, label: "Investor" },
                         ].map((item, idx) => (
                             <Col md={3} key={idx}>
                                 <motion.div
@@ -187,6 +201,9 @@ export default function ContactPage() {
                     </div>
                 </Container>
             </section>
+
+            <AnimatePresence>{modalType && <ModalForm type={modalType} onClose={() => setModalType(null)} />}</AnimatePresence>
+
 
             {/* Modal for User Info */}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
