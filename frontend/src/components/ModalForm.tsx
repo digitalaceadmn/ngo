@@ -358,7 +358,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
 };
 
 async function submitDoctorApplication(data: DoctorApplication, domain: string) {
-    const response = await fetch(`https://prankiran.com/api/doctor-application/`, {
+    const response = await fetch(`/api/doctor-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -371,7 +371,7 @@ async function submitDoctorApplication(data: DoctorApplication, domain: string) 
 }
 
 async function submitNGOApplication(data: NGOApplication, domain: string) {
-    const response = await fetch(`https://prankiran.com/api/ngo-application/`, {
+    const response = await fetch(`/api/ngo-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -382,7 +382,7 @@ async function submitNGOApplication(data: NGOApplication, domain: string) {
 }
 
 async function submitSupportApplication(data: SupportApplication, domain: string) {
-    const response = await fetch(`https://prankiran.com/api/support-application/`, {
+    const response = await fetch(`/api/support-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
