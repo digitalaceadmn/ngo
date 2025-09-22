@@ -365,6 +365,8 @@ async function submitDoctorApplication(data: DoctorApplication, domain: string) 
         },
         body: JSON.stringify(data),
     });
+    console.log("Doctor application submitted to domain: " , domain);
+    console.log("Response: " , response);
     return response.json();
 }
 
