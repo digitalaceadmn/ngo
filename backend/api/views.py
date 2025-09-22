@@ -65,14 +65,24 @@ class NGOApplicationView(APIView):
     def post(self, request, *args, **kwargs):
         print("Received data:", request.data)
         serializer = NGOApplicationSerializer(data=request.data)
-        run_in_background(send_admin_email, "NGO", serializer.data)
-        run_in_background(send_user_email, serializer.data.get("email"), "NGO", serializer.data)
+        
         if serializer.is_valid():
-            serializer.save()
+            instance = serializer.save()
+            
+            # Send emails in background after saving
+            run_in_background(send_admin_email, "NGO", serializer.data)
+            run_in_background(
+                send_user_email,
+                serializer.data.get("contact_email"),  # correct field
+                "NGO",
+                serializer.data
+            )
+            
             return Response(
                 {"message": "NGO application submitted successfully", "data": serializer.data},
                 status=status.HTTP_201_CREATED
             )
+        
         print("Serializer errors:", serializer.errors)  
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
