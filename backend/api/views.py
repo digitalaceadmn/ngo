@@ -47,8 +47,19 @@ class DoctorApplicationView(APIView):
         serializer = DoctorApplicationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            run_in_background(send_admin_email, "Doctor", serializer.data)
-            run_in_background(send_user_email, serializer.data.get("email"), "Doctor", serializer.data)
+            try:
+                run_in_background(send_admin_email, "Doctor", serializer.data)
+            except Exception as e:
+                print(f"Error sending admin email: {e}")
+            try:
+                run_in_background(
+                    send_user_email,
+                    serializer.data.get("contact_email"),
+                    "NGO",
+                    serializer.data
+                )
+            except Exception as e:
+                print(f"Error sending user email: {e}")
             return Response(
                 {"message": "Doctor application submitted successfully", "data": serializer.data},
                 status=status.HTTP_201_CREATED
