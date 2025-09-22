@@ -10,9 +10,9 @@ export default interface DoctorApplication  {
     qualification?: string;
     specialization?: string;
     years_of_experience?: number;
-    current_hospital_clinic?: string;
+    current_hospital?: string;
     location_city_state?: string;
-    preferred_mode_of_consultation?: string;
+    preferred_consultation_mode?: string;
     languages_spoken?: string;
     areas_of_interest?: string[]; 
 }
