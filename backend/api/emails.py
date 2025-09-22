@@ -8,10 +8,13 @@ def send_admin_email(application_type, data):
     from_email = settings.DISPLAY_NAME
     to = settings.SEND_TO_EMAIL
 
-    html_content = render_to_string("emails/admin_notification.html", {"data": data})
-    msg = EmailMultiAlternatives(subject, "", from_email, to)
-    msg.attach_alternative(html_content, "text/html")
-    msg.send()
+    try:
+        html_content = render_to_string("emails/admin_notification.html", {"data": data})
+        msg = EmailMultiAlternatives(subject, "", from_email, to)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+    except Exception as e:
+        print(f"Error sending admin email: {e}")
 
 
 def send_user_email(user_email, application_type, data):
@@ -19,7 +22,10 @@ def send_user_email(user_email, application_type, data):
     from_email = settings.DISPLAY_NAME
     to = [user_email]
 
-    html_content = render_to_string("emails/user_thankyou.html", {"data": data})
-    msg = EmailMultiAlternatives(subject, "", from_email, to)
-    msg.attach_alternative(html_content, "text/html")
-    msg.send()
+    try:
+        html_content = render_to_string("emails/user_thankyou.html", {"data": data})
+        msg = EmailMultiAlternatives(subject, "", from_email, to)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+    except Exception as e:
+        print(f"Error sending user email: {e}")
