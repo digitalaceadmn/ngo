@@ -1,5 +1,6 @@
 from django.conf import settings
 from api.utils import run_in_background, send_mailtrap_email
+from datetime import datetime
 
 
 def generate_email_html(application_type, data):
