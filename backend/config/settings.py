@@ -217,8 +217,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'site.autoemail@gmail.com'
 EMAIL_HOST_PASSWORD = 'mywenfyaiirvdrdg'
-SEND_TO_EMAIL = ['kundan.softech@gmail.com' , 'Jhanandini0605@gmail.com']
-DISPLAY_NAME = 'no-reply@prankiran.org'
+
 
 # Celery Configuration (commented out - add Redis if needed)
 # CELERY_BROKER_URL = config('REDIS_URL', default='redis://redis:6379/0')
@@ -227,3 +226,10 @@ DISPLAY_NAME = 'no-reply@prankiran.org'
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TIMEZONE = TIME_ZONE
+
+
+from decouple import config
+
+MAILTRAP_API_TOKEN = config("MAILTRAP_API_TOKEN")
+SEND_TO_EMAIL = ['kundan.softech@gmail.com' , 'Jhanandini0605@gmail.com']
+DISPLAY_NAME = 'no-reply@prankiran.org'

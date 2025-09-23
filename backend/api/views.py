@@ -44,37 +44,6 @@ def health_check(request):
     )
 
 
-# class DoctorApplicationView(APIView):
-    
-#     def get(self, request, *args, **kwargs):
-#         return Response({"message": "Doctor application endpoint"}, status=status.HTTP_200_OK)
-
-#     def post(self, request, *args, **kwargs):
-#         print("Received data:", request.data)
-#         serializer = DoctorApplicationSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             print("Serializer data:", serializer.data)
-#             try:
-#                 run_in_background(send_admin_email, "Doctor", serializer.data)
-#             except Exception as e:
-#                 print(f"Error sending admin email: {e}")
-#             try:
-#                 run_in_background(
-#                     send_user_email,
-#                     serializer.data.get("contact_email"),
-#                     "NGO",
-#                     serializer.data
-#                 )
-#             except Exception as e:
-#                 print(f"Error sending user email: {e}")
-#             return Response(
-#                 {"message": "Doctor application submitted successfully", "data": serializer.data},
-#                 status=status.HTTP_201_CREATED
-#             )
-#         print("Serializer errors:", serializer.errors)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class DoctorApplicationView(APIView):
 
     def get(self, request, *args, **kwargs):
@@ -83,17 +52,15 @@ class DoctorApplicationView(APIView):
         )
 
     def post(self, request, *args, **kwargs):
+        print("Received data:", request.data)
         serializer = DoctorApplicationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            
-            errors = {}  
-
+            print("Serializer data:", serializer.data)
             try:
                 run_in_background(send_admin_email, "Doctor", serializer.data)
             except Exception as e:
-                errors["admin_email"] = str(e)
-
+                print(f"Error sending admin email: {e}")
             try:
                 run_in_background(
                     send_user_email,
@@ -102,21 +69,54 @@ class DoctorApplicationView(APIView):
                     serializer.data
                 )
             except Exception as e:
-                errors["user_email"] = str(e)
+                print(f"Error sending user email: {e}")
+            return Response(
+                {"message": "Doctor application submitted successfully", "data": serializer.data},
+                status=status.HTTP_201_CREATED
+            )
+        print("Serializer errors:", serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            response_data = {
-                "message": "Doctor application submitted successfully",
-                "data": serializer.data,
-            }
-            if errors:
-                response_data["mail_errors"] = errors  
+# class DoctorApplicationView(APIView):
+    
+#     def get(self, request, *args, **kwargs):
+#         return Response({"message": "Doctor application endpoint"}, status=status.HTTP_200_OK)
 
-            return Response(response_data, status=status.HTTP_201_CREATED)
+#     def post(self, request, *args, **kwargs):
+#         serializer = DoctorApplicationSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+            
+#             errors = {}  
 
-        return Response(
-            {"errors": serializer.errors},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+#             try:
+#                 run_in_background(send_admin_email, "Doctor", serializer.data)
+#             except Exception as e:
+#                 errors["admin_email"] = str(e)
+
+#             try:
+#                 run_in_background(
+#                     send_user_email,
+#                     serializer.data.get("contact_email"),
+#                     "NGO",
+#                     serializer.data
+#                 )
+#             except Exception as e:
+#                 errors["user_email"] = str(e)
+
+#             response_data = {
+#                 "message": "Doctor application submitted successfully",
+#                 "data": serializer.data,
+#             }
+#             if errors:
+#                 response_data["mail_errors"] = errors  
+
+#             return Response(response_data, status=status.HTTP_201_CREATED)
+
+#         return Response(
+#             {"errors": serializer.errors},
+#             status=status.HTTP_400_BAD_REQUEST
+#         )
 
 
 

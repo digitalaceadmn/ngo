@@ -191,11 +191,11 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
                 qualification: formData["Qualification"] ? String(formData["Qualification"]) : undefined,
                 specialization: formData["Specialization"] ? String(formData["Specialization"]) : undefined,
                 years_of_experience: formData["Years of Experience"] !== undefined && formData["Years of Experience"] !== "" ? Number(formData["Years of Experience"]) : undefined,
-                current_hospital_clinic: formData["Current Hospital/Clinic"] ? String(formData["Current Hospital/Clinic"]) : undefined,
+                current_hospital: formData["Current Hospital/Clinic"] ? String(formData["Current Hospital/Clinic"]) : undefined,
                 location_city_state: formData["Location – City/State"] ? String(formData["Location – City/State"]) : undefined,
                 areas_of_interest: Array.isArray(formData["Areas of Interest"]) ? formData["Areas of Interest"] as string[] : undefined,
                 languages_spoken: formData["Languages Spoken"] ? String(formData["Languages Spoken"]) : undefined,
-                preferred_mode_of_consultation: formData["Preferred Mode of Consultation"] ? String(formData["Preferred Mode of Consultation"]) : undefined,
+                preferred_consultation_mode: formData["Preferred Mode of Consultation"] ? String(formData["Preferred Mode of Consultation"]) : undefined,
             };
 
             res = await submitDoctorApplication(mappedData , domain);
@@ -358,7 +358,7 @@ const ModalForm = ({ type, onClose }: ModalFormProps) => {
 };
 
 async function submitDoctorApplication(data: DoctorApplication, domain: string) {
-    const response = await fetch(`https://prankiran.com/api/doctor-application/`, {
+    const response = await fetch(`/api/doctor-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -371,7 +371,7 @@ async function submitDoctorApplication(data: DoctorApplication, domain: string) 
 }
 
 async function submitNGOApplication(data: NGOApplication, domain: string) {
-    const response = await fetch(`https://prankiran.com/api/ngo-application/`, {
+    const response = await fetch(`/api/ngo-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -382,7 +382,7 @@ async function submitNGOApplication(data: NGOApplication, domain: string) {
 }
 
 async function submitSupportApplication(data: SupportApplication, domain: string) {
-    const response = await fetch(`https://prankiran.com/api/support-application/`, {
+    const response = await fetch(`/api/support-application/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
