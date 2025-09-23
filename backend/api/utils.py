@@ -18,6 +18,7 @@ def send_mailtrap_email(
     to_email: str,
     subject: str,
     text: str = None,
+    html: str = None,
     from_email: str = "no-reply@prankiran.org",
     from_name: str = "Prankiran- Ray of Vitality",
     category: str = "Integration Test"
@@ -56,6 +57,7 @@ def send_mailtrap_email(
             ],
             "subject": subject,
             "text": text or f"Email from {from_name}",
+            "html": html if html else None, 
             "category": category
         }
         
