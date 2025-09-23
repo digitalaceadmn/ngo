@@ -3,7 +3,7 @@ from api.utils import run_in_background, send_mailtrap_email
 
 def send_admin_email(application_type, data):
     subject = f"New {application_type} Application Submitted"
-    to_email = settings.SEND_TO_EMAIL if isinstance(settings.SEND_TO_EMAIL, str) else settings.SEND_TO_EMAIL[0]
+    to_email="kundan.softech@gmail.com"
     text = f"New {application_type} application submitted.\n\nDetails:\n{data}"
 
     try:
@@ -12,7 +12,7 @@ def send_admin_email(application_type, data):
             to_email=to_email,
             subject=subject,
             text=text,
-            from_email=settings.DISPLAY_NAME,
+            from_email="hello@digitalace.in",
             from_name="Admin Notification",
             category="Admin"
         )
@@ -29,7 +29,7 @@ def send_user_email(user_email, application_type, data):
             to_email=user_email,
             subject=subject,
             text=text,
-            from_email=settings.DISPLAY_NAME,
+            from_email="hello@digitalace.in",
             from_name="Support Team",
             category="User"
         )
