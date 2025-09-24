@@ -1,6 +1,7 @@
 from django.conf import settings
 from api.utils import run_in_background, send_mailtrap_email
 from datetime import datetime
+from users.models import Configuration
 
 
 def generate_email_html(application_type, data):
@@ -55,14 +56,14 @@ def generate_email_html(application_type, data):
 
 def send_admin_email(application_type, data):
     subject = f"New {application_type} Application Submitted"
-    to_email="kundan.softech@gmail.com"
+    admin_emails = Configuration.objects.filter(key="admin_email").values_list("value", flat=True)
     text = f"New {application_type} application submitted.\n\nDetails:\n{data}"
     html = generate_email_html(application_type, data)
 
     try:
         run_in_background(
             send_mailtrap_email,
-            to_email=to_email,
+            to_email=admin_emails,
             subject=subject,
             text=text,
             html=html,
@@ -174,7 +175,7 @@ def send_user_email(user_email, application_type, data):
     try:
         run_in_background(
             send_mailtrap_email,
-            to_email=user_email,
+            to_email=[user_email],
             subject=subject,
             text=text,
             html=html,  

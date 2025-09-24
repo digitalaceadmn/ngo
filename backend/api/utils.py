@@ -15,7 +15,7 @@ def run_in_background(func, *args, **kwargs):
 
 
 def send_mailtrap_email(
-    to_email: str,
+    to_email,
     subject: str,
     text: str = None,
     html: str = None,
@@ -44,17 +44,18 @@ def send_mailtrap_email(
             "Authorization": f"Bearer {settings.MAILTRAP_API_TOKEN}",
             "Content-Type": "application/json"
         }
+
+        if isinstance(to_email, str):
+            to_email = [to_email]
+
+        recipients = [{"email": email.strip()} for email in to_email]
         
         payload = {
             "from": {
                 "email": from_email,
                 "name": from_name
             },
-            "to": [
-                {
-                    "email": to_email
-                },  
-            ],
+            "to": recipients,
             "subject": subject,
             "text": text or f"Email from {from_name}",
             "html": html if html else None, 
