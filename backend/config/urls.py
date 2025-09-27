@@ -27,9 +27,9 @@ from drf_spectacular.views import (
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
-admin.site.site_header = "Prankiran Administration"
-admin.site.site_title = "Prankiran Administration"
-admin.site.index_title = "Welcome to Prankiran Administration"
+admin.site.site_header = "Prankiran Administration "
+admin.site.site_title = "Prankiran Administration "
+admin.site.index_title = "Welcome to Prankiran Administration "
 
 urlpatterns = [
     path("admin/", admin.site.urls),
