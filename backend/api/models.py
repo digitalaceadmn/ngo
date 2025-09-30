@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 
 
@@ -141,12 +142,13 @@ class SupportApplication(models.Model):
     def __str__(self):
         return self.name_or_org
 
+
 class Student(models.Model):
     # Tab 1: Personal Details
     full_name = models.CharField(max_length=150)
     gender = models.CharField(
         max_length=10,
-        choices=[("Male", "Male"), ("Female", "Female"), ("Other", "Other")]
+        choices=[("Male", "Male"), ("Female", "Female"), ("Other", "Other")],
     )
     date_of_birth = models.DateField()
     email = models.EmailField(unique=True)
@@ -165,7 +167,7 @@ class Student(models.Model):
             ("Hindi", "Hindi"),
             ("Other", "Other"),
         ],
-        default="Hindi"
+        default="Hindi",
     )
 
     # Tab 2: Education Details
@@ -177,20 +179,17 @@ class Student(models.Model):
             ("12th Appearing", "12th Appearing"),
             ("12th Passed", "12th Passed"),
             ("Graduation in Progress", "Graduation in Progress"),
-        ]
+        ],
     )
     school_college_name = models.CharField(max_length=200)
     board_university = models.CharField(max_length=200, blank=True, null=True)
     stream = models.CharField(
         max_length=50,
         choices=[("Science", "Science"), ("Other", "Other")],
-        default="Science"
+        default="Science",
     )
     subjects_studied = models.TextField(help_text="List subjects like PCM, PCB, etc.")
-    academic_performance = models.CharField(
-        max_length=50,
-        help_text="Last % or grades"
-    )
+    academic_performance = models.CharField(max_length=50, help_text="Last % or grades")
     career_goal = models.CharField(
         max_length=50,
         choices=[
@@ -200,7 +199,7 @@ class Student(models.Model):
             ("Paramedical", "Paramedical"),
             ("Allied Health Sciences", "Allied Health Sciences"),
             ("Not Decided", "Not Decided"),
-        ]
+        ],
     )
 
     # Tab 3: Preferences
@@ -221,3 +220,7 @@ class Student(models.Model):
 
     def __str__(self):
         return f"{self.full_name} ({self.education_level})"
+
+    class Meta:
+        verbose_name = "StudentApplication"
+        verbose_name_plural = "StudentApplication"
