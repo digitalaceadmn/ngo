@@ -213,3 +213,4 @@ class StudentView(APIView):
 
         print("Serializer errors:", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
