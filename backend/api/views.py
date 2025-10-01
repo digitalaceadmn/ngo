@@ -8,6 +8,7 @@ from .serializers import (
     DoctorApplicationSerializer,
     NGOApplicationSerializer,
     SupportApplicationSerializer,
+    StudentSerializer,
 )
 from .emails import send_admin_email, send_user_email
 from .utils import run_in_background
@@ -66,19 +67,23 @@ class DoctorApplicationView(APIView):
                     send_user_email,
                     serializer.data.get("contact_email"),
                     "NGO",
-                    serializer.data
+                    serializer.data,
                 )
             except Exception as e:
                 print(f"Error sending user email: {e}")
             return Response(
-                {"message": "Doctor application submitted successfully", "data": serializer.data},
-                status=status.HTTP_201_CREATED
+                {
+                    "message": "Doctor application submitted successfully",
+                    "data": serializer.data,
+                },
+                status=status.HTTP_201_CREATED,
             )
         print("Serializer errors:", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 # class DoctorApplicationView(APIView):
-    
+
 #     def get(self, request, *args, **kwargs):
 #         return Response({"message": "Doctor application endpoint"}, status=status.HTTP_200_OK)
 
@@ -86,8 +91,8 @@ class DoctorApplicationView(APIView):
 #         serializer = DoctorApplicationSerializer(data=request.data)
 #         if serializer.is_valid():
 #             serializer.save()
-            
-#             errors = {}  
+
+#             errors = {}
 
 #             try:
 #                 run_in_background(send_admin_email, "Doctor", serializer.data)
@@ -109,7 +114,7 @@ class DoctorApplicationView(APIView):
 #                 "data": serializer.data,
 #             }
 #             if errors:
-#                 response_data["mail_errors"] = errors  
+#                 response_data["mail_errors"] = errors
 
 #             return Response(response_data, status=status.HTTP_201_CREATED)
 
@@ -117,7 +122,6 @@ class DoctorApplicationView(APIView):
 #             {"errors": serializer.errors},
 #             status=status.HTTP_400_BAD_REQUEST
 #         )
-
 
 
 class NGOApplicationView(APIView):
@@ -189,3 +193,24 @@ class SupportApplicationView(APIView):
 
 def testAPI(request):
     return HttpResponse("Test API is working!")
+
+
+class StudentView(APIView):
+    def post(self, request, *args, **kwargs):
+        print("Received data:", request.data)
+
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            student = serializer.save()  # Save to DB
+
+            return Response(
+                {
+                    "message": "Student registered successfully",
+                    "data": serializer.data,
+                },
+                status=status.HTTP_201_CREATED,
+            )
+
+        print("Serializer errors:", serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
