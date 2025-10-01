@@ -104,11 +104,16 @@ export default function ContactPage() {
         consent_given: false,
     });
 
-    const handleStudentFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value, type, checked } = e.target;
+    const handleStudentFormChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
+        const { name, value, type } = e.target;
+
         setStudentForm((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: type === "checkbox"
+                ? (e.target as HTMLInputElement).checked
+                : value,
         }));
     };
 
@@ -161,7 +166,7 @@ export default function ContactPage() {
             }
         } catch (error) {
             alert("An error occurred. Please try again.");
-        }   
+        }
     };
 
     return (
