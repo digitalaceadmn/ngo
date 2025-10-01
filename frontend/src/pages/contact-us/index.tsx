@@ -30,6 +30,8 @@ export default function ContactPage() {
         email: "",
         phone: "",
     });
+    const [showStudentForm, setShowStudentForm] = useState(false);
+    const [step, setStep] = useState(1);
 
     useEffect(() => {
         setTitle("Contact Us");
@@ -44,10 +46,11 @@ export default function ContactPage() {
             alert("Please select a collaboration type first.");
             return;
         }
-        // setShowModal(true);
-
+        if (selected === "Student") {
+            setShowStudentForm(true);
+            return;
+        }
         let selection = '';
-
         if (selected === "Investor") {
             selection = "Support";
         } else if (selected === "Doctor") {
@@ -55,7 +58,7 @@ export default function ContactPage() {
         } else if (selected === "NGO") {
             selection = "NGO";
         }
-        setModalType(selection?.toLowerCase() as FormType); 
+        setModalType(selection?.toLowerCase() as FormType);
     };
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +71,97 @@ export default function ContactPage() {
         console.log("User Info:", formData);
         setShowModal(false);
         alert("Thank you! We will connect with you soon.");
+    };
+
+    const [studentForm, setStudentForm] = useState({
+        full_name: "",
+        gender: "",
+        date_of_birth: "",
+        email: "",
+        mobile_number: "",
+        parent_guardian_name: "",
+        parent_guardian_contact: "",
+        residential_address: "",
+        is_rural: false,
+        state: "",
+        district: "",
+        village: "",
+        preferred_language: "Hindi",
+        education_level: "",
+        school_college_name: "",
+        board_university: "",
+        stream: "Science",
+        subjects_studied: "",
+        academic_performance: "",
+        career_goal: "",
+        wants_neet_classes: false,
+        needs_books: false,
+        wants_journals: false,
+        wants_mentorship: false,
+        wants_volunteering: false,
+        other_preferences: "",
+        why_consider_you: "",
+        consent_given: false,
+    });
+
+    const handleStudentFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value, type, checked } = e.target;
+        setStudentForm((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    const handleStudentFormSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await fetch("/api/student-application/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(studentForm),
+            });
+            if (response.ok) {
+                alert("Student form submitted successfully!");
+                setShowStudentForm(false);
+                setStudentForm({
+                    full_name: "",
+                    gender: "",
+                    date_of_birth: "",
+                    email: "",
+                    mobile_number: "",
+                    parent_guardian_name: "",
+                    parent_guardian_contact: "",
+                    residential_address: "",
+                    is_rural: false,
+                    state: "",
+                    district: "",
+                    village: "",
+                    preferred_language: "Hindi",
+                    education_level: "",
+                    school_college_name: "",
+                    board_university: "",
+                    stream: "Science",
+                    subjects_studied: "",
+                    academic_performance: "",
+                    career_goal: "",
+                    wants_neet_classes: false,
+                    needs_books: false,
+                    wants_journals: false,
+                    wants_mentorship: false,
+                    wants_volunteering: false,
+                    other_preferences: "",
+                    why_consider_you: "",
+                    consent_given: false,
+                });
+            } else {
+                const errorData = await response.json();
+                alert("Submission failed: " + (errorData.detail || "Unknown error"));
+            }
+        } catch (error) {
+            alert("An error occurred. Please try again.");
+        }   
     };
 
     return (
@@ -83,7 +177,7 @@ export default function ContactPage() {
                     marginBottom: "30px",
                 }}
             >
-                
+
             </section>
 
             {/* Contact Details */}
@@ -168,16 +262,15 @@ export default function ContactPage() {
                         {[
                             { icon: <LocalHospital color="primary" fontSize="large" />, label: "Doctor" },
                             { icon: <Groups color="success" fontSize="large" />, label: "NGO" },
-                            // { icon: <School color="warning" fontSize="large" />, label: "Student" },
+                            { icon: <School color="warning" fontSize="large" />, label: "Student" },
                             { icon: <Favorite color="error" fontSize="large" />, label: "Investor" },
                         ].map((item, idx) => (
                             <Col md={3} key={idx}>
                                 <motion.div
                                     whileHover={{ scale: 1.05 }}
                                     onClick={() => handleCardClick(item.label)}
-                                    className={`p-4 rounded shadow text-center h-100 cursor-pointer ${
-                                        selected === item.label ? "bg-soft-golden text-white" : "bg-white"
-                                    }`}
+                                    className={`p-4 rounded shadow text-center h-100 cursor-pointer ${selected === item.label ? "bg-soft-golden text-white" : "bg-white"
+                                        }`}
                                     style={{ cursor: "pointer" }}
                                 >
                                     {item.icon}
@@ -252,6 +345,221 @@ export default function ContactPage() {
                         Submit
                     </Button>
                 </Modal.Footer>
+            </Modal>
+
+            {/* Student Registration Modal */}
+            <Modal show={showStudentForm} onHide={() => { setShowStudentForm(false); setStep(1); }} size="lg" centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        {step === 1 && "Personal Details"}
+                        {step === 2 && "Education Details"}
+                        {step === 3 && "Preferences"}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleStudentFormSubmit}>
+                        {step === 1 && (
+                            <>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Full Name</Form.Label>
+                                    <Form.Control name="full_name" value={studentForm.full_name} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Gender</Form.Label>
+                                    <Form.Select name="gender" value={studentForm.gender} onChange={handleStudentFormChange} required>
+                                        <option value="">Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </Form.Select>
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Date of Birth</Form.Label>
+                                    <Form.Control type="date" name="date_of_birth" value={studentForm.date_of_birth} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control type="email" name="email" value={studentForm.email} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Mobile Number (Preferably WhatsApp)</Form.Label>
+                                    <Form.Control name="mobile_number" value={studentForm.mobile_number} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Parent/Guardian Name</Form.Label>
+                                    <Form.Control name="parent_guardian_name" value={studentForm.parent_guardian_name} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Parent/Guardian Contact</Form.Label>
+                                    <Form.Control name="parent_guardian_contact" value={studentForm.parent_guardian_contact} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Residential Address</Form.Label>
+                                    <Form.Control as="textarea" rows={2} name="residential_address" value={studentForm.residential_address} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Is Rural?"
+                                        name="is_rural"
+                                        checked={studentForm.is_rural}
+                                        onChange={handleStudentFormChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>State</Form.Label>
+                                    <Form.Control name="state" value={studentForm.state} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>District</Form.Label>
+                                    <Form.Control name="district" value={studentForm.district} onChange={handleStudentFormChange} />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Village</Form.Label>
+                                    <Form.Control name="village" value={studentForm.village} onChange={handleStudentFormChange} />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Preferred Language</Form.Label>
+                                    <Form.Select name="preferred_language" value={studentForm.preferred_language} onChange={handleStudentFormChange}>
+                                        <option value="English">English</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Other">Other</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </>
+                        )}
+
+                        {step === 2 && (
+                            <>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Education Level</Form.Label>
+                                    <Form.Select name="education_level" value={studentForm.education_level} onChange={handleStudentFormChange} required>
+                                        <option value="">Select</option>
+                                        <option value="10th Appearing">10th Appearing</option>
+                                        <option value="10th Passed">10th Passed</option>
+                                        <option value="12th Appearing">12th Appearing</option>
+                                        <option value="12th Passed">12th Passed</option>
+                                        <option value="Graduation in Progress">Graduation in Progress</option>
+                                    </Form.Select>
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>School/College Name</Form.Label>
+                                    <Form.Control name="school_college_name" value={studentForm.school_college_name} onChange={handleStudentFormChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Board/University</Form.Label>
+                                    <Form.Control name="board_university" value={studentForm.board_university} onChange={handleStudentFormChange} />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Stream</Form.Label>
+                                    <Form.Select name="stream" value={studentForm.stream} onChange={handleStudentFormChange}>
+                                        <option value="Science">Science</option>
+                                        <option value="Other">Other</option>
+                                    </Form.Select>
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Subjects Studied (e.g. PCM, PCB, etc.)</Form.Label>
+                                    <Form.Control name="subjects_studied" value={studentForm.subjects_studied} onChange={handleStudentFormChange} />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Academic Performance (Last % or grades)</Form.Label>
+                                    <Form.Control name="academic_performance" value={studentForm.academic_performance} onChange={handleStudentFormChange} />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Career Goal</Form.Label>
+                                    <Form.Select name="career_goal" value={studentForm.career_goal} onChange={handleStudentFormChange} required>
+                                        <option value="">Select</option>
+                                        <option value="MBBS">MBBS</option>
+                                        <option value="BDS">BDS</option>
+                                        <option value="Nursing">Nursing</option>
+                                        <option value="Paramedical">Paramedical</option>
+                                        <option value="Allied Health Sciences">Allied Health Sciences</option>
+                                        <option value="Not Decided">Not Decided</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </>
+                        )}
+
+                        {step === 3 && (
+                            <>
+                                <Form.Group className="mb-2">
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Wants NEET Classes"
+                                        name="wants_neet_classes"
+                                        checked={studentForm.wants_neet_classes}
+                                        onChange={handleStudentFormChange}
+                                    />
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Needs Books"
+                                        name="needs_books"
+                                        checked={studentForm.needs_books}
+                                        onChange={handleStudentFormChange}
+                                    />
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Wants Journals"
+                                        name="wants_journals"
+                                        checked={studentForm.wants_journals}
+                                        onChange={handleStudentFormChange}
+                                    />
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Wants Mentorship"
+                                        name="wants_mentorship"
+                                        checked={studentForm.wants_mentorship}
+                                        onChange={handleStudentFormChange}
+                                    />
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Wants Volunteering"
+                                        name="wants_volunteering"
+                                        checked={studentForm.wants_volunteering}
+                                        onChange={handleStudentFormChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Other Preferences</Form.Label>
+                                    <Form.Control as="textarea" rows={2} name="other_preferences" value={studentForm.other_preferences} onChange={handleStudentFormChange} />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Label>Why should we consider you?</Form.Label>
+                                    <Form.Control as="textarea" rows={2} name="why_consider_you" value={studentForm.why_consider_you} onChange={handleStudentFormChange} />
+                                </Form.Group>
+                                <Form.Group className="mb-2">
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="I give my consent to submit this information"
+                                        name="consent_given"
+                                        checked={studentForm.consent_given}
+                                        onChange={handleStudentFormChange}
+                                        required
+                                    />
+                                </Form.Group>
+                            </>
+                        )}
+
+                        {/* Navigation Buttons */}
+                        <div className="d-flex justify-content-end gap-2 mt-4">
+                            {step > 1 && (
+                                <Button variant="secondary" onClick={() => setStep(step - 1)}>
+                                    Back
+                                </Button>
+                            )}
+                            {step < 3 && (
+                                <Button variant="primary" onClick={e => { e.preventDefault(); setStep(step + 1); }}>
+                                    Next
+                                </Button>
+                            )}
+                            {step === 3 && (
+                                <Button type="submit" variant="success">
+                                    Submit
+                                </Button>
+                            )}
+                        </div>
+                    </Form>
+                </Modal.Body>
             </Modal>
         </>
     );
