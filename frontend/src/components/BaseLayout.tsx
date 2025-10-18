@@ -17,6 +17,7 @@ const BaseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="theme-color" content={theme === "dark" ? "#0b0b0b" : "#ffffff"} />
                 <meta name="robots" content="noindex, nofollow"></meta>
+                <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet"></link>
             </Head>
             <CssBaseline />
 

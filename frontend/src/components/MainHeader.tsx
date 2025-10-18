@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import Logo from "@/assets/images/logo-t.png";
+import Logo from "@/assets/images/symbol2.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { HiMenuAlt3 } from "react-icons/hi";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -31,37 +32,33 @@ const MainHeader: React.FC = () => {
   return (
     <>
       <header
-        className="sticky-top border-bottom border-golden shadow-sm"
-        style={{
-          backgroundColor: "#0a1f44",
-          boxShadow:
-            "rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px !important",
-        }}
-      >
-        <div className={`container d-flex align-items-center justify-content-between ${isMobile ? 'py-2' : 'py-3'}`}>
+        className="sticky-top shadow-sm header-bg">
+        <div className="container d-flex align-items-center justify-content-between">
           {/* Logo */}
           <div className="d-flex align-items-center">
             <img
               src={Logo.src ?? Logo}
               alt="PranKiran Logo"
-              width={isMobile ? 160 : 220}
-              height={isMobile ? 60 : 80}
-              style={{ objectFit: "contain" }}
+              style={{ objectFit: "contain", width: 80, height: 'auto' }}
             />
+            <div className="ms-2">
+              <h4 className="mb-0 fw-semibold text-success">PranKiran</h4>
+              <span className="text-white small ms-1">Ray of Vitality</span>
+            </div>
+
           </div>
 
           {/* Desktop Navigation */}
           {!isMobile && (
-            <nav className="d-flex gap-4">
+            <nav className="d-flex gap-4 ms-auto me-5">
               {navLinks.map((link) => {
                 const isActive = pathname === link.path;
                 return (
                   <Link
                     key={link.name}
                     href={link.path}
-                    className={`text-decoration-none ${
-                      isActive ? "text-dark-golden fw-bold" : "text-white"
-                    }`}
+                    className={`text-decoration-none ${isActive ? "text-yellow fw-bold" : "text-white"
+                      }`}
                   >
                     {link.name}
                   </Link>
@@ -86,7 +83,7 @@ const MainHeader: React.FC = () => {
               onClick={handleDrawerToggle}
               sx={{ color: 'white' }}
             >
-              <MenuIcon />
+              <HiMenuAlt3 size={35} />
             </IconButton>
           )}
         </div>
@@ -106,7 +103,7 @@ const MainHeader: React.FC = () => {
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: 280,
-            backgroundColor: '#0a1f44',
+            backgroundColor: '#00251F',
             color: 'white'
           },
         }}
@@ -116,7 +113,7 @@ const MainHeader: React.FC = () => {
             <CloseIcon />
           </IconButton>
         </Box>
-        
+
         <List>
           {navLinks.map((link) => {
             const isActive = pathname === link.path;
@@ -140,7 +137,7 @@ const MainHeader: React.FC = () => {
             );
           })}
           <ListItem sx={{ px: 2, pt: 2 }}>
-            <button 
+            <button
               className="btn-primary shadow-sm w-100"
               onClick={handleLinkClick}
             >

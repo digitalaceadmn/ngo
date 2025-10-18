@@ -1,12 +1,11 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import Banner from "@/assets/images/banner-7.png";
-import {  AnimatePresence } from "framer-motion";
+import { Button, Container, Row, Col } from "react-bootstrap";
 import { useMediaQuery, useTheme } from "@mui/material";
-
 import { Stethoscope, Handshake, HeartHandshake } from "lucide-react";
 import ModalForm from "@/components/ModalForm";
+import Banner from "@/assets/images/new-banner.jpeg";
 
 type FormType = "doctor" | "ngo" | "support";
 
@@ -14,138 +13,153 @@ const HomeBanner = () => {
     const [showContent, setShowContent] = useState(false);
     const [modalType, setModalType] = useState<FormType | null>(null);
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const isSmallMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     useEffect(() => {
-        const timer = setTimeout(() => setShowContent(true), 300);
+        const timer = setTimeout(() => setShowContent(true), 400);
         return () => clearTimeout(timer);
     }, []);
 
     return (
         <section
-            className="position-relative d-flex align-items-center"
+            className="position-relative text-center w-100"
             style={{
-                minHeight: isMobile ? "80vh" : "120vh",
-                height: isMobile ? "auto" : "120vh",
-                backgroundImage: `url('${Banner.src}')`,
-                backgroundSize: "cover",
-                backgroundPosition: isMobile ? "center" : "bottom",
-                justifyContent: isMobile ? "center" : "flex-end",
-                padding: isMobile ? "2rem 1rem" : "0"
+                height: "100vh",
+                overflow: "hidden",
             }}
         >
-            {/*<div*/}
-            {/*    className="position-absolute top-0 start-0 w-100 h-100"*/}
-            {/*    style={{ background: "rgba(255,255,255,0.2)" }}*/}
-            {/*/>*/}
-
-            {/* Hero Content */}
-
+            {/* Background */}
             <div
-                className="position-relative z-1 d-flex flex-column justify-content-center"
                 style={{
-                    maxWidth: isMobile ? "100%" : "650px",
-                    padding: isMobile ? "1.5rem" : "2rem",
-                    background: "#5b78b45e",
-                    borderRadius: "10px",
-                    margin: isMobile ? "0 auto" : "0",
-                    textAlign: isMobile ? "center" : "left"
+                    backgroundImage: `url(${Banner.src})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    height: "100%",
+                    width: "100%",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    filter: "brightness(0.75)",
                 }}
+            ></div>
+
+            {/* Dark Overlay */}
+            <div
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    height: "100%",
+                    width: "100%",
+                    background: "rgb(0 0 0 / 17%)",
+                }}
+            ></div>
+
+            {/* Content */}
+            <Container
+                fluid
+                className="d-flex flex-column align-items-center justify-content-top h-100 text-light position-relative pt-5"
+                style={{ zIndex: 2 }}
             >
-                {/* Animated Title */}
                 <motion.h1
-                    initial={{ opacity: 0, y: 50 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={showContent ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 1 }}
-                    className="fw-bold mb-3"
+                    className="fw-bold mb-2 text-warning"
                     style={{
-                        fontSize: isSmallMobile ? "1.8rem" : isMobile ? "2.2rem" : "3.2rem",
-                        lineHeight: "1.3",
-                        color: "#fff",
-                        textShadow: "2px 2px 8px rgba(0,0,0,0.6)",
+                        fontSize: isSmallMobile
+                            ? "2rem"
+                            : isMobile
+                                ? "2.5rem"
+                                : "3.5rem",
+                        letterSpacing: "1px",
                     }}
                 >
-                    PRANKIRAN –{" "}
-                    <span>
-                        Vitality & Care for Cancer Patients
-                    </span>
+                    PRANKIRAN
                 </motion.h1>
 
-                {/* Animated Tagline */}
+                <motion.h5
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={showContent ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 1, delay: 0.2 }}
+                    className="fw-semibold text-white mb-4"
+                    style={{
+                        fontSize: isSmallMobile ? "1rem" : isMobile ? "1.2rem" : "1.5rem",
+                    }}
+                >
+                    Vitality & Care for Cancer Patients
+                </motion.h5>
+
                 <motion.p
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={showContent ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 1.2, delay: 0.3 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={showContent ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 1.2, delay: 0.4 }}
+                    className="px-3 mb-4 fw-semibold text-white text-center"
                     style={{
                         fontSize: isSmallMobile ? "1rem" : isMobile ? "1.1rem" : "1.3rem",
-                        color: "#f1f1f1",
-                        lineHeight: "1.7",
-                        marginBottom: "2rem",
+                        maxWidth: "700px",
+                        lineHeight: "1.8",
                     }}
                 >
                     Lighting the path of{" "}
-                    <strong style={{ color: "#f9a826" }}>Awareness, Guidance & Learning</strong>{" "}
+                    <strong className="text-warning">
+                        Awareness, Guidance & Learning
+                    </strong>{" "}
                     for Patients, Doctors & Volunteers.
                 </motion.p>
 
-                {/* CTA Buttons */}
                 <motion.div
-                    className={`d-flex ${isMobile ? 'flex-column' : 'flex-wrap'} gap-3`}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={showContent ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 1.2, delay: 0.6 }}
+                    transition={{ duration: 1, delay: 0.6 }}
                 >
-                    {/* Join as Doctor */}
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`btn btn-warning ${isMobile ? 'btn-md' : 'btn-lg'} ${isMobile ? 'px-3' : 'px-4'} d-flex align-items-center justify-content-center gap-2 ${isMobile ? 'w-100' : ''}`}
-                        onClick={() => setModalType("doctor")}
-                        style={{
-                            borderRadius: "50px",
-                            fontWeight: "600",
-                            boxShadow: "0 4px 15px rgba(249,168,38,0.4)",
-                            fontSize: isMobile ? '0.9rem' : 'inherit'
-                        }}
+                    <Row
+                        className={`justify-content-center g-3 ${isMobile ? "w-100 px-4" : ""
+                            }`}
                     >
-                        <Stethoscope size={isMobile ? 18 : 22} /> Join as a Doctor
-                    </motion.button>
+                        <Col xs={12} sm={6} md="auto">
+                            <Button
+                                variant="warning"
+                                size={isMobile ? "sm" : "lg"}
+                                className="rounded-pill fw-semibold d-flex align-items-center justify-content-center gap-2 w-100"
+                                onClick={() => setModalType("doctor")}
+                            >
+                                <Stethoscope size={20} /> Join as Doctor
+                            </Button>
+                        </Col>
 
-                    {/* Partner as NGO */}
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`btn btn-outline-light ${isMobile ? 'btn-md' : 'btn-lg'} ${isMobile ? 'px-3' : 'px-4'} d-flex align-items-center justify-content-center gap-2 ${isMobile ? 'w-100' : ''}`}
-                        onClick={() => setModalType("ngo")}
-                        style={{
-                            borderRadius: "50px",
-                            fontWeight: "600",
-                            border: "2px solid #fff",
-                            fontSize: isMobile ? '0.9rem' : 'inherit'
-                        }}
-                    >
-                        <Handshake size={isMobile ? 18 : 22} /> Partner as NGO
-                    </motion.button>
+                        <Col xs={12} sm={6} md="auto">
+                            <Button
+                                variant="outline-light"
+                                size={isMobile ? "sm" : "lg"}
+                                className="rounded-pill fw-semibold d-flex align-items-center justify-content-center gap-2 w-100"
+                                onClick={() => setModalType("ngo")}
+                            >
+                                <Handshake size={20} /> Partner as NGO
+                            </Button>
+                        </Col>
 
-                    {/* Support Our Initiative */}
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`btn btn-success ${isMobile ? 'btn-md' : 'btn-lg'} ${isMobile ? 'px-3' : 'px-4'} d-flex align-items-center justify-content-center gap-2 ${isMobile ? 'w-100' : ''}`}
-                        onClick={() => setModalType("support")}
-                        style={{
-                            borderRadius: "50px",
-                            fontWeight: "600",
-                            boxShadow: "0 4px 15px rgba(40,167,69,0.4)",
-                            fontSize: isMobile ? '0.9rem' : 'inherit'
-                        }}
-                    >
-                        <HeartHandshake size={isMobile ? 18 : 22} /> Support Our Initiative
-                    </motion.button>
+                        <Col xs={12} sm={6} md="auto">
+                            <Button
+                                variant="success"
+                                size={isMobile ? "sm" : "lg"}
+                                className="rounded-pill fw-semibold d-flex align-items-center justify-content-center gap-2 w-100"
+                                onClick={() => setModalType("support")}
+                            >
+                                <HeartHandshake size={20} /> Support Our Initiative
+                            </Button>
+                        </Col>
+                    </Row>
                 </motion.div>
-            </div>
-            <AnimatePresence>{modalType && <ModalForm type={modalType} onClose={() => setModalType(null)} />}</AnimatePresence>
+            </Container>
+
+            {/* Modal */}
+            <AnimatePresence>
+                {modalType && (
+                    <ModalForm type={modalType} onClose={() => setModalType(null)} />
+                )}
+            </AnimatePresence>
         </section>
     );
 };
