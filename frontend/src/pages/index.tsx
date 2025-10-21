@@ -34,13 +34,13 @@ export default function HomePage() {
             {/* <CancerJourney /> */}
             {/* <FounderStoryComponent /> */}
             <ImpactSection />
-            <PatientStoriesTabs />
+            {/* <PatientStoriesTabs /> */}
 
             {/* <MissionAndVision></MissionAndVision> */}
-            <MissionVision />
+            {/* <MissionVision />
             <QuickHelpMenu />
-            <Learning/>
-            <JoinTheMovement />
+            <Learning/> */}
+            {/* <JoinTheMovement /> */}
 
         </>
     );
