@@ -7,6 +7,7 @@ import {
     CardContent,
     LinearProgress,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import { Container, Row, Col } from "react-bootstrap"; // Bootstrap grid
 
 type Cause = {
@@ -54,8 +55,21 @@ const causes: Cause[] = [
 
 const UrgentCause = () => {
     return (
-        <Box sx={{ py: 10, backgroundColor: "#f9f9f9" }}>
+        <section style={{ padding: "60px 0" }}>
             <Container>
+                <Row className="text-center mb-3">
+                    <Col>
+                        <motion.h6
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="fw-bold display-5 text-success"
+                        >
+                            Our Solution
+                        </motion.h6>
+
+                    </Col>
+                </Row>
                 <Row className="align-items-center g-5">
                     {/* Left Content */}
                     <Col xs={12} md={4}>
@@ -185,7 +199,7 @@ const UrgentCause = () => {
                     </Col>
                 </Row>
             </Container>
-        </Box>
+        </section>
     );
 };
 

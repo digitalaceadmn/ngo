@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Container, Row, Col, Carousel } from "react-bootstrap";
 import { Card, CardContent, Typography } from "@mui/material";
 import { Stethoscope, UserCheck, Users, HeartPulse, Globe2 } from "lucide-react";
+import AutoPlayVideoSection from "@/components/AutoPlayVideoSection";
+
 import styles from "@/styles/LogoSlider.module.css";
 
 
@@ -50,7 +52,7 @@ const ImpactSection = () => {
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="fw-bold display-6 text-dark"
+                            className="fw-bold display-5 text-success"
                         >
                             Our Solution
                         </motion.h6>
@@ -58,21 +60,23 @@ const ImpactSection = () => {
                     </Col>
                 </Row>
 
-                <Row className="text-center mb-3">
-                    <Col>
+                <Row className="mb-3 align-items-center">
+                    <Col md={6} className="text-start mx-auto">
                         <motion.h2
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="fw-bold mb-3 display-8"
+                            className="fw-bold mb-3 display-6"
                         >
                             Doctor-to-Doctor Model
                         </motion.h2>
-                        <h5
-                            className="fw-bold mb-3 display-9 text-black"
+                    </Col>
+                    <Col md={6} className="text-start mx-auto">
+                        <span
+                            className="mb-2 fs-3 text-secondary"
                         >
                             How it works ?
-                        </h5>
+                        </span>
                         <p className="text-muted fs-5">
                             We empower local healthcare providers with the guidance and expertise of specialists, ensuring patients in underserved areas receive timely and accurate care.
                         </p>
@@ -118,13 +122,15 @@ const ImpactSection = () => {
                     ))}
                 </Row>
 
+                <AutoPlayVideoSection />
+
                 <Row className="text-center mb-3">
                     <Col>
                         <motion.h2
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="fw-bold mb-3 display-8"
+                            className="fw-bold mb-3 display-5 text-success"
                         >
                             Impact Teaser
                         </motion.h2>
