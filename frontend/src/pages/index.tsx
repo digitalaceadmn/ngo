@@ -29,19 +29,19 @@ export default function HomePage() {
     return (
         <>
             <HomeBanner />
-            <ProblemSnapShot/>
-            <ImpactSection/>
-            {/*<UrgentCause/>*/}
-            {/* <PatientStoriesTabs /> */}
+            <ProblemSnapShot />
+            {/* <FounderStoryComponent /> */}
+            <ImpactSection />
+            <UrgentCause/>
+            <PatientStoriesTabs />
 
             {/* <MissionAndVision></MissionAndVision> */}
-             <FounderStoryComponent />
-            {/*<MissionVision />
+            <MissionVision />
             <CancerJourney />
             <QuickHelpMenu />
             <Learning/>
-            <JoinTheMovement /> */}
-            
+            <JoinTheMovement />
+
         </>
     );
 }

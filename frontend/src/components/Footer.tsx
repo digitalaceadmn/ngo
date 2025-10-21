@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-        <footer className=" text-dark py-10 px-6 md:px-20" style={{ background: "#0a1f44" }}>
+        <footer className=" text-dark py-10 px-6 md:px-20" style={{ background: "#00251F" }}>
             <div className="grid md:grid-cols-3 gap-10">
 
                 {/* Contact Info */}

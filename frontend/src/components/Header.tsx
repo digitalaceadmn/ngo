@@ -5,7 +5,7 @@ import MainHeader from "./MainHeader";
 const Header: React.FC = () => {
     return (
         <>
-            <TopHeader />
+            {/* <TopHeader /> */}
             <MainHeader />
         </>
     );

@@ -74,15 +74,10 @@ const ProblemSnapShot = () => {
 
                     {/* Right Card Content */}
                     <Col md={6} sm={12}>
-                        <motion.div
-                            initial={{ opacity: 0, x: 50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8 }}
-                            whileHover={{ scale: 1.02 }}
-                        >
+                        <motion.div>
                             <Card className="shadow-lg h-100 border-0 rounded-3 p-3">
                                 <CardContent>
-                                    <Stethoscope size={40} className="text-primary mb-3" />
+                                    {/* <Stethoscope size={40} className="text-primary mb-3" /> */}
                                     <Typography variant="h5" gutterBottom fontWeight="bold">
                                         80% of India’s Community Health Centres Struggle Without Specialists
                                     </Typography>
@@ -106,16 +101,16 @@ const ProblemSnapShot = () => {
                                     <Row className="text-center">
                                         <Col xs={6} className="mb-3">
                                             <motion.div whileHover={{ scale: 1.1 }}>
-                                                <User size={28} className="text-success mb-2" />
+                                                <User size={28} className="text-success mb-2 w-100" />
                                                 <Typography variant="h6">{counts.consults}+</Typography>
-                                                <Typography variant="caption" color="textSecondary">
+                                                <h5 className="text-black">
                                                     Monthly Consults
-                                                </Typography>
+                                                </h5>
                                             </motion.div>
                                         </Col>
                                         <Col xs={6} className="mb-3">
                                             <motion.div whileHover={{ scale: 1.1 }}>
-                                                <Baby size={28} className="text-warning mb-2" />
+                                                <Baby size={28} className="text-warning mb-2 w-100" />
                                                 <Typography variant="h6">{counts.patients}+</Typography>
                                                 <Typography variant="caption" color="textSecondary">
                                                     Child Patients
@@ -124,7 +119,7 @@ const ProblemSnapShot = () => {
                                         </Col>
                                         <Col xs={6} className="mb-3">
                                             <motion.div whileHover={{ scale: 1.1 }}>
-                                                <MapPin size={28} className="text-danger mb-2" />
+                                                <MapPin size={28} className="text-danger mb-2 w-100" />
                                                 <Typography variant="h6">{counts.distance} km</Typography>
                                                 <Typography variant="caption" color="textSecondary">
                                                     Travel for Care
@@ -133,7 +128,7 @@ const ProblemSnapShot = () => {
                                         </Col>
                                         <Col xs={6} className="mb-3">
                                             <motion.div whileHover={{ scale: 1.1 }}>
-                                                <Hospital size={28} className="text-primary mb-2" />
+                                                <Hospital size={28} className="text-primary mb-2 w-100" />
                                                 <Typography variant="h6">{counts.beds}+</Typography>
                                                 <Typography variant="caption" color="textSecondary">
                                                     Beds Shortage
