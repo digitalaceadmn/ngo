@@ -30,17 +30,17 @@ export default function HomePage() {
         <>
             <HomeBanner />
             <ProblemSnapShot />
-            <FounderStoryComponent />
+            {/* <FounderStoryComponent /> */}
             <ImpactSection />
-            {/*<UrgentCause/>*/}
-            {/* <PatientStoriesTabs /> */}
+            <UrgentCause/>
+            <PatientStoriesTabs />
 
             {/* <MissionAndVision></MissionAndVision> */}
-            {/*<MissionVision />
+            <MissionVision />
             <CancerJourney />
             <QuickHelpMenu />
             <Learning/>
-            <JoinTheMovement /> */}
+            <JoinTheMovement />
 
         </>
     );

@@ -59,6 +59,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.7;
+  background-color: #FBFAF3;
 }
 
 h1,

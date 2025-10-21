@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import Logo from "@/assets/images/symbol2.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme, Box } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { IconButton, Drawer, List, ListItem, useMediaQuery, useTheme, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { HiMenuAlt3 } from "react-icons/hi";
 
