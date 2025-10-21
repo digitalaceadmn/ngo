@@ -1,5 +1,3 @@
-"use client";
-
 import {
     Box,
     Typography,
@@ -10,12 +8,14 @@ import {
     LinearProgress,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap"; // Bootstrap grid
 
 type Cause = {
     id: number;
     title: string;
     description: string;
+    raised: number;
+    goal: number;
     image: string;
     color: "error" | "warning" | "success";
 };
@@ -23,25 +23,32 @@ type Cause = {
 const causes: Cause[] = [
     {
         id: 1,
-        title: "Specialists",
-        description: "Share knowledge & guide complex cases.",
-        image: "https://medicircle.in/uploads/2023/august2023/firefox_ylsxylos2o.png",
+        title: "Water For All Children",
+        description:
+            "You believe, as we do, that every child deserves a future. Every last child.",
+        raised: 87689,
+        goal: 87689,
+        image: "/cause1.jpg",
         color: "error",
     },
     {
         id: 2,
-        title: "Rural GPs",
+        title: "Protecting Children",
         description:
-            "Get expert support, upgrade their skills, and provide better care locally.",
-        image: "https://shorturl.at/kl4l4",
+            "You believe, as we do, that every child deserves a future. Every last child.",
+        raised: 89679,
+        goal: 89286,
+        image: "/cause2.jpg",
         color: "warning",
     },
     {
         id: 3,
-        title: "Patients",
+        title: "The Rights of Children",
         description:
-            "Receive improved, faster, and more affordable treatment without traveling long distances.",
-        image: "https://shorturl.at/PF5e4",
+            "You believe, as we do, that every child deserves a future. Every last child.",
+        raised: 97679,
+        goal: 97679,
+        image: "/cause3.jpg",
         color: "success",
     },
 ];
@@ -60,47 +67,52 @@ const UrgentCause = () => {
                         >
                             Our Solution
                         </motion.h6>
+
                     </Col>
                 </Row>
-
                 <Row className="align-items-center g-5">
                     {/* Left Content */}
                     <Col xs={12} md={4}>
                         <Typography
-                            variant="h4"
-                            sx={{ mb: 2, lineHeight: 1.3 }}
+                            variant="subtitle1"
+                            sx={{ color: "error.main", fontWeight: 600, mb: 1 }}
                         >
-                            Doctor-to-Doctor Model
+                            Urgent cause
                         </Typography>
 
+                        <Typography
+                            variant="h4"
+                            fontWeight="bold"
+                            sx={{ mb: 2, lineHeight: 1.3 }}
+                        >
+                            We Help More Than <br />
+                            <Box component="span" sx={{ color: "primary.main" }}>
+                                9k Children
+                            </Box>{" "}
+                            Every Year
+                        </Typography>
+
+                        {/* Yellow underline */}
                         <Box
                             sx={{
-                                width: 60,
-                                height: 3,
-                                backgroundColor: "success.main",
+                                width: 40,
+                                height: 6,
+                                backgroundColor: "orange",
                                 borderRadius: 3,
                                 mb: 3,
                             }}
                         />
 
-                        <Typography className="text-black" variant="h6" sx={{ mb: 2 }}>
-                            How it works?
-                        </Typography>
-
-                        <Typography
-                            variant="body1"
-                            sx={{ mb: 4, color: "text.secondary" }}
-                        >
-                            We empower local healthcare providers with the guidance and
-                            expertise of specialists, ensuring patients in underserved areas
-                            receive timely and accurate care.
+                        <Typography variant="body1" sx={{ mb: 4, color: "text.secondary" }}>
+                            BigHearts is the largest global crowdfunding community
+                            connecting nonprofits, donors, and companies in nearly every
+                            country. We help nonprofits from around the world.
                         </Typography>
 
                         <Button
-                        className="rounded-pill"
                             variant="contained"
                             sx={{
-                                backgroundColor: "primary.main",
+                                backgroundColor: "error.main",
                                 px: 4,
                                 py: 1.5,
                                 fontWeight: "bold",
@@ -109,7 +121,7 @@ const UrgentCause = () => {
                                 "&:hover": { backgroundColor: "error.dark" },
                             }}
                         >
-                           Read More
+                            VIEW ALL CAUSES
                         </Button>
                     </Col>
 
@@ -119,9 +131,9 @@ const UrgentCause = () => {
                             {causes.map((cause) => (
                                 <Col xs={12} sm={6} md={4} key={cause.id}>
                                     <Card
-                                    className="shadow-sm"
                                         sx={{
                                             borderRadius: 3,
+                                            boxShadow: 3,
                                             display: "flex",
                                             flexDirection: "column",
                                             height: "100%",
@@ -133,16 +145,14 @@ const UrgentCause = () => {
                                             image={cause.image}
                                             alt={cause.title}
                                         />
-
                                         <CardContent sx={{ flexGrow: 1 }}>
                                             <Typography
-                                            className="text-black"
                                                 variant="h6"
+                                                fontWeight="bold"
                                                 sx={{ mb: 1 }}
                                             >
                                                 {cause.title}
                                             </Typography>
-
                                             <Typography
                                                 variant="body2"
                                                 color="text.secondary"
@@ -151,7 +161,25 @@ const UrgentCause = () => {
                                                 {cause.description}
                                             </Typography>
 
-                                            {/* <Button
+                                            <Typography variant="body2" fontWeight="bold">
+                                                Raised : ${cause.raised.toLocaleString()}
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                fontWeight="bold"
+                                                sx={{ mb: 1 }}
+                                            >
+                                                Goal : ${cause.goal.toLocaleString()}
+                                            </Typography>
+
+                                            <LinearProgress
+                                                variant="determinate"
+                                                value={(cause.raised / cause.goal) * 100}
+                                                color={cause.color}
+                                                sx={{ height: 8, borderRadius: 5, mb: 2 }}
+                                            />
+
+                                            <Button
                                                 fullWidth
                                                 variant="contained"
                                                 color={cause.color}
@@ -161,8 +189,8 @@ const UrgentCause = () => {
                                                     py: 1,
                                                 }}
                                             >
-                                                DONATE NOW
-                                            </Button> */}
+                                                DONATION NOW
+                                            </Button>
                                         </CardContent>
                                     </Card>
                                 </Col>
