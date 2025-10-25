@@ -1,4 +1,5 @@
 "use client";
+import { Link } from "lucide-react";
 import React from "react";
 import { Container } from "react-bootstrap";
 
@@ -24,9 +25,9 @@ const AutoPlayVideoSection = () => {
                 <p className="lead mb-4 text-white">
                      Impact stories, survivor experiences, volunteer activities, with ability for community to share/join campaigns.
                 </p>
-                <a href="/" className="btn btn-light px-4 py-2 rounded-pill fw-semibold">
+                <Link href="/" className="btn btn-light px-4 py-2 rounded-pill fw-semibold">
                     Partner With Us
-                </a>
+                </Link>
             </Container>
 
             <style jsx>{`
