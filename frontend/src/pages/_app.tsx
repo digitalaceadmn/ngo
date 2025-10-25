@@ -139,9 +139,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           </BaseLayout>
         )}
 
-        <BaseLayout>
-          <Component {...pageProps} />
-        </BaseLayout>
       </LayoutProvider>
     </ThemeProvider>
   );
