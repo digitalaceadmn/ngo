@@ -33,7 +33,7 @@ const causes: Cause[] = [
         title: "Rural GPs",
         description:
             "Get expert support, upgrade their skills, and provide better care locally.",
-        image: "https://shorturl.at/kl4l4",
+        image: "https://medicircle.in/uploads/2023/august2023/firefox_ylsxylos2o.png",
         color: "warning",
     },
     {
@@ -41,7 +41,7 @@ const causes: Cause[] = [
         title: "Patients",
         description:
             "Receive improved, faster, and more affordable treatment without traveling long distances.",
-        image: "https://shorturl.at/PF5e4",
+        image: "https://medicircle.in/uploads/2023/august2023/firefox_ylsxylos2o.png",
         color: "success",
     },
 ];
@@ -60,6 +60,22 @@ const UrgentCause = () => {
                         >
                             Our Solution
                         </motion.h6>
+                        <motion.div
+                            initial={{ opacity: 0, scaleX: 0 }}
+                            whileInView={{ opacity: 1, scaleX: 1 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            style={{ display: "flex", justifyContent: "center" }}
+                        >
+                            <Box
+                                sx={{
+                                    width: 60,
+                                    height: 3,
+                                    backgroundColor: "success.main",
+                                    borderRadius: 3,
+                                    mb: 3,
+                                }}
+                            />
+                        </motion.div>
                     </Col>
                 </Row>
 
@@ -73,15 +89,21 @@ const UrgentCause = () => {
                             Doctor-to-Doctor Model
                         </Typography>
 
-                        <Box
-                            sx={{
-                                width: 60,
-                                height: 3,
-                                backgroundColor: "success.main",
-                                borderRadius: 3,
-                                mb: 3,
-                            }}
-                        />
+                        <motion.div
+                            initial={{ opacity: 0, scaleX: 0 }}
+                            whileInView={{ opacity: 1, scaleX: 1 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                        >
+                            <Box
+                                sx={{
+                                    width: 60,
+                                    height: 3,
+                                    backgroundColor: "success.main",
+                                    borderRadius: 3,
+                                    mb: 3,
+                                }}
+                            />
+                        </motion.div>
 
                         <Typography className="text-black" variant="h6" sx={{ mb: 2 }}>
                             How it works?
@@ -97,7 +119,7 @@ const UrgentCause = () => {
                         </Typography>
 
                         <Button
-                        className="rounded-pill"
+                            className="rounded-pill"
                             variant="contained"
                             sx={{
                                 backgroundColor: "primary.main",
@@ -109,7 +131,7 @@ const UrgentCause = () => {
                                 "&:hover": { backgroundColor: "error.dark" },
                             }}
                         >
-                           Read More
+                            Read More
                         </Button>
                     </Col>
 
@@ -119,7 +141,7 @@ const UrgentCause = () => {
                             {causes.map((cause) => (
                                 <Col xs={12} sm={6} md={4} key={cause.id}>
                                     <Card
-                                    className="shadow-sm"
+                                        className="shadow-sm"
                                         sx={{
                                             borderRadius: 3,
                                             display: "flex",
@@ -136,7 +158,7 @@ const UrgentCause = () => {
 
                                         <CardContent sx={{ flexGrow: 1 }}>
                                             <Typography
-                                            className="text-black"
+                                                className="text-black"
                                                 variant="h6"
                                                 sx={{ mb: 1 }}
                                             >

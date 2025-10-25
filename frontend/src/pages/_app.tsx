@@ -1,19 +1,19 @@
 "use client";
 import type { AppProps } from "next/app";
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { LayoutProvider } from "@/contexts/LayoutContext";
 import BaseLayout from "@/components/BaseLayout";
 import {
   ThemeProvider,
   createTheme,
   CssBaseline,
-  // Container,
-  // Typography,
-  // Button,
-  // TextField,
-  // Paper,
+  Container,
+  Typography,
+  Button,
+  TextField,
+  Paper,
 } from "@mui/material";
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "swiper/css";
@@ -22,11 +22,11 @@ import "swiper/css/pagination";
 import "@/styles/globals.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  // const [showLogin, setShowLogin] = useState(false);
-  // const [password, setPassword] = useState("");
-  // const [isAdmin, setIsAdmin] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // const HARD_CODED_PASSWORD = "Pr@k1R!";
+  const HARD_CODED_PASSWORD = "Pr@k1R!";
 
   const theme = createTheme({
     palette: {
@@ -36,35 +36,35 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     },
   });
 
-  // useEffect(() => {
-  //   const adminFlag = sessionStorage.getItem("isAdmin");
-  //   if (adminFlag === "true") {
-  //     setIsAdmin(true);
-  //   }
+  useEffect(() => {
+    const adminFlag = sessionStorage.getItem("isAdmin");
+    if (adminFlag === "true") {
+      setIsAdmin(true);
+    }
 
-  //   if (!document.getElementById("facebook-jssdk")) {
-  //     const script = document.createElement("script");
-  //     script.id = "facebook-jssdk";
-  //     script.src =
-  //       "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
-  //     document.body.appendChild(script);
-  //   }
-  // }, []);
+    if (!document.getElementById("facebook-jssdk")) {
+      const script = document.createElement("script");
+      script.id = "facebook-jssdk";
+      script.src =
+        "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
+      document.body.appendChild(script);
+    }
+  }, []);
 
-  // const handleLogin = () => {
-  //   if (password === HARD_CODED_PASSWORD) {
-  //     setIsAdmin(true);
-  //     sessionStorage.setItem("isAdmin", "true");
-  //   } else {
-  //     alert("Incorrect password");
-  //   }
-  // };
+  const handleLogin = () => {
+    if (password === HARD_CODED_PASSWORD) {
+      setIsAdmin(true);
+      sessionStorage.setItem("isAdmin", "true");
+    } else {
+      alert("Incorrect password");
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <LayoutProvider>
-        {/* {!isAdmin ? (
+        {!isAdmin ? (
           <Container
             maxWidth="md"
             sx={{
@@ -137,7 +137,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <BaseLayout>
             <Component {...pageProps} />
           </BaseLayout>
-        )} */}
+        )}
 
         <BaseLayout>
           <Component {...pageProps} />

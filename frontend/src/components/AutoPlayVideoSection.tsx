@@ -20,12 +20,12 @@ const AutoPlayVideoSection = () => {
 
             {/* Content */}
             <Container className="position-relative z-2 d-flex flex-column justify-content-center align-items-center h-100">
-                <h1 className="display-5 fw-bold mb-3">Experience Hospitality Excellence</h1>
+                <h1 className="display-5 fw-bold mb-3">Guided Consultation</h1>
                 <p className="lead mb-4 text-white">
-                    Discover top hospitality brands, connect with professionals, and explore opportunities worldwide.
+                     Impact stories, survivor experiences, volunteer activities, with ability for community to share/join campaigns.
                 </p>
-                <a href="/awards" className="btn btn-light px-4 py-2 rounded-pill fw-semibold">
-                    Explore Awards
+                <a href="/" className="btn btn-light px-4 py-2 rounded-pill fw-semibold">
+                    Partner With Us
                 </a>
             </Container>
 
