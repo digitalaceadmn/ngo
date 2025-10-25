@@ -46,7 +46,7 @@ const ImpactSection = () => {
         <section className="py-5" style={{ background: "linear-gradient(135deg, #ffffff 0%, #f9f9ff 100%)" }}>
             <Container>
 
-                <Row className="text-center mb-3">
+                {/* <Row className="text-center mb-3">
                     <Col>
                         <motion.h6
                             initial={{ opacity: 0, y: 50 }}
@@ -58,9 +58,9 @@ const ImpactSection = () => {
                         </motion.h6>
 
                     </Col>
-                </Row>
+                </Row> */}
 
-                <Row className="mb-3 align-items-center">
+                {/* <Row className="mb-3 align-items-center">
                     <Col md={6} className="text-start mx-auto">
                         <motion.h2
                             initial={{ opacity: 0, y: 50 }}
@@ -120,7 +120,7 @@ const ImpactSection = () => {
                             </motion.div>
                         </Col>
                     ))}
-                </Row>
+                </Row> */}
 
                 <AutoPlayVideoSection />
 

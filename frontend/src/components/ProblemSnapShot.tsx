@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Container, Row, Col } from "react-bootstrap";
-import { Card, CardContent, Typography, Divider } from "@mui/material";
+import { Card, CardContent, Typography, Divider, Box } from "@mui/material";
 import {
     Stethoscope,
     Baby,
@@ -54,6 +54,22 @@ const ProblemSnapShot = () => {
                         >
                             Problem Snapshot
                         </motion.h2>
+                        <motion.div
+                            initial={{ opacity: 0, scaleX: 0 }}
+                            whileInView={{ opacity: 1, scaleX: 1 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            style={{ display: "flex", justifyContent: "center" }}
+                        >
+                            <Box
+                                sx={{
+                                    width: 60,
+                                    height: 3,
+                                    backgroundColor: "success.main",
+                                    borderRadius: 3,
+                                    mb: 3,
+                                }}
+                            />
+                        </motion.div>
                         {/* <motion.p
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
