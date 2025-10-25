@@ -1,36 +1,40 @@
 "use client";
-import { Link } from "lucide-react";
+
+import Link from "next/link";
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 
 const AutoPlayVideoSection = () => {
-    return (
-        <section className="video-section position-relative text-center text-white mb-4">
-            {/* Background Video */}
-            <video
-                className="video-bg"
-                src="/videos/sample1.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-            />
+  return (
+    <section className="video-section position-relative text-center text-white mb-4">
+      {/* Background Video */}
+      <video
+        className="video-bg"
+        src="/videos/sample1.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
 
-            {/* Overlay */}
-            <div className="video-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+      {/* Overlay */}
+      <div className="video-overlay position-absolute top-0 start-0 w-100 h-100"></div>
 
-            {/* Content */}
-            <Container className="position-relative z-2 d-flex flex-column justify-content-center align-items-center h-100">
-                <h1 className="display-5 fw-bold mb-3">Guided Consultation</h1>
-                <p className="lead mb-4 text-white">
-                     Impact stories, survivor experiences, volunteer activities, with ability for community to share/join campaigns.
-                </p>
-                <Link href="/" className="btn btn-light px-4 py-2 rounded-pill fw-semibold">
-                    Partner With Us
-                </Link>
-            </Container>
+      {/* Content */}
+      <Container className="position-relative z-2 d-flex flex-column justify-content-center align-items-center h-100">
+        <h1 className="display-5 fw-bold mb-3">Guided Consultation</h1>
+        <p className="lead mb-4 text-white">
+          Impact stories, survivor experiences, volunteer activities, with ability for community to share/join campaigns.
+        </p>
+        <Link href="/">
+          <Button className="btn btn-light px-4 py-2 rounded-pill fw-semibold">
+            Partner With Us
+          </Button>
+        </Link>
 
-            <style jsx>{`
+      </Container>
+
+      <style jsx>{`
         .video-section {
           position: relative;
           height: 80vh;
@@ -58,8 +62,8 @@ const AutoPlayVideoSection = () => {
           z-index: 3;
         }
       `}</style>
-        </section>
-    );
+    </section>
+  );
 };
 
 export default AutoPlayVideoSection;

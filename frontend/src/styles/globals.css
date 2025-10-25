@@ -596,3 +596,8 @@ a {
   backdrop-filter: blur(5px);
 }
 /* ======================================== */
+.image-card{
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+}
