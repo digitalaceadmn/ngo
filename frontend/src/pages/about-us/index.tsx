@@ -16,9 +16,21 @@ import {
     EmojiPeople,
     Lightbulb,
     Group,
+    Handshake,
+    VolunteerActivism,
 } from "@mui/icons-material";
 import Person from "@/assets/images/founder-image.jpg";
 import ModalForm from "@/components/ModalForm";
+import FounderSection from "@/components/FounderSection";
+import Compassion from "@/assets/images/about/Compassion.jpg";
+import Equity from "@/assets/images/about/Equity.jpg";
+import Clarity from "@/assets/images/about/Clarity.jpg";
+import Privacy from "@/assets/images/about/Privacy.jpg";
+import Learning from "@/assets/images/about/Learning.jpg";
+import ECHO from "@/assets/images/about/ECHO.jpg";
+import eSanjeevani from "@/assets/images/about/eSanjeevani.jpg";
+import EyeCare from "@/assets/images/about/Eye-Care.jpg";
+import NarayanaHealth from "@/assets/images/about/NarayanaHealth.jpg";
 
 const founders = [
     {
@@ -43,87 +55,19 @@ export default function AboutPage() {
             <section
                 className="position-relative d-flex align-items-center justify-content-center text-center text-white"
                 style={{
-                    height: "70vh",
+                    height: "400px",
                     backgroundImage: `url('${Banner.src}')`,
                     backgroundSize: "cover",
-                    backgroundPosition: "bottom",
-                    marginBottom: "30px",
+                    backgroundPosition: "top",
+                    backgroundRepeat: "no-repeat",
                 }}
             >
 
             </section>
 
-            <Row className="px-5 py-5  align-items-center bg-soft-golden">
-                <Container>
-                    <h2 className="text-center mb-5 text-dark-golden">✨ Our Founder</h2>
+            <FounderSection />
 
-                    <div id="founderCarousel" className="carousel slide" data-bs-ride="carousel">
-                        <div className="carousel-inner">
-                            {founders.map((founder, index) => (
-                                <div
-                                    key={index}
-                                    className={`carousel-item ${index === 0 ? "active" : ""}`}
-                                >
-                                    <Row className="align-items-center founder-story">
-                                        {/* Founder Image */}
-                                        <Col md={5} className="text-center">
-                                            <img
-                                                src={Person.src}
-                                                alt={founder.name}
-                                                width={350}
-                                                height={350}
-                                                className="d-block mx-auto  border border-4 border-golden shadow-sm"
-                                                style={{ objectFit: "cover", objectPosition: "center", borderRadius: "50%", height: '350px', width: '350px' }}
-                                            />
-                                        </Col>
-
-                                        {/* Founder Story */}
-                                        <Col md={7} className="mt-4 mt-md-0">
-                                            <h4 className="fw-bold text-dark mb-3">The Journey of PranKiran</h4>
-
-                                            <p className="fs-5 text-muted">
-                                                When <span className="fw-semibold text-dark">Himanshu Tiwari</span> witnessed
-                                                the impact of cancer within his own circle, he realized that treatment begins
-                                                long before the first prescription. It begins with <span className="text-dark-golden">courage, compassion, and connection</span>.
-                                            </p>
-
-                                            <blockquote className="border-start border-3 border-golden ps-3 fst-italic text-secondary my-3">
-                                                “Healing is more than medicine — it is human connection, small acts of care,
-                                                and a reminder that you are never alone.”
-                                            </blockquote>
-
-                                            <p className="fs-5 text-muted">
-                                                Watching loved ones struggle not only with the illness, but with silence,
-                                                fear, and isolation, Himanshu felt a calling to create a space where no one
-                                                has to face the journey alone. That calling became <span className="fw-bold text-dark">PranKiran – Ray of Vitality</span>.
-                                            </p>
-
-                                            <h5 className="mt-4 text-dark fw-bold">🌟 The Philosophy</h5>
-                                            <ul className="fs-6 text-muted">
-                                                <li><strong>“Pran”</strong> (life breath) – the essence of being.</li>
-                                                <li><strong>“Kiran”</strong> (ray of light) – hope in the darkest times.</li>
-                                                <li>Together, they represent vitality, dignity, and compassion.</li>
-                                            </ul>
-
-                                            <p className="fs-5 text-muted mt-3">
-                                                Under his leadership, PranKiran was designed as an early emotional support
-                                                system for patients and caregivers. Through guided check-ins, caregiver
-                                                empowerment, and community storytelling, his vision is to bring calm and
-                                                dignity into lives disrupted by cancer.
-                                            </p>
-
-                                            <h5 className="text-dark-golden fw-bold mt-4">{founder.role}</h5>
-                                            <h6 className="fst-italic text-secondary">— {founder.name}</h6>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </Container>
-            </Row>
-
-            <section className="bg-light py-5">
+            <section className="vision-section position-relative py-5">
                 <Container>
                     <motion.div
                         initial={{ opacity: 0, y: 50 }}
@@ -132,97 +76,73 @@ export default function AboutPage() {
                         viewport={{ once: true }}
                         className="text-center"
                     >
-                        <h2 className="fw-bold mb-3 d-flex align-items-center justify-content-center gap-2">
-                            <Flag color="error" /> Our Vision
-                        </h2>
-                        <p className="lead text-muted">
-                            “A ray of vitality for every patient through empowered doctors.”
-                        </p>
+                        <div className="vision-card mx-auto p-4 p-md-5 rounded-4">
+                            <h2 className="fw-bold mb-3 d-flex align-items-center justify-content-center gap-2 text-white"> Our Vision
+                            </h2>
+
+                            <h4 className="fw-semibold text-white mb-0 fst-italic">
+                                “A ray of vitality for every patient through empowered doctors.”
+                            </h4>
+                        </div>
                     </motion.div>
                 </Container>
             </section>
 
-            <Container className="my-5">
-                <h2 className="fw-bold text-center mb-4 d-flex align-items-center justify-content-center gap-2">
-                    <Group color="success" /> Our Core Values
-                </h2>
-                <Row className="g-4">
-                    {[
-                        {
-                            icon: <Favorite color="error" fontSize="large" />,
-                            title: "Compassion",
-                            text: "Caring deeply for every patient’s journey.",
-                        },
-                        {
-                            icon: <Visibility color="primary" fontSize="large" />,
-                            title: "Clarity",
-                            text: "Building trust through transparency and guidance.",
-                        },
-                        {
-                            icon: <Public color="success" fontSize="large" />,
-                            title: "Equity",
-                            text: "Ensuring fair and inclusive access to healthcare.",
-                        },
-                        {
-                            icon: <Lock color="action" fontSize="large" />,
-                            title: "Privacy",
-                            text: "Respecting dignity and safeguarding personal information.",
-                        },
-                        {
-                            icon: <School color="warning" fontSize="large" />,
-                            title: "Learning",
-                            text: "Growing continuously to serve better every day.",
-                        },
-                    ].map((value, idx) => (
-                        <Col md={4} key={idx}>
-                            <motion.div
-                                className="p-4 bg-white rounded shadow text-center h-100"
-                                whileHover={{ scale: 1.08, rotate: 1 }}
-                                transition={{ type: "spring", stiffness: 200 }}
-                            >
-                                {value.icon}
-                                <h5 className="fw-bold mt-3">{value.title}</h5>
-                                <p className="text-muted">{value.text}</p>
-                            </motion.div>
-                        </Col>
-                    ))}
-                </Row>
-            </Container>
 
-            {/* Global Inspirations */}
-            <section className=" text-white py-5 bg-soft-golden">
+            <section className="bg-soft-golden py-5">
                 <Container>
-                    <h2 className="fw-bold text-center mb-4 d-flex align-items-center justify-content-center gap-2">
-                        <LocalHospital /> Global Inspirations
+                    <h2 className="fw-bold text-center mb-5 d-flex align-items-center justify-content-center gap-2"> Our Core Values
                     </h2>
+
                     <Row className="g-4">
                         {[
                             {
-                                title: "Aravind Eye Care",
-                                text: "Delivering world-class eye care with compassion and accessibility.",
+                                img: Compassion.src,
+                                icon: <Favorite color="error" fontSize="large" />,
+                                title: "Compassion",
+                                text: "Caring deeply for every patient’s journey.",
                             },
                             {
-                                title: "Narayana Health",
-                                text: "Redefining affordable, quality healthcare for all.",
+                                img: Clarity.src,
+                                icon: <Visibility color="primary" fontSize="large" />,
+                                title: "Clarity",
+                                text: "Building trust through transparency and guidance.",
                             },
                             {
-                                title: "eSanjeevani",
-                                text: "India’s digital health platform bringing teleconsultations to millions.",
+                                img: Equity.src,
+                                icon: <Public color="success" fontSize="large" />,
+                                title: "Equity",
+                                text: "Ensuring fair and inclusive access to healthcare.",
                             },
                             {
-                                title: "Project ECHO",
-                                text: "Sharing knowledge globally to empower local healthcare providers.",
+                                img: Privacy.src,
+                                icon: <Lock color="info" fontSize="large" />,
+                                title: "Privacy",
+                                text: "Respecting dignity and safeguarding personal information.",
                             },
-                        ].map((item, idx) => (
-                            <Col md={6} key={idx}>
+                            {
+                                img: Learning.src,
+                                icon: <School color="warning" fontSize="large" />,
+                                title: "Learning",
+                                text: "Growing continuously to serve better every day.",
+                            },
+                        ].map((value, idx) => (
+                            <Col md={4} key={idx}>
                                 <motion.div
-                                    className="p-4 bg-light rounded shadow h-100"
-                                    whileHover={{ scale: 1.05, y: -5 }}
-                                    transition={{ duration: 0.4 }}
+                                    className="value-card position-relative overflow-hidden rounded-4"
+                                    whileHover={{ scale: 1.03 }}
                                 >
-                                    <LocalHospital className="mb-2 text-warning" />
-                                    <h5 className="fw-bold">{item.title}</h5>
-                                    <p>{item.text}</p>
+                                    <img src={value.img} alt={value.title} className="value-img" />
+
+                                    {/* Gradient Overlay */}
+                                    <div className="value-overlay"></div>
+
+                                    {/* Text Content */}
+                                    <div className="value-text position-absolute w-100 text-start px-3">
+                                        {/* <div className="mb-2">{value.icon}</div> */}
+                                        <h4 className="fw-bold text-white">{value.icon} {value.title}</h4>
+                                        <p className="text-light small">{value.text}</p>
+                                    </div>
                                 </motion.div>
                             </Col>
                         ))}
@@ -230,48 +150,155 @@ export default function AboutPage() {
                 </Container>
             </section>
 
-            {/* Join Our Movement */}
-            <section className="py-5 bg-light">
-                <Container className="text-center">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1 }}
-                        viewport={{ once: true }}
-                        className="fw-bold mb-3"
-                    >
-                        Join Our Movement
-                    </motion.h2>
-                    <p className="lead text-muted mb-4">
-                        Whether as a doctor, NGO partner, or supporter — together, we can
-                        spread rays of vitality.
-                    </p>
-                    <div className="d-flex justify-content-center gap-3 flex-wrap">
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            onClick={() => setModalType("doctor")}
-                            className="btn btn-primary px-4"
-                        >
-                            Join as Doctor
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            onClick={() => setModalType("ngo")}
-                            className="btn btn-success px-4"
-                        >
-                            Partner as NGO
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            className="btn btn-warning px-4"
-                            onClick={() => setModalType("support")}
-                        >
-                            Support Our Initiative
-                        </motion.button>
-                    </div>
-                    <AnimatePresence>{modalType && <ModalForm type={modalType} onClose={() => setModalType(null)} />}</AnimatePresence>
+
+
+
+            {/* Global Inspirations */}
+            <section className="py-5 bg-soft-golden">
+                <Container>
+                    <h2 className="fw-bold text-center mb-5 d-flex align-items-center justify-content-center gap-2">Global Inspirations </h2>
+
+                    <Row className="g-4">
+                        {[
+                            {
+                                img: EyeCare.src,
+                                title: "Aravind Eye Care",
+                                text: "Delivering world-class eye care with compassion and accessibility.",
+                            },
+                            {
+                                img: NarayanaHealth.src,
+                                title: "Narayana Health",
+                                text: "Redefining affordable, quality healthcare for all.",
+                            },
+                            {
+                                img: eSanjeevani.src,
+                                title: "eSanjeevani",
+                                text: "India’s digital health platform bringing teleconsultations to millions.",
+                            },
+                            {
+                                img: ECHO.src,
+                                title: "Project ECHO",
+                                text: "Sharing knowledge globally to empower local healthcare providers.",
+                            },
+                        ].map((item, i) => (
+                            <Col md={3} key={i}>
+                                <motion.div
+                                    className="inspiration-card position-relative overflow-hidden rounded-circle"
+                                    whileHover={{ scale: 1.03 }}
+                                >
+                                    <img src={item.img} alt={item.title} className="inspiration-img" />
+
+                                    <div className="inspiration-overlay"></div>
+
+                                    <div className="inspiration-content position-absolute w-100 text-center px-4">
+                                        <h3 className="fw-bold text-white">{item.title}</h3>
+                                        <p className="text-light small px-4">{item.text}</p>
+                                    </div>
+                                </motion.div>
+                            </Col>
+                        ))}
+                    </Row>
                 </Container>
             </section>
+
+
+            {/* Join Our Movement */}
+            <section className="bg-soft-golden position-relative py-5">
+                <Container className="text-center position-relative">
+                    <h2 className="fw-bold text-center d-flex align-items-center justify-content-center gap-2">Join Our Movement </h2>
+
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ delay: 0.2, duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="lead text-body mb-4"
+                    >
+                        Whether as a doctor, NGO partner, or supporter — together, we can spread rays of vitality.
+                    </motion.p>
+
+                    <Row className="g-4 justify-content-center">
+                        {/* Doctor */}
+                        <Col md={4} sm={10}>
+                            <motion.div
+                                whileHover={{ y: -6 }}
+                                className="cta-card p-4 rounded-4 h-100 text-start"
+                            >
+                                <div className="cta-icon-wrap mb-3">
+                                    <LocalHospital className="cta-icon" />
+                                </div>
+                                <h5 className="fw-bold text-white mb-2">Join as Doctor</h5>
+                                <p className="mb-3 text-white-50">
+                                    Volunteer time, mentor peers, and deliver compassionate care on-site or via telehealth.
+                                </p>
+                                <button
+                                    onClick={() => setModalType("doctor")}
+                                    className="btn btn-light px-4"
+                                    aria-label="Open form to join as a doctor"
+                                >
+                                    Get Started
+                                </button>
+                            </motion.div>
+                        </Col>
+
+                        {/* NGO */}
+                        <Col md={4} sm={10}>
+                            <motion.div
+                                whileHover={{ y: -6 }}
+                                className="cta-card p-4 rounded-4 h-100 text-start"
+                            >
+                                <div className="cta-icon-wrap mb-3">
+                                    <Handshake className="cta-icon" />
+                                </div>
+                                <h5 className="fw-bold text-white mb-2">Partner as NGO</h5>
+                                <p className="mb-3 text-white-50">
+                                    Co-create outreach, screenings, and continuity-of-care programs with measurable impact.
+                                </p>
+                                <button
+                                    onClick={() => setModalType("ngo")}
+                                    className="btn btn-light px-4"
+                                    aria-label="Open form to partner as an NGO"
+                                >
+                                    Partner With Us
+                                </button>
+                            </motion.div>
+                        </Col>
+
+                        {/* Supporter */}
+                        <Col md={4} sm={10}>
+                            <motion.div
+                                whileHover={{ y: -6 }}
+                                className="cta-card p-4 rounded-4 h-100 text-start"
+                            >
+                                <div className="cta-icon-wrap mb-3">
+                                    <VolunteerActivism className="cta-icon" />
+                                </div>
+                                <h5 className="fw-bold text-white mb-2">Support Our Initiative</h5>
+                                <p className="mb-3 text-white-50">
+                                    Back our mission through funds, supplies, or advocacy every bit fuels more care.
+                                </p>
+                                <button
+                                    onClick={() => setModalType("support")}
+                                    className="btn btn-light px-4"
+                                    aria-label="Open form to support our initiative"
+                                >
+                                    Support Now
+                                </button>
+                            </motion.div>
+                        </Col>
+                    </Row>
+
+                    <AnimatePresence>
+                        {modalType && <ModalForm type={modalType} onClose={() => setModalType(null)} />}
+                    </AnimatePresence>
+                </Container>
+
+                {/* Decorative bottom wave */}
+                <div className="cta-wave" aria-hidden="true"></div>
+            </section>
+
         </>
     );
 }
+
+

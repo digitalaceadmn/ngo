@@ -154,7 +154,7 @@ const OurSolution = () => {
                                             <Box sx={{ overflow: "hidden" }}>
                                                 <CardMedia
                                                     component="img"
-                                                    height="180"
+                                                    className="image-card"
                                                     image={cause.image}
                                                     alt={cause.title}
                                                     sx={{

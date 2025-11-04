@@ -6,6 +6,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import { Stethoscope, Handshake, HeartHandshake } from "lucide-react";
 import ModalForm from "@/components/ModalForm";
 import Banner from "@/assets/images/new-banner.jpeg";
+import { PiStudentBold } from "react-icons/pi";
 
 type FormType = "doctor" | "ngo" | "support";
 
@@ -131,9 +132,9 @@ const HomeBanner = () => {
 
                         <Col xs={12} sm={6} md="auto">
                             <Button
-                                variant="outline-light"
+                                variant="light"
                                 size={isMobile ? "sm" : "lg"}
-                                className="rounded-pill fw-semibold d-flex align-items-center justify-content-center gap-2 w-100"
+                                className="rounded-pill bg-white fw-semibold d-flex align-items-center justify-content-center gap-2 w-100"
                                 onClick={() => setModalType("ngo")}
                             >
                                 <Handshake size={20} /> Partner as NGO
@@ -148,6 +149,17 @@ const HomeBanner = () => {
                                 onClick={() => setModalType("support")}
                             >
                                 <HeartHandshake size={20} /> Support Our Initiative
+                            </Button>
+                        </Col>
+
+                        <Col xs={12} sm={6} md="auto">
+                            <Button
+                                variant="outline-light"
+                                size={isMobile ? "sm" : "lg"}
+                                className="rounded-pill fw-semibold d-flex align-items-center justify-content-center gap-2 w-100"
+                                onClick={() => setModalType("ngo")}
+                            >
+                                <PiStudentBold size={20} /> Join as a Student 
                             </Button>
                         </Col>
                     </Row>
